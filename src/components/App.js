@@ -1,6 +1,5 @@
 import React from "react";
-import "./App.css";
-import ClothesPage from "./components/Clothes/ClothesPage";
+import ClothesPage from "./Clothes/ClothesPage";
 
 function App() {
   return (
