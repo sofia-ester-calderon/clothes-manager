@@ -1,10 +1,10 @@
 import React from "react";
-import ClothesPage from "./Clothes/ClothesPage";
+import ManageClothesPage from "./Clothes/ManageClothesPage";
 
 function App() {
   return (
     <>
-      <ClothesPage />
+      <ManageClothesPage />
     </>
   );
 }
