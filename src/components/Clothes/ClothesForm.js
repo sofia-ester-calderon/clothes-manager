@@ -3,9 +3,15 @@ import { PropTypes } from "prop-types";
 import SelectInput from "../common/SelectInput";
 import RatingInput from "../common/RatingInput";
 import { Categories, Colors, Occasion } from "../data/data";
-import StarRatings from "react-star-ratings";
 
-const ClothesForm = ({ clothing, onSave, errors = {}, onChange, types }) => {
+const ClothesForm = ({
+  clothing,
+  onSave,
+  errors = {},
+  onChange,
+  types,
+  colors,
+}) => {
   return (
     <form onSubmit={onSave}>
       <h2>Add New Piece of Clothing</h2>
@@ -60,20 +66,24 @@ const ClothesForm = ({ clothing, onSave, errors = {}, onChange, types }) => {
         );
       })}
 
-      <SelectInput
-        name="colors"
-        label={clothing.colors.length === 0 ? "Color" : null}
-        value={""}
-        defaultOption={
-          clothing.colors.length === 0 ? "Select Color" : "Add New Color"
-        }
-        options={Colors.map((color) => ({
-          value: color,
-          text: color,
-        }))}
-        onChange={onChange}
-        error={errors.colors}
-      />
+      {colors.length !== 0 ? (
+        <SelectInput
+          name="colors"
+          label={clothing.colors.length === 0 ? "Color" : null}
+          value={""}
+          defaultOption={
+            clothing.colors.length === 0 ? "Select Color" : "Add New Color"
+          }
+          options={colors.map((color) => ({
+            value: color,
+            text: color,
+          }))}
+          onChange={onChange}
+          error={errors.colors}
+        />
+      ) : (
+        <></>
+      )}
 
       <SelectInput
         name="occasion"
@@ -108,6 +118,7 @@ ClothesForm.propTypes = {
   errors: PropTypes.object,
   onChange: PropTypes.func.isRequired,
   types: PropTypes.array.isRequired,
+  colors: PropTypes.array.isRequired,
 };
 
 export default ClothesForm;
