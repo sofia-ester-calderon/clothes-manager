@@ -11,12 +11,12 @@ const RatingInput = ({ name, label, onChange, rating, error }) => {
       <div className="field">
         <StarRatings
           rating={rating}
-          starRatedColor="blue"
+          starRatedColor="#343a40"
           changeRating={onChange}
           numberOfStars={5}
           name="rating"
           starDimension="35px"
-          starHoverColor="blue"
+          starHoverColor="#343a40"
         />
         {error && <div className="alert alert-danger">{error}</div>}
       </div>

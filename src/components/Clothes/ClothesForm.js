@@ -102,7 +102,7 @@ const ClothesForm = ({
         rating={clothing.rating}
       />
 
-      <button type="submit" className="btn btn-primary mt-3">
+      <button type="submit" className="btn btn btn-dark mt-3">
         Save
       </button>
     </form>
