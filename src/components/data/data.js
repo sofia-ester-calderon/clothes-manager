@@ -39,6 +39,8 @@ export const emptyClothing = {
   category: "",
   type: "",
   colors: [],
-  rating: 0,
+  rating: 1,
   occasion: "",
 };
+
+export const clothes = [];

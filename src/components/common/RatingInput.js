@@ -5,7 +5,9 @@ import StarRatings from "react-star-ratings";
 const RatingInput = ({ name, label, onChange, rating, error }) => {
   return (
     <div className="form-group">
-      <label htmlFor={name}>{label}</label>
+      <label htmlFor={name} className="font-weight-bold">
+        {label}
+      </label>
       <div className="field">
         <StarRatings
           rating={rating}

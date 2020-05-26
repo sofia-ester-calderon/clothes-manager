@@ -12,7 +12,8 @@
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
-    "react-star-ratings": "^2.3.0"
+    "react-star-ratings": "^2.3.0",
+    "react-toastify": "^6.0.5"
   },
   "scripts": {
     "start": "react-scripts start",

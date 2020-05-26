@@ -31,7 +31,7 @@ const ClothesForm = ({
           text: category,
         }))}
         onChange={onChange}
-        error={errors.clothing}
+        error={errors.category}
       />
 
       <SelectInput
@@ -61,7 +61,6 @@ const ClothesForm = ({
               text: color,
             }))}
             onChange={onChange}
-            error={errors.colors}
           />
         );
       })}
@@ -95,7 +94,7 @@ const ClothesForm = ({
           text: occasion,
         }))}
         onChange={onChange}
-        error={errors.clothing}
+        error={errors.occasion}
       />
 
       <RatingInput

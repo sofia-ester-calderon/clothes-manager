@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ClothesForm from "./ClothesForm";
-import { Types, Colors, emptyClothing } from "../data/data";
+import { Types, Colors, emptyClothing, clothes } from "../data/data";
+import { toast } from "react-toastify";
 
 const ManageClothesPage = () => {
   const [clothing, setClothing] = useState(emptyClothing);
@@ -10,10 +11,25 @@ const ManageClothesPage = () => {
       ? Colors
       : Colors.filter((color) => !clothing.colors.includes(color))
   );
+  const [errors, setErrors] = useState({});
 
   function saveClothesHandler(event) {
     event.preventDefault();
-    console.log("saving clothing", clothing);
+    if (isFormValid()) {
+      clothes.push(clothing);
+      toast.success("Clothing saved!");
+    }
+  }
+
+  function isFormValid() {
+    const { category, type, colors, occasion } = clothing;
+    const errors = {};
+    if (!category || category === "") errors.category = "Category is required";
+    if (!type || type === "") errors.type = "Type is required";
+    if (colors.length < 1) errors.colors = "Min. one color is required";
+    if (!occasion || occasion === "") errors.occasion = "Occasion is required";
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
   }
 
   function changeClothingHandler(event) {
@@ -35,6 +51,7 @@ const ManageClothesPage = () => {
       ...prevClothing,
       [name]: name === "colors" ? [...prevClothing.colors, value] : value,
     }));
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: null }));
   }
 
   function determineTypesFromCategory(category) {
@@ -57,6 +74,7 @@ const ManageClothesPage = () => {
         onChange={changeClothingHandler}
         types={types}
         colors={colors}
+        errors={errors}
       />
     </>
   );

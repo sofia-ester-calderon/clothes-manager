@@ -13,7 +13,13 @@ const SelectInput = ({
 }) => {
   return (
     <div className="form-group">
-      {label ? <label htmlFor={name}>{label}</label> : <></>}
+      {label ? (
+        <label className="font-weight-bold" htmlFor={name}>
+          {label}
+        </label>
+      ) : (
+        <></>
+      )}
       <div className="field">
         {/* Note, value is set here rather than on the option - docs: https://facebook.github.io/react/docs/forms.html */}
         <select
@@ -32,7 +38,7 @@ const SelectInput = ({
             );
           })}
         </select>
-        {error && <div className="alert alert-danger">{error}</div>}
+        {error && <div className="text-danger">{error}</div>}
       </div>
     </div>
   );
