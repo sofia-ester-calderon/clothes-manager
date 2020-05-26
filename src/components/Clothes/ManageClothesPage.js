@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ClothesForm from "./ClothesForm";
-import { Types, Colors, emptyClothing, clothes } from "../data/data";
+import { Types, Colors, emptyClothing, clothes } from "../../data/data";
 import { toast } from "react-toastify";
 
 const ManageClothesPage = () => {

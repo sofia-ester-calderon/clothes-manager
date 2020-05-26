@@ -2,7 +2,7 @@ import React from "react";
 import { PropTypes } from "prop-types";
 import SelectInput from "../common/SelectInput";
 import RatingInput from "../common/RatingInput";
-import { Categories, Colors, Occasion } from "../data/data";
+import { Categories, Colors, Occasion } from "../../data/data";
 
 const ClothesForm = ({
   clothing,
@@ -14,7 +14,7 @@ const ClothesForm = ({
 }) => {
   return (
     <form onSubmit={onSave}>
-      <h2>Add New Piece of Clothing</h2>
+      <h2 className="mb-4">Add New Piece of Clothing</h2>
       {errors.onSave && (
         <div className="alert alert-danger" role="alert">
           {errors.onSave}
@@ -80,9 +80,7 @@ const ClothesForm = ({
           onChange={onChange}
           error={errors.colors}
         />
-      ) : (
-        <></>
-      )}
+      ) : null}
 
       <SelectInput
         name="occasion"
@@ -104,7 +102,7 @@ const ClothesForm = ({
         rating={clothing.rating}
       />
 
-      <button type="submit" className="btn btn-primary">
+      <button type="submit" className="btn btn-primary mt-3">
         Save
       </button>
     </form>
