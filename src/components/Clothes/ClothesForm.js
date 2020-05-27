@@ -3,6 +3,7 @@ import { PropTypes } from "prop-types";
 import SelectInput from "../common/SelectInput";
 import RatingInput from "../common/RatingInput";
 import { Categories, Colors, Occasion } from "../../data/data";
+import styles from "./Clothing.module.css";
 
 const ClothesForm = ({
   clothing,
@@ -12,6 +13,9 @@ const ClothesForm = ({
   types,
   colors,
 }) => {
+  function getRgbForColor(clothingColor) {
+    return Colors.find((color) => color.name === clothingColor).rgb;
+  }
   return (
     <form onSubmit={onSave}>
       <h2 className="mb-4">Add New Piece of Clothing</h2>
@@ -50,18 +54,28 @@ const ClothesForm = ({
 
       {clothing.colors.map((color, idx) => {
         return (
-          <SelectInput
-            key={idx}
-            name="colors"
-            label={idx === 0 ? "Color" : null}
-            value={color}
-            defaultOption="Select Color"
-            options={Colors.map((color) => ({
-              value: color,
-              text: color,
-            }))}
-            onChange={onChange}
-          />
+          <div className="form-row">
+            <div className="col-11">
+              <SelectInput
+                key={idx}
+                name="colors"
+                label={idx === 0 ? "Color" : null}
+                value={color}
+                defaultOption="Select Color"
+                options={Colors.map((color) => ({
+                  value: color.name,
+                  text: color.name,
+                }))}
+                onChange={onChange}
+              />
+            </div>
+            <div className="col-1">
+              <span
+                className={styles.dot}
+                style={{ backgroundColor: getRgbForColor(color) }}
+              ></span>
+            </div>
+          </div>
         );
       })}
 
@@ -74,8 +88,8 @@ const ClothesForm = ({
             clothing.colors.length === 0 ? "Select Color" : "Add New Color"
           }
           options={colors.map((color) => ({
-            value: color,
-            text: color,
+            value: color.name,
+            text: color.name,
           }))}
           onChange={onChange}
           error={errors.colors}

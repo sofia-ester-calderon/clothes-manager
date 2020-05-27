@@ -30,7 +30,14 @@ export const Types = [
   TypeScarf,
 ];
 
-export const Colors = ["Red", "Green", "Blue", "Yellow", "White", "Black"];
+export const Colors = [
+  { name: "Red", rgb: "#ff1100" },
+  { name: "Green", rgb: "#00a80b" },
+  { name: "Blue", rgb: "#0019bf" },
+  { name: "Yellow", rgb: "#edea13" },
+  { name: "White", rgb: "#ffffff" },
+  { name: "Black", rgb: "#000000" },
+];
 
 export const Occasion = ["Sport", "Formal", "Everyday"];
 

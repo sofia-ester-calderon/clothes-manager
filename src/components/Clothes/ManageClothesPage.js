@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ClothesForm from "./ClothesForm";
 import { Types, Colors, emptyClothing, clothes } from "../../data/data";
 import { toast } from "react-toastify";
+import styles from "./Clothing.module.css";
 
 const ManageClothesPage = () => {
   const [clothing, setClothing] = useState(emptyClothing);
@@ -63,11 +64,11 @@ const ManageClothesPage = () => {
   }
 
   function determineColorsFromChosenColor(chosenColor) {
-    setColors(colors.filter((color) => color !== chosenColor));
+    setColors(colors.filter((color) => color.name !== chosenColor));
   }
 
   return (
-    <>
+    <div className={styles.layout}>
       <ClothesForm
         clothing={clothing}
         onSave={saveClothesHandler}
@@ -76,7 +77,7 @@ const ManageClothesPage = () => {
         colors={colors}
         errors={errors}
       />
-    </>
+    </div>
   );
 };
 
