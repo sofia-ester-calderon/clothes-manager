@@ -87,9 +87,7 @@ const ClothingContainer = () => {
 
     const newSelectionColors = colors.map((color) => {
       return color.name === newColor
-        ? Colors.find((c) => {
-            return c.name === prevColor;
-          })
+        ? Colors.find((c) => c.name === prevColor)
         : color;
     });
     setColors(newSelectionColors);
