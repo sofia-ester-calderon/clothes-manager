@@ -1,9 +1,9 @@
 import React from "react";
-import { PropTypes } from "prop-types";
 import SelectInput from "../../common/inputs/SelectInput";
 import RatingInput from "../../common/inputs/RatingInput";
 import { Categories, Occasion } from "../../../data/data";
 import ColorSelector from "./ColorSelector";
+import { PropTypes } from "prop-types";
 
 const ClothingForm = ({
   clothing,

@@ -1,11 +1,11 @@
 import React from "react";
-import ClothingContainer from "./Clothes/Clothing/ClothingContainer";
+import ClothingContainer from "./clothes/clothing/ClothingContainer";
 import { ToastContainer } from "react-toastify";
-import Header from "./Header/Header";
+import Header from "./header/Header";
 import styles from "./App.module.css";
 import { Route, Switch } from "react-router-dom";
-import Home from "./Home/Home";
-import AllClothesContainer from "./Clothes/ClothesList/AllClothesContainer";
+import Home from "./home/Home";
+import AllClothesContainer from "./clothes/clothesList/AllClothesContainer";
 
 function App() {
   return (
