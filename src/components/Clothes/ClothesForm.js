@@ -1,9 +1,9 @@
 import React from "react";
 import { PropTypes } from "prop-types";
-import SelectInput from "../common/SelectInput";
-import RatingInput from "../common/RatingInput";
-import { Categories, Colors, Occasion } from "../../data/data";
-import styles from "./Clothing.module.css";
+import SelectInput from "../common/inputs/SelectInput";
+import RatingInput from "../common/inputs/RatingInput";
+import { Categories, Occasion } from "../../data/data";
+import ColorSelector from "./ColorSelector";
 
 const ClothesForm = ({
   clothing,
@@ -12,10 +12,9 @@ const ClothesForm = ({
   onChange,
   types,
   colors,
+  onRemoveColor,
+  onChangeColor,
 }) => {
-  function getRgbForColor(clothingColor) {
-    return Colors.find((color) => color.name === clothingColor).rgb;
-  }
   return (
     <form onSubmit={onSave}>
       <h2 className="mb-4">Add New Piece of Clothing</h2>
@@ -54,28 +53,14 @@ const ClothesForm = ({
 
       {clothing.colors.map((color, idx) => {
         return (
-          <div className="form-row">
-            <div className="col-11">
-              <SelectInput
-                key={idx}
-                name="colors"
-                label={idx === 0 ? "Color" : null}
-                value={color}
-                defaultOption="Select Color"
-                options={Colors.map((color) => ({
-                  value: color.name,
-                  text: color.name,
-                }))}
-                onChange={onChange}
-              />
-            </div>
-            <div className="col-1">
-              <span
-                className={styles.dot}
-                style={{ backgroundColor: getRgbForColor(color) }}
-              ></span>
-            </div>
-          </div>
+          <ColorSelector
+            key={idx}
+            label={idx === 0 ? "Color" : null}
+            selectedColor={color}
+            onColorChanged={(e) => onChangeColor(e, color)}
+            onColorDeleted={() => onRemoveColor(color)}
+            clothingColors={clothing.colors}
+          />
         );
       })}
 
@@ -130,6 +115,8 @@ ClothesForm.propTypes = {
   onChange: PropTypes.func.isRequired,
   types: PropTypes.array.isRequired,
   colors: PropTypes.array.isRequired,
+  onRemoveColor: PropTypes.func.isRequired,
+  onChangeColor: PropTypes.func.isRequired,
 };
 
 export default ClothesForm;

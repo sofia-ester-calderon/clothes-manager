@@ -29,7 +29,7 @@ const SelectInput = ({
           className="form-control"
           disabled={disabled}
         >
-          <option value="">{defaultOption}</option>
+          {defaultOption ? <option value="">{defaultOption}</option> : null}
           {options.map((option) => {
             return (
               <option key={option.value} value={option.value}>

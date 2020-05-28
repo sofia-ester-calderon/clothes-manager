@@ -2,12 +2,15 @@
   max-width: 800px;
 }
 
-.dot {
+.icon {
+  position: absolute;
+  bottom: 22px;
+}
+
+.circle {
   height: 25px;
   width: 25px;
   border-radius: 50%;
-  position: absolute;
-  bottom: 22px;
   margin-left: 25%;
   border: 1px solid black;
 }

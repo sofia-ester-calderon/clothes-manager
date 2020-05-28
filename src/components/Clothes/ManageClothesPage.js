@@ -46,7 +46,7 @@ const ManageClothesPage = () => {
       determineTypesFromCategory(value);
     }
     if (name === "colors") {
-      determineColorsFromChosenColor(value);
+      removeColorFromColorSelection(value);
     }
     setClothing((prevClothing) => ({
       ...prevClothing,
@@ -63,8 +63,36 @@ const ManageClothesPage = () => {
     setTypes(typesByCategory);
   }
 
-  function determineColorsFromChosenColor(chosenColor) {
+  function removeColorFromColorSelection(chosenColor) {
     setColors(colors.filter((color) => color.name !== chosenColor));
+  }
+
+  function removeColorHandler(deletedColor) {
+    setClothing((prevClothing) => ({
+      ...prevClothing,
+      colors: prevClothing.colors.filter((color) => color !== deletedColor),
+    }));
+
+    setColors([...colors, Colors.find((c) => c.name === deletedColor)]);
+  }
+
+  function changeColorHandler(event, prevColor) {
+    const newColor = event.target.value;
+    setClothing((prevClothing) => ({
+      ...prevClothing,
+      colors: prevClothing.colors.map((color) =>
+        color === prevColor ? newColor : color
+      ),
+    }));
+
+    const newSelectionColors = colors.map((color) => {
+      return color.name === newColor
+        ? Colors.find((c) => {
+            return c.name === prevColor;
+          })
+        : color;
+    });
+    setColors(newSelectionColors);
   }
 
   return (
@@ -73,6 +101,8 @@ const ManageClothesPage = () => {
         clothing={clothing}
         onSave={saveClothesHandler}
         onChange={changeClothingHandler}
+        onRemoveColor={removeColorHandler}
+        onChangeColor={changeColorHandler}
         types={types}
         colors={colors}
         errors={errors}
