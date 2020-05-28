@@ -4,6 +4,7 @@ import styles from "./ClothesList.module.css";
 import upArrow from "../../../assets/img/up-arrow.png";
 import downArrow from "../../../assets/img/down-arrow.png";
 import ColorCircle from "../../common/specialForms/ColorCircle";
+import Rating from "../../common/specialForms/Rating";
 
 const ClothesGroupedList = ({ header, clothes, display, onClickHeader }) => {
   return (
@@ -34,7 +35,9 @@ const ClothesGroupedList = ({ header, clothes, display, onClickHeader }) => {
                 ))}
               </td>
               <td>{clothing.occasion}</td>
-              <td>{clothing.rating}</td>
+              <td>
+                <Rating rating={clothing.rating} size="small" />
+              </td>
             </tr>
           ))}
         </tbody>
