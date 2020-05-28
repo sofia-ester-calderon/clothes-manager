@@ -13,10 +13,6 @@ const ColorSelector = ({
   onColorChanged,
   onColorDeleted,
 }) => {
-  function getRgbForColor(clothingColor) {
-    return Colors.find((color) => color.name === clothingColor).rgb;
-  }
-
   function getSelectionOptions() {
     const colorsToDisplay = Colors.filter(
       (color) =>
@@ -40,12 +36,12 @@ const ColorSelector = ({
         />
       </div>
       <div className="col-1">
-        <div className={styles.icon}>
-          <ColorCircle color={getRgbForColor(selectedColor)} />
+        <div className={[styles.icon, styles.iconCircle].join(" ")}>
+          <ColorCircle color={selectedColor} />
         </div>
       </div>
       <div className="col-1">
-        <div className={styles.icon}>
+        <div className={[styles.icon, styles.iconDelete].join(" ")}>
           <DeleteButton onDelete={onColorDeleted} />
         </div>
       </div>

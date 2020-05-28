@@ -5,3 +5,12 @@
 .groupHeader {
   cursor: pointer;
 }
+
+.arrow {
+  text-align: right;
+  padding-right: 3%;
+}
+
+.arrowImg {
+  margin-right: 3%;
+}

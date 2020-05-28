@@ -63,7 +63,7 @@ export const clothesData = [
     id: 2,
     category: TOPS,
     type: "T-Shirt",
-    colors: ["Red", "Green"],
+    colors: ["Red", "Green", "Blue", "Black"],
     rating: 4,
     occasion: "Everyday",
   },

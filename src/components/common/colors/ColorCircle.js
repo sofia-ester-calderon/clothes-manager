@@ -1,13 +1,18 @@
 import React from "react";
 import styles from "./ColorCircle.module.css";
 import { PropTypes } from "prop-types";
+import { Colors } from "..//../../data/data";
 
 const ColorCircle = (props) => {
+  function getRgbForColor(clothingColor) {
+    return Colors.find((color) => color.name === clothingColor).rgb;
+  }
+
   return (
-    <div
+    <span
       className={styles.circle}
-      style={{ backgroundColor: props.color }}
-    ></div>
+      style={{ backgroundColor: getRgbForColor(props.color) }}
+    ></span>
   );
 };
 
