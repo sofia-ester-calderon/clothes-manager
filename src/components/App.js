@@ -1,11 +1,11 @@
 import React from "react";
-import ManageClothingPage from "./Clothes/Clothing/ManageClothingPage";
+import ClothingContainer from "./Clothes/Clothing/ClothingContainer";
 import { ToastContainer } from "react-toastify";
 import Header from "./Header/Header";
 import styles from "./App.module.css";
 import { Route, Switch } from "react-router-dom";
 import Home from "./Home/Home";
-import ClothesList from "./Clothes/ClothesList/ClothesList";
+import AllClothesContainer from "./Clothes/ClothesList/AllClothesContainer";
 
 function App() {
   return (
@@ -14,8 +14,8 @@ function App() {
       <div className={styles.layout}>
         <Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/clothing" component={ManageClothingPage} />
-          <Route path="/clothes" component={ClothesList} />
+          <Route path="/clothing" component={ClothingContainer} />
+          <Route path="/clothes" component={AllClothesContainer} />
         </Switch>
       </div>
       <ToastContainer autoClose={2000} />

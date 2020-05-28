@@ -4,7 +4,7 @@ import { Types, Colors, emptyClothing, clothesData } from "../../../data/data";
 import { toast } from "react-toastify";
 import styles from "./Clothing.module.css";
 
-const ManageClothingPage = () => {
+const ClothingContainer = () => {
   const [clothing, setClothing] = useState(emptyClothing);
   const [types, setTypes] = useState(clothing.category === "" ? [] : Types);
   const [colors, setColors] = useState(
@@ -111,4 +111,4 @@ const ManageClothingPage = () => {
   );
 };
 
-export default ManageClothingPage;
+export default ClothingContainer;
