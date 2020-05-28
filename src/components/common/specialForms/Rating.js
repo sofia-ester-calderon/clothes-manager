@@ -26,7 +26,7 @@ const Rating = ({ rating, onChange, size = "big" }) => {
 Rating.propTypes = {
   rating: PropTypes.number.isRequired,
   onChange: PropTypes.func,
-  size: PropTypes.string.isRequired,
+  size: PropTypes.string,
 };
 
 export default Rating;

@@ -21,7 +21,6 @@ const SelectInput = ({
         <></>
       )}
       <div className="field">
-        {/* Note, value is set here rather than on the option - docs: https://facebook.github.io/react/docs/forms.html */}
         <select
           name={name}
           value={value}
@@ -38,7 +37,11 @@ const SelectInput = ({
             );
           })}
         </select>
-        {error && <div className="text-danger">{error}</div>}
+        {error && (
+          <div role="alert" className="text-danger">
+            {error}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import React from "react";
-import SelectInput from "../../common/inputs/SelectInput";
+import SelectInput from "../../common/inputs/select/SelectInput";
 import { PropTypes } from "prop-types";
 import styles from "./Clothing.module.css";
 import DeleteButton from "../../common/buttons/DeleteButton";

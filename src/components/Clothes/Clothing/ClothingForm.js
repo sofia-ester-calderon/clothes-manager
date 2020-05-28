@@ -1,6 +1,6 @@
 import React from "react";
-import SelectInput from "../../common/inputs/SelectInput";
-import RatingInput from "../../common/inputs/RatingInput";
+import SelectInput from "../../common/inputs/select/SelectInput";
+import RatingInput from "../../common/inputs/rating/RatingInput";
 import { Categories, Occasion } from "../../../data/data";
 import ColorSelector from "./ColorSelector";
 import { PropTypes } from "prop-types";
@@ -94,12 +94,7 @@ const ClothingForm = ({
         error={errors.occasion}
       />
 
-      <RatingInput
-        name="rating"
-        label="Rating"
-        onChange={onChange}
-        rating={clothing.rating}
-      />
+      <RatingInput onChange={onChange} rating={clothing.rating} />
 
       <button type="submit" className="btn btn btn-dark mt-3">
         Save
