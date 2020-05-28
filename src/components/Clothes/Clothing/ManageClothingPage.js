@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import ClothesForm from "./ClothesForm";
-import { Types, Colors, emptyClothing, clothes } from "../../data/data";
+import ClothingForm from "./ClothingForm";
+import { Types, Colors, emptyClothing, clothes } from "../../../data/data";
 import { toast } from "react-toastify";
 import styles from "./Clothing.module.css";
 
-const ManageClothesPage = () => {
+const ManageClothingPage = () => {
   const [clothing, setClothing] = useState(emptyClothing);
   const [types, setTypes] = useState(clothing.category === "" ? [] : Types);
   const [colors, setColors] = useState(
@@ -97,7 +97,7 @@ const ManageClothesPage = () => {
 
   return (
     <div className={styles.layout}>
-      <ClothesForm
+      <ClothingForm
         clothing={clothing}
         onSave={saveClothesHandler}
         onChange={changeClothingHandler}
@@ -111,4 +111,4 @@ const ManageClothesPage = () => {
   );
 };
 
-export default ManageClothesPage;
+export default ManageClothingPage;

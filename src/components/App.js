@@ -1,5 +1,5 @@
 import React from "react";
-import ManageClothesPage from "./Clothes/ManageClothesPage";
+import ManageClothingPage from "./Clothes/Clothing/ManageClothingPage";
 import { ToastContainer } from "react-toastify";
 import Header from "./Header/Header";
 import styles from "./App.module.css";
@@ -13,7 +13,7 @@ function App() {
       <div className={styles.layout}>
         <Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/clothing" component={ManageClothesPage} />
+          <Route path="/clothing" component={ManageClothingPage} />
         </Switch>
       </div>
       <ToastContainer autoClose={2000} />

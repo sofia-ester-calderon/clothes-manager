@@ -1,11 +1,11 @@
 import React from "react";
 import { PropTypes } from "prop-types";
-import SelectInput from "../common/inputs/SelectInput";
-import RatingInput from "../common/inputs/RatingInput";
-import { Categories, Occasion } from "../../data/data";
+import SelectInput from "../../common/inputs/SelectInput";
+import RatingInput from "../../common/inputs/RatingInput";
+import { Categories, Occasion } from "../../../data/data";
 import ColorSelector from "./ColorSelector";
 
-const ClothesForm = ({
+const ClothingForm = ({
   clothing,
   onSave,
   errors = {},
@@ -108,7 +108,7 @@ const ClothesForm = ({
   );
 };
 
-ClothesForm.propTypes = {
+ClothingForm.propTypes = {
   clothing: PropTypes.object.isRequired,
   onSave: PropTypes.func.isRequired,
   errors: PropTypes.object,
@@ -119,4 +119,4 @@ ClothesForm.propTypes = {
   onChangeColor: PropTypes.func.isRequired,
 };
 
-export default ClothesForm;
+export default ClothingForm;
