@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import StarRatings from "react-star-ratings";
+import Rating from "../specialForms/Rating";
 
 const RatingInput = ({ name, label, onChange, rating, error }) => {
   return (
@@ -9,15 +9,7 @@ const RatingInput = ({ name, label, onChange, rating, error }) => {
         {label}
       </label>
       <div className="field">
-        <StarRatings
-          rating={rating}
-          starRatedColor="#343a40"
-          changeRating={onChange}
-          numberOfStars={5}
-          name="rating"
-          starDimension="35px"
-          starHoverColor="#343a40"
-        />
+        <Rating rating={rating} onChange={onChange} />
         {error && <div className="alert alert-danger">{error}</div>}
       </div>
     </div>

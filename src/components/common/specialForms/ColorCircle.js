@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./ColorCircle.module.css";
 import { PropTypes } from "prop-types";
-import { Colors } from "..//../../data/data";
+import { Colors } from "../../../data/data";
 
 const ColorCircle = (props) => {
   function getRgbForColor(clothingColor) {

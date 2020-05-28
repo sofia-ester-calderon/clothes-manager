@@ -3,7 +3,7 @@ import { PropTypes } from "prop-types";
 import styles from "./ClothesList.module.css";
 import upArrow from "../../../assets/img/up-arrow.png";
 import downArrow from "../../../assets/img/down-arrow.png";
-import ColorCircle from "../../common/colors/ColorCircle";
+import ColorCircle from "../../common/specialForms/ColorCircle";
 
 const ClothesGroupedList = ({ header, clothes, display, onClickHeader }) => {
   return (

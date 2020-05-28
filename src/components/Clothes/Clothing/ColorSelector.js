@@ -4,7 +4,7 @@ import { PropTypes } from "prop-types";
 import styles from "./Clothing.module.css";
 import DeleteButton from "../../common/buttons/DeleteButton";
 import { Colors } from "../../../data/data";
-import ColorCircle from "../../common/colors/ColorCircle";
+import ColorCircle from "../../common/specialForms/ColorCircle";
 
 const ColorSelector = ({
   label,
