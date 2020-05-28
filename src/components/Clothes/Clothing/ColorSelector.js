@@ -4,6 +4,7 @@ import { PropTypes } from "prop-types";
 import styles from "./Clothing.module.css";
 import DeleteButton from "../../common/buttons/DeleteButton";
 import { Colors } from "../../../data/data";
+import ColorCircle from "../../common/colors/ColorCircle";
 
 const ColorSelector = ({
   label,
@@ -39,10 +40,9 @@ const ColorSelector = ({
         />
       </div>
       <div className="col-1">
-        <span
-          className={[styles.circle, styles.icon].join(" ")}
-          style={{ backgroundColor: getRgbForColor(selectedColor) }}
-        ></span>
+        <div className={styles.icon}>
+          <ColorCircle color={getRgbForColor(selectedColor)} />
+        </div>
       </div>
       <div className="col-1">
         <div className={styles.icon}>
