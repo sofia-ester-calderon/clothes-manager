@@ -43,7 +43,7 @@ const ClothingForm = ({
         value={clothing.type}
         defaultOption="Select Type"
         options={types.map((type) => ({
-          value: type.id,
+          value: type.name,
           text: type.name,
         }))}
         onChange={onChange}
