@@ -7,7 +7,7 @@ const Header = () => {
       <ul className="navbar-nav mr-auto">
         <NavItem link="/">Home</NavItem>
         <NavItem link="/clothing">Add Clothing</NavItem>
-        <NavItem link="/other">All Clothes</NavItem>
+        <NavItem link="/clothes">All Clothes</NavItem>
       </ul>
     </nav>
   );

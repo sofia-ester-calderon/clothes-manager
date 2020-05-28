@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ClothingForm from "./ClothingForm";
-import { Types, Colors, emptyClothing, clothes } from "../../../data/data";
+import { Types, Colors, emptyClothing, clothesData } from "../../../data/data";
 import { toast } from "react-toastify";
 import styles from "./Clothing.module.css";
 
@@ -17,7 +17,7 @@ const ManageClothingPage = () => {
   function saveClothesHandler(event) {
     event.preventDefault();
     if (isFormValid()) {
-      clothes.push(clothing);
+      clothesData.push(clothing);
       toast.success("Clothing saved!");
     }
   }
