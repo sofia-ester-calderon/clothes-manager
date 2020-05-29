@@ -40,4 +40,40 @@ describe("toggle visibility", () => {
       expect(screen.queryByText(clothing.type)).not.toBeInTheDocument()
     );
   });
+
+  it("should only display clothes of the filtered color", () => {
+    renderAllClothesContainer();
+    fireEvent.change(screen.getByDisplayValue("All Colors"), {
+      target: { value: "Green" },
+    });
+    clothesData.forEach((clothing) => {
+      clothing.category === firstGroup && clothing.colors.includes("Green")
+        ? screen.getByText(clothing.type)
+        : expect(screen.queryByText(clothing.type)).not.toBeInTheDocument();
+    });
+  });
+
+  it("should only display clothes of the filtered occasion", () => {
+    renderAllClothesContainer();
+    fireEvent.change(screen.getByDisplayValue("All Occasions"), {
+      target: { value: "Sport" },
+    });
+    clothesData.forEach((clothing) => {
+      clothing.category === firstGroup && clothing.occasion === "Sport"
+        ? screen.getByText(clothing.type)
+        : expect(screen.queryByText(clothing.type)).not.toBeInTheDocument();
+    });
+  });
+
+  it("should only display clothes of the filtered rating", () => {
+    renderAllClothesContainer();
+    fireEvent.change(screen.getByDisplayValue("All Ratings"), {
+      target: { value: "4" },
+    });
+    clothesData.forEach((clothing) => {
+      clothing.category === firstGroup && clothing.rating === 4
+        ? screen.getByText(clothing.type)
+        : expect(screen.queryByText(clothing.type)).not.toBeInTheDocument();
+    });
+  });
 });

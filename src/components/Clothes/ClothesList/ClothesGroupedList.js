@@ -7,26 +7,46 @@ import ColorCircle from "../../common/specialForms/ColorCircle";
 import Rating from "../../common/specialForms/Rating";
 
 const ClothesGroupedList = ({ header, clothes, display, onClickHeader }) => {
+  const headerStyle = ["thead-light"];
+  if (clothes.length > 0) {
+    headerStyle.push(styles.groupHeader);
+  }
+
+  function sortClothes() {
+    function compare(a, b) {
+      const typeA = a.type.toUpperCase();
+      const typeB = b.type.toUpperCase();
+      let comparison = 0;
+      if (typeA > typeB) {
+        comparison = 1;
+      } else if (typeA < typeB) {
+        comparison = -1;
+      }
+      return comparison;
+    }
+
+    return clothes.sort(compare);
+  }
+
   return (
     <table className="table">
-      <thead
-        className={["thead-light ", styles.groupHeader].join(" ")}
-        onClick={onClickHeader}
-      >
+      <thead className={headerStyle.join(" ")} onClick={onClickHeader}>
         <tr>
           <th colSpan="3">{header}</th>
           <th className={styles.arrow}>
-            <img
-              className={styles.arrowImg}
-              src={display ? upArrow : downArrow}
-              alt={display ? "Collapse" : "Show"}
-            />
+            {clothes.length > 0 && (
+              <img
+                className={styles.arrowImg}
+                src={display ? upArrow : downArrow}
+                alt={display ? "Collapse" : "Show"}
+              />
+            )}
           </th>
         </tr>
       </thead>
       {display ? (
         <tbody>
-          {clothes.map((clothing) => (
+          {sortClothes().map((clothing) => (
             <tr key={clothing.id}>
               <td className={styles.cellWidth}>{clothing.type}</td>
               <td className={styles.cellWidth}>

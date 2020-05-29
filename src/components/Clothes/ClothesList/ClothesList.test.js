@@ -36,6 +36,7 @@ function renderClothesList(args) {
     groupsToDisplay,
     clothes,
     onClickGroup: jest.fn(),
+    onFilter: jest.fn(),
   };
   const props = { ...defaultProps, ...args };
   return render(<ClothesList {...props} />);
@@ -61,8 +62,5 @@ it("should only have arrow up for groups which belong to the groupsToDisplay", (
   renderClothesList();
   expect(screen.getAllByAltText("Collapse")).toHaveLength(
     groupsToDisplay.length
-  );
-  expect(screen.getAllByAltText("Show")).toHaveLength(
-    Categories.length - groupsToDisplay.length
   );
 });

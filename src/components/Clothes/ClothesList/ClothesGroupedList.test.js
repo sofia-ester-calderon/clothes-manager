@@ -43,7 +43,7 @@ it("should display all clothes and up-arrow if display is true", () => {
   });
 });
 
-it("should display down-arrow and no clothes aif display is false", () => {
+it("should display down-arrow and no clothes if display is false", () => {
   renderClothesGroupedList({ display: false });
   screen.getByAltText("Show");
   clothes.forEach((clothing) => {
@@ -51,4 +51,10 @@ it("should display down-arrow and no clothes aif display is false", () => {
     expect(screen.queryByText(clothing.occasion)).not.toBeInTheDocument();
     expect(screen.queryByTestId("circle-color")).not.toBeInTheDocument();
   });
+});
+
+it("should not display any arrow if no clothes are displayed", () => {
+  renderClothesGroupedList({ clothes: [] });
+  expect(screen.queryByAltText("Show")).not.toBeInTheDocument();
+  expect(screen.queryByAltText("Collapse")).not.toBeInTheDocument();
 });
