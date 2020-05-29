@@ -10,6 +10,7 @@ const ColorCircle = (props) => {
 
   return (
     <span
+      data-testid="circle-color"
       className={styles.circle}
       style={{ backgroundColor: getRgbForColor(props.color) }}
     ></span>

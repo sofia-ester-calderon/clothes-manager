@@ -8,7 +8,7 @@ import Rating from "../../common/specialForms/Rating";
 
 const ClothesGroupedList = ({ header, clothes, display, onClickHeader }) => {
   return (
-    <>
+    <table className="table">
       <thead
         className={["thead-light ", styles.groupHeader].join(" ")}
         onClick={onClickHeader}
@@ -19,7 +19,7 @@ const ClothesGroupedList = ({ header, clothes, display, onClickHeader }) => {
             <img
               className={styles.arrowImg}
               src={display ? upArrow : downArrow}
-              alt="Collapse"
+              alt={display ? "Collapse" : "Show"}
             />
           </th>
         </tr>
@@ -28,21 +28,21 @@ const ClothesGroupedList = ({ header, clothes, display, onClickHeader }) => {
         <tbody>
           {clothes.map((clothing) => (
             <tr key={clothing.id}>
-              <td>{clothing.type}</td>
-              <td>
+              <td className={styles.cellWidth}>{clothing.type}</td>
+              <td className={styles.cellWidth}>
                 {clothing.colors.map((color) => (
-                  <ColorCircle color={color} />
+                  <ColorCircle color={color} key={color} />
                 ))}
               </td>
-              <td>{clothing.occasion}</td>
-              <td>
+              <td className={styles.cellWidth}>{clothing.occasion}</td>
+              <td className={styles.cellWidth}>
                 <Rating rating={clothing.rating} size="small" />
               </td>
             </tr>
           ))}
         </tbody>
       ) : null}
-    </>
+    </table>
   );
 };
 

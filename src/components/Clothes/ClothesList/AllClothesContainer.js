@@ -8,7 +8,6 @@ const AllClothesContainer = () => {
   const [groupsToDisplay, setGroupsToDisplay] = useState([Categories[0]]);
 
   function toggleVisibilityHandler(group) {
-    console.log("header clicked", group);
     if (groupsToDisplay.includes(group)) {
       setGroupsToDisplay(
         groupsToDisplay.filter((displayGroup) => displayGroup !== group)

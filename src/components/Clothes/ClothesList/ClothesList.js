@@ -14,15 +14,17 @@ const ClothesList = ({ clothes = [], groupsToDisplay, onClickGroup }) => {
       {clothes.length === 0 ? (
         <p>You have no clothes yet</p>
       ) : (
-        <table className="table">
-          <thead>
-            <tr>
-              <th className={styles.tableHeader}>Type</th>
-              <th className={styles.tableHeader}>Colors</th>
-              <th className={styles.tableHeader}>Occasion</th>
-              <th className={styles.tableHeader}>Rating</th>
-            </tr>
-          </thead>
+        <>
+          <table className="table">
+            <thead>
+              <tr>
+                <th className={styles.cellWidth}>Type</th>
+                <th className={styles.cellWidth}>Colors</th>
+                <th className={styles.cellWidth}>Occasion</th>
+                <th className={styles.cellWidth}>Rating</th>
+              </tr>
+            </thead>
+          </table>
           {Categories.map((group) => (
             <ClothesGroupedList
               key={group}
@@ -32,7 +34,7 @@ const ClothesList = ({ clothes = [], groupsToDisplay, onClickGroup }) => {
               onClickHeader={() => onClickGroup(group)}
             />
           ))}
-        </table>
+        </>
       )}
     </>
   );

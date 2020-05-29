@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  render,
-  screen,
-  fireEvent,
-  waitForElement,
-} from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import ClothingContainer from "../../Clothes/Clothing/ClothingContainer";
 import { Colors } from "../../../data/data";
 
