@@ -66,6 +66,10 @@ const AllClothesContainer = () => {
     );
   }
 
+  function editClothingHandler(editId) {
+    console.log("editing clothes", editId);
+  }
+
   return (
     <ClothesList
       clothes={filteredClothes}
@@ -73,6 +77,7 @@ const AllClothesContainer = () => {
       onClickCategory={toggleVisibilityHandler}
       onFilter={filterHandler}
       onDeleteClothing={deleteClothingHandler}
+      onEditClothing={editClothingHandler}
     />
   );
 };

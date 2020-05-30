@@ -7,6 +7,7 @@ import ColorCircle from "../../common/specialForms/ColorCircle";
 import Rating from "../../common/specialForms/Rating";
 import IconButton from "../../common/buttons/IconButton";
 import deleteIcon from "../../../assets/img/trash.png";
+import editIcon from "../../../assets/img/edit.png";
 
 const ClothesGroupedList = ({
   header,
@@ -14,6 +15,7 @@ const ClothesGroupedList = ({
   display,
   onClickHeader,
   onDelete,
+  onEdit,
 }) => {
   const headerStyle = ["thead-light"];
   if (clothes.length > 0) {
@@ -53,7 +55,7 @@ const ClothesGroupedList = ({
     <table className="table">
       <thead className={getHeaderStyle()} onClick={onClickHeader}>
         <tr>
-          <th colSpan="4">{getHeaderTitle()}</th>
+          <th colSpan="5">{getHeaderTitle()}</th>
           <th className={styles.arrow}>
             {clothes.length > 0 && (
               <img
@@ -79,10 +81,16 @@ const ClothesGroupedList = ({
               <td className={styles.cellWidth}>
                 <Rating rating={clothing.rating} size="small" />
               </td>
-              <td>
+              <td className={styles.iconCellWidth}>
                 <IconButton
                   onClick={() => onDelete(clothing.id)}
                   icon={deleteIcon}
+                />
+              </td>
+              <td className={styles.iconCellWidth}>
+                <IconButton
+                  onClick={() => onEdit(clothing.id)}
+                  icon={editIcon}
                 />
               </td>
             </tr>
@@ -99,6 +107,7 @@ ClothesGroupedList.propTypes = {
   display: PropTypes.bool.isRequired,
   onClickHeader: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
 };
 
 export default ClothesGroupedList;
