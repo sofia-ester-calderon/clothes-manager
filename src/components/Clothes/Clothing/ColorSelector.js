@@ -43,7 +43,11 @@ const ColorSelector = ({
       </div>
       <div className="col-1">
         <div className={[styles.icon, styles.iconDelete].join(" ")}>
-          <IconButton onClick={onColorDeleted} icon={deleteIcon} />
+          <IconButton
+            onClick={onColorDeleted}
+            icon={deleteIcon}
+            altText="Delete"
+          />
         </div>
       </div>
     </div>

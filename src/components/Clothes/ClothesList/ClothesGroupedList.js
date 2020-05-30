@@ -8,6 +8,7 @@ import Rating from "../../common/specialForms/Rating";
 import IconButton from "../../common/buttons/IconButton";
 import deleteIcon from "../../../assets/img/trash.png";
 import editIcon from "../../../assets/img/edit.png";
+import { Link } from "react-router-dom";
 
 const ClothesGroupedList = ({
   header,
@@ -15,7 +16,6 @@ const ClothesGroupedList = ({
   display,
   onClickHeader,
   onDelete,
-  onEdit,
 }) => {
   const headerStyle = ["thead-light"];
   if (clothes.length > 0) {
@@ -85,13 +85,13 @@ const ClothesGroupedList = ({
                 <IconButton
                   onClick={() => onDelete(clothing.id)}
                   icon={deleteIcon}
+                  altText="Delete"
                 />
               </td>
               <td className={styles.iconCellWidth}>
-                <IconButton
-                  onClick={() => onEdit(clothing.id)}
-                  icon={editIcon}
-                />
+                <Link to={"/clothing/" + clothing.id}>
+                  <IconButton icon={editIcon} altText="Edit" />
+                </Link>
               </td>
             </tr>
           ))}
@@ -107,7 +107,6 @@ ClothesGroupedList.propTypes = {
   display: PropTypes.bool.isRequired,
   onClickHeader: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
-  onEdit: PropTypes.func.isRequired,
 };
 
 export default ClothesGroupedList;

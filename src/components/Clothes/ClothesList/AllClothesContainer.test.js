@@ -1,12 +1,23 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import {
+  render,
+  screen,
+  fireEvent,
+  waitForDomChange,
+} from "@testing-library/react";
 import AllClothesContainer from "../../Clothes/ClothesList/AllClothesContainer";
 import { clothesData, Categories } from "../../../data/data";
+import { Router } from "react-router-dom";
+import { createMemoryHistory } from "history";
 
 const firstGroup = Categories[0];
 
 function renderAllClothesContainer() {
-  return render(<AllClothesContainer />);
+  return render(
+    <Router history={createMemoryHistory()}>
+      <AllClothesContainer />
+    </Router>
+  );
 }
 
 describe("first rendering", () => {
@@ -84,5 +95,11 @@ describe("edit and delete", () => {
     renderAllClothesContainer();
     fireEvent.click(screen.getAllByAltText("Delete")[0]);
     expect(screen.queryByText(clothingToDelete.type)).not.toBeInTheDocument();
+  });
+
+  it("should route to clothing form if edit is clicked", async () => {
+    renderAllClothesContainer();
+    fireEvent.click(screen.getAllByAltText("Edit")[0]);
+    screen.findByText("Add New Piece of Clothing");
   });
 });

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ClothingForm from "./ClothingForm";
 import { Types, Colors, emptyClothing, clothesData } from "../../../data/data";
 import { toast } from "react-toastify";
 import styles from "./Clothing.module.css";
 
-const ClothingContainer = () => {
+const ClothingContainer = (props) => {
   const [clothing, setClothing] = useState(emptyClothing);
   const [types, setTypes] = useState(clothing.category === "" ? [] : Types);
   const [colors, setColors] = useState(
@@ -13,6 +13,12 @@ const ClothingContainer = () => {
       : Colors.filter((color) => !clothing.colors.includes(color))
   );
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    if (props.match.params.id) {
+      console.log("fetching clothing with id", props.match.params.id);
+    }
+  }, [props.match.params.id]);
 
   function saveClothesHandler(event) {
     event.preventDefault();

@@ -2,6 +2,8 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import ClothesGroupedList from "./ClothesGroupedList";
 import { TOPS, Colors } from "../../../data/data";
+import { Router } from "react-router-dom";
+import { createMemoryHistory } from "history";
 
 const header = "header";
 const clothes = [
@@ -24,7 +26,11 @@ function renderClothesGroupedList(args) {
     onDelete: jest.fn(),
   };
   const props = { ...defaultProps, ...args };
-  return render(<ClothesGroupedList {...props} />);
+  return render(
+    <Router history={createMemoryHistory()}>
+      <ClothesGroupedList {...props} />
+    </Router>
+  );
 }
 
 it("should render the header with clothes length", () => {

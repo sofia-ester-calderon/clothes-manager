@@ -3,8 +3,13 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import ClothingContainer from "../../Clothes/Clothing/ClothingContainer";
 import { Colors } from "../../../data/data";
 
-function renderClothingContainer() {
-  return render(<ClothingContainer />);
+function renderClothingContainer(args) {
+  const defaultProps = {
+    match: { params: { id: null } },
+  };
+  const props = { ...defaultProps, ...args };
+
+  return render(<ClothingContainer {...props} />);
 }
 
 describe("saving clothing", () => {

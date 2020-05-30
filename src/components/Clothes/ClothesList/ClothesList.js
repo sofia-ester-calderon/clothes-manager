@@ -11,7 +11,6 @@ const ClothesList = ({
   onClickCategory,
   onFilter,
   onDeleteClothing,
-  onEditClothing,
 }) => {
   function getClothesByCategory(category) {
     return clothes.filter((clothing) => clothing.category === category);
@@ -82,7 +81,6 @@ const ClothesList = ({
             display={typesToDisplay.includes(category)}
             onClickHeader={() => onClickCategory(category)}
             onDelete={onDeleteClothing}
-            onEdit={onEditClothing}
           />
         ))}
       </>
@@ -95,7 +93,6 @@ ClothesList.propTypes = {
   typesToDisplay: PropTypes.array.isRequired,
   onFilter: PropTypes.func.isRequired,
   onDeleteClothing: PropTypes.func.isRequired,
-  onEditClothing: PropTypes.func.isRequired,
 };
 
 export default ClothesList;

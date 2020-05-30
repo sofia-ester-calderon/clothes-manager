@@ -2,6 +2,8 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import ClothesList from "./ClothesList";
 import { Categories } from "../../../data/data";
+import { Router } from "react-router-dom";
+import { createMemoryHistory } from "history";
 
 const typesToDisplay = [Categories[0], Categories[1]];
 const clothes = [
@@ -40,7 +42,11 @@ function renderClothesList(args) {
     onDeleteClothing: jest.fn(),
   };
   const props = { ...defaultProps, ...args };
-  return render(<ClothesList {...props} />);
+  return render(
+    <Router history={createMemoryHistory()}>
+      <ClothesList {...props} />
+    </Router>
+  );
 }
 
 it("should disaply only clothes which belong to the typesToDisplay", () => {

@@ -14,6 +14,7 @@ function App() {
       <div className={styles.layout}>
         <Switch>
           <Route path="/" exact component={Home} />
+          <Route path="/clothing/:id" component={ClothingContainer} />
           <Route path="/clothing" component={ClothingContainer} />
           <Route path="/clothes" component={AllClothesContainer} />
         </Switch>
