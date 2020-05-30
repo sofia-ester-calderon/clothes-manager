@@ -5,8 +5,15 @@ import upArrow from "../../../assets/img/up-arrow.png";
 import downArrow from "../../../assets/img/down-arrow.png";
 import ColorCircle from "../../common/specialForms/ColorCircle";
 import Rating from "../../common/specialForms/Rating";
+import DeleteButton from "../../common/buttons/DeleteButton";
 
-const ClothesGroupedList = ({ header, clothes, display, onClickHeader }) => {
+const ClothesGroupedList = ({
+  header,
+  clothes,
+  display,
+  onClickHeader,
+  onDelete,
+}) => {
   const headerStyle = ["thead-light"];
   if (clothes.length > 0) {
     headerStyle.push(styles.groupHeader);
@@ -45,7 +52,7 @@ const ClothesGroupedList = ({ header, clothes, display, onClickHeader }) => {
     <table className="table">
       <thead className={getHeaderStyle()} onClick={onClickHeader}>
         <tr>
-          <th colSpan="3">{getHeaderTitle()}</th>
+          <th colSpan="4">{getHeaderTitle()}</th>
           <th className={styles.arrow}>
             {clothes.length > 0 && (
               <img
@@ -71,6 +78,9 @@ const ClothesGroupedList = ({ header, clothes, display, onClickHeader }) => {
               <td className={styles.cellWidth}>
                 <Rating rating={clothing.rating} size="small" />
               </td>
+              <td>
+                <DeleteButton onDelete={() => onDelete(clothing.id)} />
+              </td>
             </tr>
           ))}
         </tbody>
@@ -84,6 +94,7 @@ ClothesGroupedList.propTypes = {
   clothes: PropTypes.array.isRequired,
   display: PropTypes.bool.isRequired,
   onClickHeader: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
 export default ClothesGroupedList;

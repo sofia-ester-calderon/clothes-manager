@@ -37,6 +37,7 @@ function renderClothesList(args) {
     clothes,
     onClickGroup: jest.fn(),
     onFilter: jest.fn(),
+    onDeleteClothing: jest.fn(),
   };
   const props = { ...defaultProps, ...args };
   return render(<ClothesList {...props} />);

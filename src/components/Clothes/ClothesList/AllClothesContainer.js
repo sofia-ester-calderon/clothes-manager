@@ -4,7 +4,8 @@ import ClothesList from "./ClothesList";
 import { Categories } from "../../../data/data";
 
 const AllClothesContainer = () => {
-  const [filteredClothes, setFilteredClothes] = useState(clothesData);
+  const [allClothes, setAllClothes] = useState(clothesData);
+  const [filteredClothes, setFilteredClothes] = useState(allClothes);
   const [typesToDisplay, settypesToDisplay] = useState([Categories[0]]);
   const [filters, setFilter] = useState({
     colors: "",
@@ -13,7 +14,7 @@ const AllClothesContainer = () => {
   });
 
   useEffect(() => {
-    let newFilteredClothes = clothesData;
+    let newFilteredClothes = allClothes;
     Object.keys(filters).forEach((key) => {
       if (key === "colors") {
         newFilteredClothes =
@@ -39,7 +40,7 @@ const AllClothesContainer = () => {
     });
 
     setFilteredClothes(newFilteredClothes);
-  }, [filters]);
+  }, [filters, allClothes]);
 
   function toggleVisibilityHandler(category) {
     if (typesToDisplay.includes(category)) {
@@ -59,12 +60,19 @@ const AllClothesContainer = () => {
     });
   }
 
+  function deleteClothingHandler(deleteId) {
+    setAllClothes((prevClothes) =>
+      prevClothes.filter((clothing) => clothing.id !== deleteId)
+    );
+  }
+
   return (
     <ClothesList
       clothes={filteredClothes}
       typesToDisplay={typesToDisplay}
       onClickCategory={toggleVisibilityHandler}
       onFilter={filterHandler}
+      onDeleteClothing={deleteClothingHandler}
     />
   );
 };

@@ -21,6 +21,7 @@ function renderClothesGroupedList(args) {
     clothes,
     display: true,
     onClickHeader: jest.fn(),
+    onDelete: jest.fn(),
   };
   const props = { ...defaultProps, ...args };
   return render(<ClothesGroupedList {...props} />);

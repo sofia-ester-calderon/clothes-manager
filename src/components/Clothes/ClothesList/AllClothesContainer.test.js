@@ -77,3 +77,12 @@ describe("toggle visibility", () => {
     });
   });
 });
+
+describe("edit and delete", () => {
+  it("should not display an item after deleting", () => {
+    const clothingToDelete = clothesData[0];
+    renderAllClothesContainer();
+    fireEvent.click(screen.getAllByAltText("Delete")[0]);
+    expect(screen.queryByText(clothingToDelete.type)).not.toBeInTheDocument();
+  });
+});
