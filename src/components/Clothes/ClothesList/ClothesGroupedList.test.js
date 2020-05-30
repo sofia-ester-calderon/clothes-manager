@@ -26,8 +26,13 @@ function renderClothesGroupedList(args) {
   return render(<ClothesGroupedList {...props} />);
 }
 
-it("should render the header", () => {
+it("should render the header with clothes length", () => {
   renderClothesGroupedList();
+  screen.getByText(header + " (1)");
+});
+
+it("should only render header if clothes empty", () => {
+  renderClothesGroupedList({ clothes: [] });
   screen.getByText(header);
 });
 

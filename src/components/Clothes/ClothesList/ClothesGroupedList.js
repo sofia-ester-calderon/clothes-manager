@@ -12,6 +12,20 @@ const ClothesGroupedList = ({ header, clothes, display, onClickHeader }) => {
     headerStyle.push(styles.groupHeader);
   }
 
+  function getHeaderStyle() {
+    const headerStyle = ["thead-light"];
+    if (clothes.length > 0) {
+      headerStyle.push(styles.groupHeader);
+    }
+    return headerStyle.join(" ");
+  }
+
+  function getHeaderTitle() {
+    let headerTitle = header;
+    if (clothes.length > 0) headerTitle += ` (${clothes.length})`;
+    return headerTitle;
+  }
+
   function sortClothes() {
     function compare(a, b) {
       const typeA = a.type.toUpperCase();
@@ -24,15 +38,14 @@ const ClothesGroupedList = ({ header, clothes, display, onClickHeader }) => {
       }
       return comparison;
     }
-
     return clothes.sort(compare);
   }
 
   return (
     <table className="table">
-      <thead className={headerStyle.join(" ")} onClick={onClickHeader}>
+      <thead className={getHeaderStyle()} onClick={onClickHeader}>
         <tr>
-          <th colSpan="3">{header}</th>
+          <th colSpan="3">{getHeaderTitle()}</th>
           <th className={styles.arrow}>
             {clothes.length > 0 && (
               <img

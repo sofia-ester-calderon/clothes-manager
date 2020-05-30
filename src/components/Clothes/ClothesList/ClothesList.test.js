@@ -64,3 +64,8 @@ it("should only have arrow up for groups which belong to the typesToDisplay", ()
     typesToDisplay.length
   );
 });
+
+it("should display clothes length", () => {
+  renderClothesList();
+  screen.getByText("Total: 3");
+});

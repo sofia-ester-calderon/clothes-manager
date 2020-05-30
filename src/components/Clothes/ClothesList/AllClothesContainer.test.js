@@ -25,7 +25,7 @@ describe("toggle visibility", () => {
     const secondGroup = Categories[1];
 
     renderAllClothesContainer();
-    fireEvent.click(screen.getByText(secondGroup));
+    fireEvent.click(screen.getByText(secondGroup + " (2)"));
     clothesData.forEach((clothing) => {
       clothing.category === firstGroup || clothing.category === secondGroup
         ? screen.getByText(clothing.type)
@@ -35,7 +35,7 @@ describe("toggle visibility", () => {
 
   it("should not display clothes of group if displayed group is clicked", () => {
     renderAllClothesContainer();
-    fireEvent.click(screen.getByText(firstGroup));
+    fireEvent.click(screen.getByText(firstGroup + " (2)"));
     clothesData.forEach((clothing) =>
       expect(screen.queryByText(clothing.type)).not.toBeInTheDocument()
     );

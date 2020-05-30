@@ -17,6 +17,7 @@ const ClothesList = ({
   return (
     <>
       <h2 className="mb-4">All My Clothes</h2>
+      <h4 className="mb-4">Total: {clothes.length}</h4>
       <>
         <table className="table">
           <thead>
