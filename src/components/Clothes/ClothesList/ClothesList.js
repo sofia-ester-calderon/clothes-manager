@@ -1,18 +1,18 @@
 import React from "react";
 import { PropTypes } from "prop-types";
-import ClothesGroupedList from "./ClothesGroupedList";
 import { Categories, Colors, Occasion } from "../../../data/data";
 import styles from "./ClothesList.module.css";
 import SelectInput from "../../common/inputs/select/SelectInput";
+import ClothesGroupedList from "./ClothesGroupedList";
 
 const ClothesList = ({
   clothes = [],
-  groupsToDisplay,
-  onClickGroup,
+  typesToDisplay,
+  onClickCategory,
   onFilter,
 }) => {
-  function getClothesByGroup(group) {
-    return clothes.filter((clothing) => clothing.category === group);
+  function getClothesByCategory(category) {
+    return clothes.filter((clothing) => clothing.category === category);
   }
   return (
     <>
@@ -69,13 +69,13 @@ const ClothesList = ({
             </tr>
           </thead>
         </table>
-        {Categories.map((group) => (
+        {Categories.map((category) => (
           <ClothesGroupedList
-            key={group}
-            header={group}
-            clothes={getClothesByGroup(group)}
-            display={groupsToDisplay.includes(group)}
-            onClickHeader={() => onClickGroup(group)}
+            key={category}
+            header={category}
+            clothes={getClothesByCategory(category)}
+            display={typesToDisplay.includes(category)}
+            onClickHeader={() => onClickCategory(category)}
           />
         ))}
       </>
@@ -85,7 +85,7 @@ const ClothesList = ({
 
 ClothesList.propTypes = {
   clothes: PropTypes.array,
-  groupsToDisplay: PropTypes.array.isRequired,
+  typesToDisplay: PropTypes.array.isRequired,
   onFilter: PropTypes.func.isRequired,
 };
 

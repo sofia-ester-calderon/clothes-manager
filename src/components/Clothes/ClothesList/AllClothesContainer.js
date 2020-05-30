@@ -5,7 +5,7 @@ import { Categories } from "../../../data/data";
 
 const AllClothesContainer = () => {
   const [filteredClothes, setFilteredClothes] = useState(clothesData);
-  const [groupsToDisplay, setGroupsToDisplay] = useState([Categories[0]]);
+  const [typesToDisplay, settypesToDisplay] = useState([Categories[0]]);
   const [filters, setFilter] = useState({
     colors: "",
     occasion: "",
@@ -41,13 +41,13 @@ const AllClothesContainer = () => {
     setFilteredClothes(newFilteredClothes);
   }, [filters]);
 
-  function toggleVisibilityHandler(group) {
-    if (groupsToDisplay.includes(group)) {
-      setGroupsToDisplay(
-        groupsToDisplay.filter((displayGroup) => displayGroup !== group)
+  function toggleVisibilityHandler(category) {
+    if (typesToDisplay.includes(category)) {
+      settypesToDisplay(
+        typesToDisplay.filter((displayCategory) => displayCategory !== category)
       );
     } else {
-      setGroupsToDisplay([...groupsToDisplay, group]);
+      settypesToDisplay([...typesToDisplay, category]);
     }
   }
 
@@ -62,8 +62,8 @@ const AllClothesContainer = () => {
   return (
     <ClothesList
       clothes={filteredClothes}
-      groupsToDisplay={groupsToDisplay}
-      onClickGroup={toggleVisibilityHandler}
+      typesToDisplay={typesToDisplay}
+      onClickCategory={toggleVisibilityHandler}
       onFilter={filterHandler}
     />
   );

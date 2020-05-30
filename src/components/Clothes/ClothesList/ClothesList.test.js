@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import ClothesList from "./ClothesList";
 import { Categories } from "../../../data/data";
 
-const groupsToDisplay = [Categories[0], Categories[1]];
+const typesToDisplay = [Categories[0], Categories[1]];
 const clothes = [
   {
     id: 1,
@@ -33,7 +33,7 @@ const clothes = [
 
 function renderClothesList(args) {
   const defaultProps = {
-    groupsToDisplay,
+    typesToDisplay,
     clothes,
     onClickGroup: jest.fn(),
     onFilter: jest.fn(),
@@ -42,7 +42,7 @@ function renderClothesList(args) {
   return render(<ClothesList {...props} />);
 }
 
-it("should disaply only clothes which belong to the groupsToDisplay", () => {
+it("should disaply only clothes which belong to the typesToDisplay", () => {
   renderClothesList();
   // first clothing should be displayed
   const clothing1 = clothes[0];
@@ -58,9 +58,9 @@ it("should disaply only clothes which belong to the groupsToDisplay", () => {
   expect(screen.queryByText(clothing3.occasion)).not.toBeInTheDocument();
 });
 
-it("should only have arrow up for groups which belong to the groupsToDisplay", () => {
+it("should only have arrow up for groups which belong to the typesToDisplay", () => {
   renderClothesList();
   expect(screen.getAllByAltText("Collapse")).toHaveLength(
-    groupsToDisplay.length
+    typesToDisplay.length
   );
 });
