@@ -2,6 +2,8 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import ClothingContainer from "../../Clothes/Clothing/ClothingContainer";
 import { Colors } from "../../../data/data";
+import { Router } from "react-router-dom";
+import { createMemoryHistory } from "history";
 
 function renderClothingContainer(args) {
   const defaultProps = {
@@ -9,7 +11,11 @@ function renderClothingContainer(args) {
   };
   const props = { ...defaultProps, ...args };
 
-  return render(<ClothingContainer {...props} />);
+  return render(
+    <Router history={createMemoryHistory()}>
+      <ClothingContainer {...props} />
+    </Router>
+  );
 }
 
 describe("saving clothing", () => {
@@ -24,7 +30,7 @@ describe("saving clothing", () => {
     screen.getByText("Occasion is required");
   });
 
-  it("should not display errors when saving was succesfull", async () => {
+  it("should redirect to clothes list if save successful", async () => {
     renderClothingContainer();
     // set all necessary params for clothing
     fireEvent.change(screen.getByDisplayValue("Select Category"), {
@@ -40,8 +46,8 @@ describe("saving clothing", () => {
       target: { value: "Formal" },
     });
     fireEvent.click(screen.getByText("Save"));
-    // no errors should be displayed
-    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+
+    screen.findByText("All My Clothes");
   });
 });
 

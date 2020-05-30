@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  render,
-  screen,
-  fireEvent,
-  waitForDomChange,
-} from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import AllClothesContainer from "../../Clothes/ClothesList/AllClothesContainer";
 import { clothesData, Categories } from "../../../data/data";
 import { Router } from "react-router-dom";

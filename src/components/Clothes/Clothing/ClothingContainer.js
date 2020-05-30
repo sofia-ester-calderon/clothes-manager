@@ -3,6 +3,7 @@ import ClothingForm from "./ClothingForm";
 import { Types, Colors, emptyClothing, clothesData } from "../../../data/data";
 import { toast } from "react-toastify";
 import styles from "./Clothing.module.css";
+import { Redirect } from "react-router-dom";
 
 const ClothingContainer = (props) => {
   const [clothing, setClothing] = useState(emptyClothing);
@@ -13,6 +14,7 @@ const ClothingContainer = (props) => {
       : Colors.filter((color) => !clothing.colors.includes(color))
   );
   const [errors, setErrors] = useState({});
+  const [saveSuccessful, setSaveSuccessful] = useState(false);
 
   useEffect(() => {
     if (props.match.params.id) {
@@ -24,6 +26,7 @@ const ClothingContainer = (props) => {
     event.preventDefault();
     if (isFormValid()) {
       clothesData.push(clothing);
+      setSaveSuccessful(true);
       toast.success("Clothing saved!");
     }
   }
@@ -99,7 +102,9 @@ const ClothingContainer = (props) => {
     setColors(newSelectionColors);
   }
 
-  return (
+  return saveSuccessful ? (
+    <Redirect to="/clothes" />
+  ) : (
     <div className={styles.layout}>
       <ClothingForm
         clothing={clothing}
