@@ -2,9 +2,10 @@ import React from "react";
 import SelectInput from "../../common/inputs/select/SelectInput";
 import { PropTypes } from "prop-types";
 import styles from "./Clothing.module.css";
-import DeleteButton from "../../common/buttons/DeleteButton";
+import IconButton from "../../common/buttons/IconButton";
 import { Colors } from "../../../data/data";
 import ColorCircle from "../../common/specialForms/ColorCircle";
+import deleteIcon from "../../../assets/img/trash.png";
 
 const ColorSelector = ({
   label,
@@ -42,7 +43,7 @@ const ColorSelector = ({
       </div>
       <div className="col-1">
         <div className={[styles.icon, styles.iconDelete].join(" ")}>
-          <DeleteButton onDelete={onColorDeleted} />
+          <IconButton onClick={onColorDeleted} icon={deleteIcon} />
         </div>
       </div>
     </div>

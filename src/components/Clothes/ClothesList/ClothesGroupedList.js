@@ -5,7 +5,8 @@ import upArrow from "../../../assets/img/up-arrow.png";
 import downArrow from "../../../assets/img/down-arrow.png";
 import ColorCircle from "../../common/specialForms/ColorCircle";
 import Rating from "../../common/specialForms/Rating";
-import DeleteButton from "../../common/buttons/DeleteButton";
+import IconButton from "../../common/buttons/IconButton";
+import deleteIcon from "../../../assets/img/trash.png";
 
 const ClothesGroupedList = ({
   header,
@@ -79,7 +80,10 @@ const ClothesGroupedList = ({
                 <Rating rating={clothing.rating} size="small" />
               </td>
               <td>
-                <DeleteButton onDelete={() => onDelete(clothing.id)} />
+                <IconButton
+                  onClick={() => onDelete(clothing.id)}
+                  icon={deleteIcon}
+                />
               </td>
             </tr>
           ))}
