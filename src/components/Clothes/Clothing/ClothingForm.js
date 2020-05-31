@@ -17,7 +17,9 @@ const ClothingForm = ({
 }) => {
   return (
     <form onSubmit={onSave}>
-      <h2 className="mb-4">Add New Piece of Clothing</h2>
+      <h2 className="mb-4">
+        {clothing.id ? "Edit" : "Add New Piece of"} Clothing
+      </h2>
       {errors.onSave && (
         <div className="alert alert-danger" role="alert">
           {errors.onSave}

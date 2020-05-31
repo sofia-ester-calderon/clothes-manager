@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ClothesList from "./ClothesList";
 import { Categories } from "../../../data/data";
-import { getClothes } from "../../../data/mockApi";
+import * as api from "../../../data/mockApi";
 
 const AllClothesContainer = () => {
   const [allClothes, setAllClothes] = useState([]);
@@ -14,7 +14,7 @@ const AllClothesContainer = () => {
   });
 
   useEffect(() => {
-    const clothes = getClothes();
+    const clothes = api.getClothes();
     setAllClothes(clothes);
     setFilteredClothes(clothes);
   }, []);

@@ -4,29 +4,35 @@ import { Types, Colors, emptyClothing } from "../../../data/data";
 import { toast } from "react-toastify";
 import styles from "./Clothing.module.css";
 import { Redirect } from "react-router-dom";
-import { saveClothing } from "../../../data/mockApi";
+import * as api from "../../../data/mockApi";
 
 const ClothingContainer = (props) => {
   const [clothing, setClothing] = useState(emptyClothing);
   const [types, setTypes] = useState(clothing.category === "" ? [] : Types);
-  const [colors, setColors] = useState(
-    clothing.colors.length === 0
-      ? Colors
-      : Colors.filter((color) => !clothing.colors.includes(color))
-  );
+  const [colors, setColors] = useState(Colors);
   const [errors, setErrors] = useState({});
   const [saveSuccessful, setSaveSuccessful] = useState(false);
 
   useEffect(() => {
-    if (props.match.params.id) {
-      console.log("fetching clothing with id", props.match.params.id);
+    const clothingId = props.match.params.id;
+    if (clothingId) {
+      const clothingDisplay = api.getClothing(clothingId);
+      setClothing(clothingDisplay);
+      determineTypesFromCategory(clothingDisplay.category);
+      setColors(
+        Colors.filter((color) => !clothingDisplay.colors.includes(color.name))
+      );
     }
   }, [props.match.params.id]);
 
   function saveClothesHandler(event) {
     event.preventDefault();
     if (isFormValid()) {
-      saveClothing(clothing);
+      if (clothing.id) {
+        api.editClothing(clothing);
+      } else {
+        api.saveClothing(clothing);
+      }
       setSaveSuccessful(true);
       toast.success("Clothing saved!");
     }

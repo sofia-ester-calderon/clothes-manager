@@ -42,7 +42,6 @@ export const Colors = [
 export const Occasion = ["Sport", "Formal", "Everyday"];
 
 export const emptyClothing = {
-  id: Math.floor(Math.random() * 1000),
   category: "",
   type: "",
   colors: [],
@@ -50,7 +49,7 @@ export const emptyClothing = {
   occasion: "",
 };
 
-export const clothesData = [
+export let clothesData = [
   {
     id: 1,
     category: TOPS,

@@ -18,36 +18,23 @@ function renderClothingContainer(args) {
   );
 }
 
-describe("saving clothing", () => {
-  it("should display error messages when saving and nothing selected", () => {
+describe("add or edit clothing", () => {
+  it("should display header 'Add New Clothing' and empty form when no id is passed", () => {
     renderClothingContainer();
-
-    fireEvent.click(screen.getByText("Save"));
-    expect(screen.queryAllByRole("alert")).toHaveLength(4);
-    screen.getByText("Category is required");
-    screen.getByText("Type is required");
-    screen.getByText("Min. one color is required");
-    screen.getByText("Occasion is required");
+    screen.getByText("Add New Piece of Clothing");
+    screen.getByDisplayValue("Select Category");
+    screen.getByDisplayValue("Select Type");
+    screen.getByDisplayValue("Select Color");
+    screen.getByDisplayValue("Select Occasion");
   });
 
-  it("should redirect to clothes list if save successful", async () => {
-    renderClothingContainer();
-    // set all necessary params for clothing
-    fireEvent.change(screen.getByDisplayValue("Select Category"), {
-      target: { value: "Tops" },
-    });
-    fireEvent.change(screen.getByDisplayValue("Select Type"), {
-      target: { value: "Sweater" },
-    });
-    fireEvent.change(screen.getByDisplayValue("Select Color"), {
-      target: { value: "Red" },
-    });
-    fireEvent.change(screen.getByDisplayValue("Select Occasion"), {
-      target: { value: "Formal" },
-    });
-    fireEvent.click(screen.getByText("Save"));
-
-    screen.findByText("All My Clothes");
+  it("should display header 'Edit Clothing' and filled form when id is passed", () => {
+    renderClothingContainer({ match: { params: { id: 1 } } });
+    screen.getByText("Edit Clothing");
+    screen.getByDisplayValue("Tops");
+    screen.getByDisplayValue("Sweater");
+    screen.getByDisplayValue("Red");
+    screen.getByDisplayValue("Everyday");
   });
 });
 
@@ -142,5 +129,38 @@ describe("change colors", () => {
     Colors.forEach((color) =>
       expect(screen.queryAllByText(color.name)).toHaveLength(1)
     );
+  });
+});
+
+describe("saving clothing", () => {
+  it("should display error messages when saving and nothing selected", () => {
+    renderClothingContainer();
+
+    fireEvent.click(screen.getByText("Save"));
+    expect(screen.queryAllByRole("alert")).toHaveLength(4);
+    screen.getByText("Category is required");
+    screen.getByText("Type is required");
+    screen.getByText("Min. one color is required");
+    screen.getByText("Occasion is required");
+  });
+
+  it("should redirect to clothes list if save successful", async () => {
+    renderClothingContainer();
+    // set all necessary params for clothing
+    fireEvent.change(screen.getByDisplayValue("Select Category"), {
+      target: { value: "Tops" },
+    });
+    fireEvent.change(screen.getByDisplayValue("Select Type"), {
+      target: { value: "Sweater" },
+    });
+    fireEvent.change(screen.getByDisplayValue("Select Color"), {
+      target: { value: "Red" },
+    });
+    fireEvent.change(screen.getByDisplayValue("Select Occasion"), {
+      target: { value: "Formal" },
+    });
+    fireEvent.click(screen.getByText("Save"));
+
+    screen.findByText("All My Clothes");
   });
 });

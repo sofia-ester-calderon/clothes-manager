@@ -8,7 +8,9 @@ const Header = () => {
         <NavItem link="/" exact={true}>
           Home
         </NavItem>
-        <NavItem link="/clothing">Add Clothing</NavItem>
+        <NavItem link="/clothing" exact={true}>
+          Add Clothing
+        </NavItem>
         <NavItem link="/clothes">All Clothes</NavItem>
       </ul>
     </nav>
