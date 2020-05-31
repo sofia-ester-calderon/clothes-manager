@@ -1,11 +1,39 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import AllClothesContainer from "../../Clothes/ClothesList/AllClothesContainer";
-import { clothesData, Categories } from "../../../data/data";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 
-const firstGroup = Categories[0];
+const mockClothes = [
+  {
+    id: 1,
+    category: "Tops",
+    type: "Sweater",
+    colors: ["Red"],
+    rating: 5,
+    occasion: "Everyday",
+  },
+  {
+    id: 2,
+    category: "Tops",
+    type: "T-Shirt",
+    colors: ["Green"],
+    rating: 4,
+    occasion: "Sport",
+  },
+  {
+    id: 3,
+    category: "Bottoms",
+    type: "Jeans",
+    colors: ["Blue"],
+    rating: 2,
+    occasion: "Everyday",
+  },
+];
+
+jest.mock("../../../data/mockApi", () => ({
+  getClothes: () => mockClothes,
+}));
 
 function renderAllClothesContainer() {
   return render(
@@ -18,8 +46,8 @@ function renderAllClothesContainer() {
 describe("first rendering", () => {
   it("should only display clothes of group TOPS", () => {
     renderAllClothesContainer();
-    clothesData.forEach((clothing) => {
-      clothing.category === firstGroup
+    mockClothes.forEach((clothing) => {
+      clothing.category === "Tops"
         ? screen.getByText(clothing.type)
         : expect(screen.queryByText(clothing.type)).not.toBeInTheDocument();
     });
@@ -28,21 +56,17 @@ describe("first rendering", () => {
 
 describe("toggle visibility", () => {
   it("should display clothes of group if collapsed group clicked", () => {
-    const secondGroup = Categories[1];
-
     renderAllClothesContainer();
-    fireEvent.click(screen.getByText(secondGroup + " (2)"));
-    clothesData.forEach((clothing) => {
-      clothing.category === firstGroup || clothing.category === secondGroup
-        ? screen.getByText(clothing.type)
-        : expect(screen.queryByText(clothing.type)).not.toBeInTheDocument();
+    fireEvent.click(screen.getByText("Bottoms (1)"));
+    mockClothes.forEach((clothing) => {
+      screen.getByText(clothing.type);
     });
   });
 
   it("should not display clothes of group if displayed group is clicked", () => {
     renderAllClothesContainer();
-    fireEvent.click(screen.getByText(firstGroup + " (2)"));
-    clothesData.forEach((clothing) =>
+    fireEvent.click(screen.getByText("Tops (2)"));
+    mockClothes.forEach((clothing) =>
       expect(screen.queryByText(clothing.type)).not.toBeInTheDocument()
     );
   });
@@ -52,8 +76,8 @@ describe("toggle visibility", () => {
     fireEvent.change(screen.getByDisplayValue("All Colors"), {
       target: { value: "Green" },
     });
-    clothesData.forEach((clothing) => {
-      clothing.category === firstGroup && clothing.colors.includes("Green")
+    mockClothes.forEach((clothing) => {
+      clothing.colors.includes("Green")
         ? screen.getByText(clothing.type)
         : expect(screen.queryByText(clothing.type)).not.toBeInTheDocument();
     });
@@ -64,8 +88,8 @@ describe("toggle visibility", () => {
     fireEvent.change(screen.getByDisplayValue("All Occasions"), {
       target: { value: "Sport" },
     });
-    clothesData.forEach((clothing) => {
-      clothing.category === firstGroup && clothing.occasion === "Sport"
+    mockClothes.forEach((clothing) => {
+      clothing.occasion === "Sport"
         ? screen.getByText(clothing.type)
         : expect(screen.queryByText(clothing.type)).not.toBeInTheDocument();
     });
@@ -76,8 +100,8 @@ describe("toggle visibility", () => {
     fireEvent.change(screen.getByDisplayValue("All Ratings"), {
       target: { value: "4" },
     });
-    clothesData.forEach((clothing) => {
-      clothing.category === firstGroup && clothing.rating === 4
+    mockClothes.forEach((clothing) => {
+      clothing.rating === 4
         ? screen.getByText(clothing.type)
         : expect(screen.queryByText(clothing.type)).not.toBeInTheDocument();
     });
@@ -86,7 +110,7 @@ describe("toggle visibility", () => {
 
 describe("edit and delete", () => {
   it("should not display an item after deleting", () => {
-    const clothingToDelete = clothesData[0];
+    const clothingToDelete = mockClothes[0];
     renderAllClothesContainer();
     fireEvent.click(screen.getAllByAltText("Delete")[0]);
     expect(screen.queryByText(clothingToDelete.type)).not.toBeInTheDocument();
@@ -95,6 +119,6 @@ describe("edit and delete", () => {
   it("should route to clothing form if edit is clicked", async () => {
     renderAllClothesContainer();
     fireEvent.click(screen.getAllByAltText("Edit")[0]);
-    screen.findByText("Add New Piece of Clothing");
+    screen.findByText("Edit Clothing");
   });
 });

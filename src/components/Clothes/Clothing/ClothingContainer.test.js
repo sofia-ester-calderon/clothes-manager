@@ -5,6 +5,19 @@ import { Colors } from "../../../data/data";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 
+jest.mock("../../../data/mockApi", () => ({
+  getClothing: () => ({
+    id: 1,
+    category: "Tops",
+    type: "Sweater",
+    colors: ["Red"],
+    rating: 5,
+    occasion: "Everyday",
+  }),
+  saveClothing: () => jest.fn(),
+  editClothing: () => jest.fn(),
+}));
+
 function renderClothingContainer(args) {
   const defaultProps = {
     match: { params: { id: null } },
