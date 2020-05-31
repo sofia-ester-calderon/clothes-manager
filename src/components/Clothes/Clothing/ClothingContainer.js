@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import ClothingForm from "./ClothingForm";
-import { Types, Colors, emptyClothing, clothesData } from "../../../data/data";
+import { Types, Colors, emptyClothing } from "../../../data/data";
 import { toast } from "react-toastify";
 import styles from "./Clothing.module.css";
 import { Redirect } from "react-router-dom";
+import { saveClothing } from "../../../data/mockApi";
 
 const ClothingContainer = (props) => {
   const [clothing, setClothing] = useState(emptyClothing);
@@ -25,7 +26,7 @@ const ClothingContainer = (props) => {
   function saveClothesHandler(event) {
     event.preventDefault();
     if (isFormValid()) {
-      clothesData.push(clothing);
+      saveClothing(clothing);
       setSaveSuccessful(true);
       toast.success("Clothing saved!");
     }

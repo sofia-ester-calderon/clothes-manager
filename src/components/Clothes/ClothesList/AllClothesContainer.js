@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { clothesData } from "../../../data/data";
 import ClothesList from "./ClothesList";
 import { Categories } from "../../../data/data";
+import { getClothes } from "../../../data/mockApi";
 
 const AllClothesContainer = () => {
-  const [allClothes, setAllClothes] = useState(clothesData);
+  const [allClothes, setAllClothes] = useState([]);
   const [filteredClothes, setFilteredClothes] = useState(allClothes);
   const [typesToDisplay, settypesToDisplay] = useState([Categories[0]]);
   const [filters, setFilter] = useState({
@@ -12,6 +12,12 @@ const AllClothesContainer = () => {
     occasion: "",
     rating: NaN,
   });
+
+  useEffect(() => {
+    const clothes = getClothes();
+    setAllClothes(clothes);
+    setFilteredClothes(clothes);
+  }, []);
 
   useEffect(() => {
     let newFilteredClothes = allClothes;
