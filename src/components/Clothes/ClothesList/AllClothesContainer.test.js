@@ -31,7 +31,7 @@ const mockClothes = [
   },
 ];
 
-jest.mock("../../../data/mockApi", () => ({
+jest.mock("../../../api/mockApi", () => ({
   getClothes: () => mockClothes,
 }));
 

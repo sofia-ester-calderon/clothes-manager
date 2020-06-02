@@ -14,15 +14,17 @@ const ClothingForm = ({
   colors,
   onRemoveColor,
   onChangeColor,
+  saving = false,
 }) => {
   return (
     <form onSubmit={onSave}>
       <h2 className="mb-4">
         {clothing.id ? "Edit" : "Add New Piece of"} Clothing
       </h2>
+
       {errors.onSave && (
-        <div className="alert alert-danger" role="alert">
-          {errors.onSave}
+        <div className="text-danger mb-4" role="alert">
+          Error saving: {errors.onSave}
         </div>
       )}
 
@@ -98,8 +100,8 @@ const ClothingForm = ({
 
       <RatingInput onChange={onChange} rating={clothing.rating} />
 
-      <button type="submit" className="btn btn btn-dark mt-3">
-        Save
+      <button type="submit" className="btn btn btn-dark mt-3" disabled={saving}>
+        {saving ? "Saving..." : "Save"}
       </button>
     </form>
   );
@@ -114,6 +116,7 @@ ClothingForm.propTypes = {
   colors: PropTypes.array.isRequired,
   onRemoveColor: PropTypes.func.isRequired,
   onChangeColor: PropTypes.func.isRequired,
+  saving: PropTypes.bool,
 };
 
 export default ClothingForm;

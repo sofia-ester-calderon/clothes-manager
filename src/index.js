@@ -6,6 +6,9 @@ import "./index.css";
 import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter as Router } from "react-router-dom";
+import axios from "axios";
+
+axios.defaults.baseURL = "https://react-clothes-manager.firebaseio.com/";
 
 ReactDOM.render(
   <React.StrictMode>

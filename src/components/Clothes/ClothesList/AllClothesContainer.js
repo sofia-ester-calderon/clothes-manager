@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ClothesList from "./ClothesList";
 import { Categories } from "../../../data/data";
-import * as api from "../../../data/mockApi";
+import * as api from "../../../api/mockApi";
 
 const AllClothesContainer = () => {
   const [allClothes, setAllClothes] = useState([]);

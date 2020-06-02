@@ -4,7 +4,7 @@ import { Types, Colors, emptyClothing } from "../../../data/data";
 import { toast } from "react-toastify";
 import styles from "./Clothing.module.css";
 import { Redirect } from "react-router-dom";
-import * as api from "../../../data/mockApi";
+import * as api from "../../../api/mockApi";
 
 const ClothingContainer = (props) => {
   const [clothing, setClothing] = useState(emptyClothing);
@@ -12,6 +12,7 @@ const ClothingContainer = (props) => {
   const [colors, setColors] = useState(Colors);
   const [errors, setErrors] = useState({});
   const [saveSuccessful, setSaveSuccessful] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     const clothingId = props.match.params.id;
@@ -27,15 +28,33 @@ const ClothingContainer = (props) => {
 
   function saveClothesHandler(event) {
     event.preventDefault();
+    setSaving(true);
     if (isFormValid()) {
       if (clothing.id) {
-        api.editClothing(clothing);
+        api
+          .editClothing(clothing)
+          .then(() => savingSuccessful())
+          .catch((error) => savingUnsucessful(error));
       } else {
-        api.saveClothing(clothing);
+        api
+          .saveClothing(clothing)
+          .then(() => savingSuccessful())
+          .catch((error) => savingUnsucessful(error));
       }
-      setSaveSuccessful(true);
-      toast.success("Clothing saved!");
     }
+  }
+
+  function savingSuccessful() {
+    setSaveSuccessful(true);
+    toast.success("Clothing saved!");
+  }
+
+  function savingUnsucessful(error) {
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      onSave: error.message,
+    }));
+    setSaving(false);
   }
 
   function isFormValid() {
@@ -122,6 +141,7 @@ const ClothingContainer = (props) => {
         types={types}
         colors={colors}
         errors={errors}
+        saving={saving}
       />
     </div>
   );

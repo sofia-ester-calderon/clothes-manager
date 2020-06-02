@@ -1,11 +1,18 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import {
+  render,
+  screen,
+  fireEvent,
+  waitForDomChange,
+} from "@testing-library/react";
 import ClothingContainer from "../../Clothes/Clothing/ClothingContainer";
 import { Colors } from "../../../data/data";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 
-jest.mock("../../../data/mockApi", () => ({
+jest.mock("axios");
+
+jest.mock("../../../api/mockApi", () => ({
   getClothing: () => ({
     id: 1,
     category: "Tops",
@@ -14,8 +21,8 @@ jest.mock("../../../data/mockApi", () => ({
     rating: 5,
     occasion: "Everyday",
   }),
-  saveClothing: () => jest.fn(),
-  editClothing: () => jest.fn(),
+  saveClothing: jest.fn().mockResolvedValue(),
+  editClothing: jest.fn().mockRejectedValue({ message: "Error message" }),
 }));
 
 function renderClothingContainer(args) {
@@ -157,8 +164,23 @@ describe("saving clothing", () => {
     screen.getByText("Occasion is required");
   });
 
+  it("should disable button and set btn text to saving when post request is processed", async () => {
+    renderClothingContainer({ match: { params: { id: 1 } } });
+
+    fireEvent.click(screen.getByText("Save"));
+
+    screen.getByText("Saving...");
+    expect(screen.getByText("Saving...")).toBeDisabled();
+
+    await waitForDomChange();
+  });
+
   it("should redirect to clothes list if save successful", async () => {
     renderClothingContainer();
+
+    // Title of the form should be displayed
+    screen.getByText("Add New Piece of Clothing");
+
     // set all necessary params for clothing
     fireEvent.change(screen.getByDisplayValue("Select Category"), {
       target: { value: "Tops" },
@@ -174,6 +196,19 @@ describe("saving clothing", () => {
     });
     fireEvent.click(screen.getByText("Save"));
 
-    screen.findByText("All My Clothes");
+    await waitForDomChange();
+
+    // After redirect title should not be displayed anymore
+    expect(
+      screen.queryByText("Add New Piece of Clothing")
+    ).not.toBeInTheDocument();
+  });
+
+  it("should not redirect and display error message if saving-post was unsuccessful", async () => {
+    renderClothingContainer({ match: { params: { id: 1 } } });
+
+    fireEvent.click(screen.getByText("Save"));
+
+    await screen.findByText("Error saving: Error message");
   });
 });
