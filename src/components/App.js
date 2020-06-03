@@ -6,18 +6,21 @@ import styles from "./App.module.css";
 import { Route, Switch } from "react-router-dom";
 import Home from "./home/Home";
 import AllClothesContainer from "./clothes/clothesList/AllClothesContainer";
+import ApiErrorProvider from "../hooks/ApiErrorProvider";
 
 function App() {
   return (
     <>
       <Header />
       <div className={styles.layout}>
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/clothing/:id" component={ClothingContainer} />
-          <Route path="/clothing" component={ClothingContainer} />
-          <Route path="/clothes" component={AllClothesContainer} />
-        </Switch>
+        <ApiErrorProvider>
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/clothing/:id" component={ClothingContainer} />
+            <Route path="/clothing" component={ClothingContainer} />
+            <Route path="/clothes" component={AllClothesContainer} />
+          </Switch>
+        </ApiErrorProvider>
       </div>
       <ToastContainer autoClose={2000} />
     </>

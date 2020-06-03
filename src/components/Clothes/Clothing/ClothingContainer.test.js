@@ -204,11 +204,11 @@ describe("saving clothing", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("should not redirect and display error message if saving-post was unsuccessful", async () => {
+  it("should not redirect if saving-post was unsuccessful", async () => {
     renderClothingContainer({ match: { params: { id: 1 } } });
 
     fireEvent.click(screen.getByText("Save"));
 
-    await screen.findByText("Error saving: Error message");
+    await screen.findByText("Edit Clothing");
   });
 });

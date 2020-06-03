@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import styles from "./Clothing.module.css";
 import { Redirect } from "react-router-dom";
 import * as api from "../../../api/mockApi";
+import withApiErrorHandler from "../../hoc/withApiErrorHandler";
 
 const ClothingContainer = (props) => {
   const [clothing, setClothing] = useState(emptyClothing);
@@ -28,18 +29,19 @@ const ClothingContainer = (props) => {
 
   function saveClothesHandler(event) {
     event.preventDefault();
-    setSaving(true);
+
     if (isFormValid()) {
+      setSaving(true);
       if (clothing.id) {
         api
           .editClothing(clothing)
           .then(() => savingSuccessful())
-          .catch((error) => savingUnsucessful(error));
+          .catch(() => savingUnsucessful());
       } else {
         api
           .saveClothing(clothing)
           .then(() => savingSuccessful())
-          .catch((error) => savingUnsucessful(error));
+          .catch(() => savingUnsucessful());
       }
     }
   }
@@ -49,11 +51,7 @@ const ClothingContainer = (props) => {
     toast.success("Clothing saved!");
   }
 
-  function savingUnsucessful(error) {
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      onSave: error.message,
-    }));
+  function savingUnsucessful() {
     setSaving(false);
   }
 
@@ -147,4 +145,4 @@ const ClothingContainer = (props) => {
   );
 };
 
-export default ClothingContainer;
+export default withApiErrorHandler(ClothingContainer);
