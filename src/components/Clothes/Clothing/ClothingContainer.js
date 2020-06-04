@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 import styles from "./Clothing.module.css";
 import { Redirect } from "react-router-dom";
 import * as api from "../../../api/mockApi";
-import withApiErrorHandler from "../../hoc/withApiErrorHandler";
 
 const ClothingContainer = (props) => {
   const [clothing, setClothing] = useState(emptyClothing);
@@ -35,13 +34,11 @@ const ClothingContainer = (props) => {
       if (clothing.id) {
         api
           .editClothing(clothing)
-          .then(() => savingSuccessful())
-          .catch(() => savingUnsucessful());
+          .then((data) => (data ? savingSuccessful() : savingUnsucessful()));
       } else {
         api
           .saveClothing(clothing)
-          .then(() => savingSuccessful())
-          .catch(() => savingUnsucessful());
+          .then((data) => (data ? savingSuccessful() : savingUnsucessful()));
       }
     }
   }
@@ -145,4 +142,4 @@ const ClothingContainer = (props) => {
   );
 };
 
-export default withApiErrorHandler(ClothingContainer);
+export default ClothingContainer;

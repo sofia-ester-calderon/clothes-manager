@@ -21,8 +21,8 @@ jest.mock("../../../api/mockApi", () => ({
     rating: 5,
     occasion: "Everyday",
   }),
-  saveClothing: jest.fn().mockResolvedValue(),
-  editClothing: jest.fn().mockRejectedValue({ message: "Error message" }),
+  saveClothing: jest.fn().mockResolvedValue({ data: "data" }),
+  editClothing: jest.fn().mockResolvedValue(),
 }));
 
 function renderClothingContainer(args) {
@@ -157,7 +157,6 @@ describe("saving clothing", () => {
     renderClothingContainer();
 
     fireEvent.click(screen.getByText("Save"));
-    expect(screen.queryAllByRole("alert")).toHaveLength(4);
     screen.getByText("Category is required");
     screen.getByText("Type is required");
     screen.getByText("Min. one color is required");

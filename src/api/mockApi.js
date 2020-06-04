@@ -1,5 +1,5 @@
 import { clothesData } from "../data/data";
-import axios from "axios";
+import axios from "../api/axios-clothes";
 
 let allClothes = clothesData;
 
@@ -18,5 +18,5 @@ export async function saveClothing(clothing) {
 }
 
 export function editClothing(clothing) {
-  return axios.put("/clothes.json", clothing);
+  return axios.put("/clothes.jsoddddn", clothing);
 }
