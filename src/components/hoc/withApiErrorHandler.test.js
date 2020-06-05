@@ -36,10 +36,13 @@ it("should render modal when api response error was thrown", () => {
       message: errorMessage,
     });
   });
-  renderWithApiErrorHandler();
 
-  screen.getByText("Please try again later!");
-  screen.getByText(`Ooooops, there was an error: ${errorMessage}`);
+  expect(() => {
+    render(renderWithApiErrorHandler()).toThrow();
+    console.log("HERE");
+    screen.getByText("Please try again later!");
+    screen.getByText(`Ooooops, there was an error: ${errorMessage}`);
+  });
 });
 
 it("should not render modal when no api response error was thrown", () => {
