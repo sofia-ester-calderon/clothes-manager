@@ -14,9 +14,12 @@ const AllClothesContainer = () => {
   });
 
   useEffect(() => {
-    const clothes = api.getClothes();
-    setAllClothes(clothes);
-    setFilteredClothes(clothes);
+    async function getClothesFromApi() {
+      const clothes = await api.getClothes();
+      setAllClothes(clothes);
+      setFilteredClothes(clothes);
+    }
+    getClothesFromApi();
   }, []);
 
   useEffect(() => {

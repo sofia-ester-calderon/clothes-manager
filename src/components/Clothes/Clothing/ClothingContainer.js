@@ -17,12 +17,14 @@ const ClothingContainer = (props) => {
   useEffect(() => {
     const clothingId = props.match.params.id;
     if (clothingId) {
-      const clothingDisplay = api.getClothing(clothingId);
-      setClothing(clothingDisplay);
-      determineTypesFromCategory(clothingDisplay.category);
-      setColors(
-        Colors.filter((color) => !clothingDisplay.colors.includes(color.name))
-      );
+      api.getClothing(clothingId).then((data) => {
+        const clothingDisplay = data;
+        setClothing(clothingDisplay);
+        determineTypesFromCategory(clothingDisplay.category);
+        setColors(
+          Colors.filter((color) => !clothingDisplay.colors.includes(color.name))
+        );
+      });
     }
   }, [props.match.params.id]);
 
@@ -34,11 +36,13 @@ const ClothingContainer = (props) => {
       if (clothing.id) {
         api
           .editClothing(clothing)
-          .then((data) => (data ? savingSuccessful() : savingUnsucessful()));
+          .then(() => savingSuccessful())
+          .catch(() => savingUnsucessful());
       } else {
         api
           .saveClothing(clothing)
-          .then((data) => (data ? savingSuccessful() : savingUnsucessful()));
+          .then(() => savingSuccessful())
+          .catch(() => savingUnsucessful());
       }
     }
   }

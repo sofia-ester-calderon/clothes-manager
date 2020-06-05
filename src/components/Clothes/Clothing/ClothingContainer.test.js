@@ -13,7 +13,7 @@ import { createMemoryHistory } from "history";
 jest.mock("axios");
 
 jest.mock("../../../api/mockApi", () => ({
-  getClothing: () => ({
+  getClothing: jest.fn().mockResolvedValue({
     id: 1,
     category: "Tops",
     type: "Sweater",
@@ -22,7 +22,7 @@ jest.mock("../../../api/mockApi", () => ({
     occasion: "Everyday",
   }),
   saveClothing: jest.fn().mockResolvedValue({ data: "data" }),
-  editClothing: jest.fn().mockResolvedValue(),
+  editClothing: jest.fn().mockRejectedValue(),
 }));
 
 function renderClothingContainer(args) {
@@ -48,13 +48,13 @@ describe("add or edit clothing", () => {
     screen.getByDisplayValue("Select Occasion");
   });
 
-  it("should display header 'Edit Clothing' and filled form when id is passed", () => {
+  it("should display header 'Edit Clothing' and filled form when id is passed", async () => {
     renderClothingContainer({ match: { params: { id: 1 } } });
-    screen.getByText("Edit Clothing");
-    screen.getByDisplayValue("Tops");
-    screen.getByDisplayValue("Sweater");
-    screen.getByDisplayValue("Red");
-    screen.getByDisplayValue("Everyday");
+    await screen.findByText("Edit Clothing");
+    await screen.findByDisplayValue("Tops");
+    await screen.findByDisplayValue("Sweater");
+    await screen.findByDisplayValue("Red");
+    await screen.findByDisplayValue("Everyday");
   });
 });
 
@@ -166,6 +166,18 @@ describe("saving clothing", () => {
   it("should disable button and set btn text to saving when post request is processed", async () => {
     renderClothingContainer({ match: { params: { id: 1 } } });
 
+    fireEvent.change(screen.getByDisplayValue("Select Category"), {
+      target: { value: "Tops" },
+    });
+    fireEvent.change(screen.getByDisplayValue("Select Type"), {
+      target: { value: "Sweater" },
+    });
+    fireEvent.change(screen.getByDisplayValue("Select Color"), {
+      target: { value: "Red" },
+    });
+    fireEvent.change(screen.getByDisplayValue("Select Occasion"), {
+      target: { value: "Formal" },
+    });
     fireEvent.click(screen.getByText("Save"));
 
     screen.getByText("Saving...");
