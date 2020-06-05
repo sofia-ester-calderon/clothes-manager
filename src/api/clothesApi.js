@@ -1,4 +1,4 @@
-import axios from "../api/axios-clothes";
+import axios from "./axios-clothes";
 
 export async function getClothes() {
   const clothesData = await axios.get("/clothes.json");

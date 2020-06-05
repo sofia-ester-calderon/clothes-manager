@@ -4,7 +4,7 @@ import { Types, Colors, emptyClothing } from "../../../data/data";
 import { toast } from "react-toastify";
 import styles from "./Clothing.module.css";
 import { Redirect } from "react-router-dom";
-import * as api from "../../../api/mockApi";
+import * as api from "../../../api/clothesApi";
 
 const ClothingContainer = (props) => {
   const [clothing, setClothing] = useState(emptyClothing);

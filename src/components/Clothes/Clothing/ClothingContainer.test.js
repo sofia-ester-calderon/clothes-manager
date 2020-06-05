@@ -12,7 +12,7 @@ import { createMemoryHistory } from "history";
 
 jest.mock("axios");
 
-jest.mock("../../../api/mockApi", () => ({
+jest.mock("../../../api/clothesApi", () => ({
   getClothing: jest.fn().mockResolvedValue({
     id: 1,
     category: "Tops",

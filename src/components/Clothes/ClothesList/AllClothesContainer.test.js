@@ -31,7 +31,7 @@ const mockClothes = [
   },
 ];
 
-jest.mock("../../../api/mockApi", () => ({
+jest.mock("../../../api/clothesApi", () => ({
   getClothes: jest.fn().mockResolvedValue([
     {
       id: 1,
