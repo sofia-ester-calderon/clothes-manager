@@ -70,6 +70,7 @@ const AllClothesContainer = () => {
   }
 
   function deleteClothingHandler(deleteId) {
+    api.deleteClothing(deleteId);
     setAllClothes((prevClothes) =>
       prevClothes.filter((clothing) => clothing.id !== deleteId)
     );

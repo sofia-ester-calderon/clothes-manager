@@ -66,6 +66,7 @@ jest.mock("../../../api/mockApi", () => ({
     rating: 5,
     occasion: "Everyday",
   }),
+  deleteClothing: jest.fn().mockResolvedValue(),
 }));
 
 beforeAll(() => {});

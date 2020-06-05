@@ -19,6 +19,10 @@ export async function editClothing(clothing) {
   return axios.put("/clothes.json", jsonClothing);
 }
 
+export function deleteClothing(id) {
+  axios.delete(`/clothes/${id}.json`);
+}
+
 // Just because using firebase
 function transformJsonToArray(json) {
   const clothesValues = Object.values(json);
