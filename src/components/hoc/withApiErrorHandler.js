@@ -1,20 +1,26 @@
 import React, { useState, useEffect, useContext } from "react";
 import Modal from "react-modal";
 import { ApiErrorContext } from "../../hooks/ApiErrorProvider";
+import Spinner from "../common/spinner/Spinner";
 
 const withApiErrorHandler = (WrappedComponent) => {
   return (props) => {
-    const { errorMessage, setErrorMessage } = useContext(ApiErrorContext);
+    const { apiStatus, setApiStatus } = useContext(ApiErrorContext);
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-      if (errorMessage) {
+      if (apiStatus.errorMessage || apiStatus.loading) {
         setOpen(true);
       }
-    }, [errorMessage]);
+      if (!apiStatus.errorMessage && !apiStatus.loading) {
+        setOpen(false);
+      }
+    }, [apiStatus]);
 
     const customStyles = {
       content: {
+        height: "30%",
+        width: "50%",
         top: "50%",
         left: "50%",
         right: "auto",
@@ -24,16 +30,23 @@ const withApiErrorHandler = (WrappedComponent) => {
       },
     };
 
+    const btnStyle = {
+      position: "absolute",
+      bottom: "15px",
+    };
+
     function closeModal() {
-      setOpen(false);
-      setErrorMessage(null);
+      if (!apiStatus.loading) {
+        setOpen(false);
+        setApiStatus({ loading: false, errorMessage: null });
+      }
     }
 
     Modal.setAppElement("body");
 
     return (
       <ApiErrorContext.Consumer>
-        {(value) => (
+        {() => (
           <>
             <Modal
               isOpen={open}
@@ -41,14 +54,30 @@ const withApiErrorHandler = (WrappedComponent) => {
               style={customStyles}
               contentLabel="Error Modal"
             >
-              <div role="alert" className="text-danger">
-                <h4>Sorry</h4>
-                <p>Ooooops, there was an error: {errorMessage}</p>
-                <p>Please try again later!</p>
-                <button className="btn btn-secondary" onClick={closeModal}>
-                  OK
-                </button>
-              </div>
+              {apiStatus.errorMessage && (
+                <div role="alert" className="text-danger">
+                  <h4>Sorry</h4>
+                  <p>
+                    Ooooops, there was an error:{" "}
+                    {apiStatus ? apiStatus.errorMessage : null}
+                  </p>
+                  <p>Please try again later!</p>
+                  <button
+                    style={btnStyle}
+                    className="btn btn-secondary"
+                    onClick={closeModal}
+                  >
+                    OK
+                  </button>
+                </div>
+              )}
+              {apiStatus.loading && (
+                <>
+                  {" "}
+                  <Spinner />
+                  <h4 style={btnStyle}>Loading...</h4>
+                </>
+              )}
             </Modal>
             <WrappedComponent {...props} />
           </>

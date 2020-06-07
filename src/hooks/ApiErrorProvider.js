@@ -1,26 +1,49 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axiosInstance from "../api/axios-clothes";
 
-export const ApiErrorContext = React.createContext("");
+export const ApiErrorContext = React.createContext();
 
 function ApiErrorProvider({ children }) {
-  const [errorMessage, setErrorMessage] = useState(null);
-
-  axiosInstance.interceptors.request.use((req) => {
-    setErrorMessage(null);
-    return req;
+  const [reqInterceptor, setReqInterceptor] = useState(-1);
+  const [respInterceptor, setRespInterceptor] = useState(-1);
+  const [apiStatus, setApiStatus] = useState({
+    errorMessage: null,
+    loading: false,
   });
-  axiosInstance.interceptors.response.use(
-    (res) => res,
-    (error) => {
-      setErrorMessage(error.message);
-      throw error;
-    }
-  );
+
+  if (reqInterceptor < 0) {
+    const interceptor = axiosInstance.interceptors.request.use((req) => {
+      setApiStatus({ loading: true, errorMessage: null });
+      return req;
+    });
+    setReqInterceptor(interceptor);
+  }
+
+  if (respInterceptor < 0) {
+    const interceptor = axiosInstance.interceptors.response.use(
+      (res) => {
+        setApiStatus({ loading: false, errorMessage: null });
+        return res;
+      },
+      (error) => {
+        setApiStatus({ loading: false, errorMessage: error.message });
+        throw error;
+      }
+    );
+    setRespInterceptor(interceptor);
+  }
+
+  useEffect(() => {
+    axiosInstance.interceptors.request.eject(reqInterceptor - 1);
+  }, [reqInterceptor]);
+
+  useEffect(() => {
+    axiosInstance.interceptors.response.eject(respInterceptor - 1);
+  }, [respInterceptor]);
 
   return (
-    <ApiErrorContext.Provider value={{ errorMessage, setErrorMessage }}>
+    <ApiErrorContext.Provider value={{ apiStatus, setApiStatus }}>
       {children}
     </ApiErrorContext.Provider>
   );

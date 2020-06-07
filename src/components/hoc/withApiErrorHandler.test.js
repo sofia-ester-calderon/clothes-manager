@@ -26,7 +26,16 @@ it("should not render any modal on initial load", () => {
   expect(screen.queryByText("Please try again later!")).not.toBeInTheDocument();
 });
 
-it("should render modal when api response error was thrown", () => {
+it("should render modal with spinner when request was fired", () => {
+  axios.interceptors.request.use = jest.fn((successCb, failCb) => {
+    successCb();
+  });
+
+  renderWithApiErrorHandler();
+  screen.getByText("Loading...");
+});
+
+it("should render modal with error message when api response error was thrown", () => {
   const errorMessage = "error message";
   axios.interceptors.response.use = jest.fn((successCb, failCb) => {
     failCb({
@@ -38,8 +47,7 @@ it("should render modal when api response error was thrown", () => {
   });
 
   expect(() => {
-    render(renderWithApiErrorHandler()).toThrow();
-    console.log("HERE");
+    renderWithApiErrorHandler().toThrow();
     screen.getByText("Please try again later!");
     screen.getByText(`Ooooops, there was an error: ${errorMessage}`);
   });
