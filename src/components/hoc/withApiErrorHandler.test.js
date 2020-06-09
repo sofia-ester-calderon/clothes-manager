@@ -26,9 +26,9 @@ it("should not render any modal on initial load", () => {
   expect(screen.queryByText("Please try again later!")).not.toBeInTheDocument();
 });
 
-it("should render modal with spinner when request was fired", () => {
+it("should render modal with spinner when get request was fired", () => {
   axios.interceptors.request.use = jest.fn((successCb, failCb) => {
-    successCb();
+    successCb({ method: "get" });
   });
 
   renderWithApiErrorHandler();
