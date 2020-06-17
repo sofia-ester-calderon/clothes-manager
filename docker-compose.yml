@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  reactapp:
+    build: .
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    stdin_open: true
+  db:
+    image: postgres
