@@ -4,6 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import Home from "../home/Home";
 import AllClothesContainer from "../clothes/clothesList/AllClothesContainer";
 import withApiErrorHandler from "../hoc/withApiErrorHandler";
+import ColorsContainer from "../colors/ColorsContainer";
 
 function RoutingComponent() {
   return (
@@ -12,6 +13,7 @@ function RoutingComponent() {
       <Route path="/clothing/:id" component={ClothingContainer} />
       <Route path="/clothing" component={ClothingContainer} />
       <Route path="/clothes" component={AllClothesContainer} />
+      <Route path="/colors" component={ColorsContainer} />
     </Switch>
   );
 }

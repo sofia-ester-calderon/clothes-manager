@@ -4,6 +4,7 @@ import RatingInput from "../../common/inputs/rating/RatingInput";
 import { Categories, Occasion } from "../../../data/data";
 import ColorSelector from "./ColorSelector";
 import { PropTypes } from "prop-types";
+import SaveButton from "../../common/buttons/SaveButton";
 
 const ClothingForm = ({
   clothing,
@@ -100,9 +101,7 @@ const ClothingForm = ({
 
       <RatingInput onChange={onChange} rating={clothing.rating} />
 
-      <button type="submit" className="btn btn btn-dark mt-3" disabled={saving}>
-        {saving ? "Saving..." : "Save"}
-      </button>
+      <SaveButton saving={saving} />
     </form>
   );
 };

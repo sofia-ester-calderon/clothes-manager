@@ -39,6 +39,8 @@ export const Colors = [
   { name: "Black", rgb: "#000000" },
 ];
 
+export const emptyColor = { name: "", rgb: "" };
+
 export const Occasion = ["Sport", "Formal", "Everyday"];
 
 export const emptyClothing = {
