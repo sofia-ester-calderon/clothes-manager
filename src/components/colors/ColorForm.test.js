@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import ColorForm from "./ColorForm";
 
-const color = { name: "Red", rgb: "#FF1100" };
+const color = { name: "Red", hash: "#FF1100" };
 
 HTMLCanvasElement.prototype.getContext = jest.fn();
 
@@ -22,5 +22,5 @@ it("should render the color name and hex", () => {
 
   const input = screen.getByLabelText("Name");
   expect(input.value).toBe(color.name);
-  screen.getByDisplayValue(color.rgb);
+  screen.getByDisplayValue(color.hash);
 });

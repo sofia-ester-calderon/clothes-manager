@@ -9,27 +9,34 @@ HTMLCanvasElement.prototype.getContext = jest.fn();
 const history = { push: jest.fn() };
 const url = "/url";
 
-function renderColorsContainer(args) {
+jest.mock("../../api/colorsApi", () => ({
+  getColors: jest.fn().mockResolvedValue([
+    { id: "abc", name: "Red", hash: "#ff1100" },
+    { id: "def", name: "Green", hash: "#00a80b" },
+  ]),
+}));
+
+async function renderColorsContainer(args) {
   const defaultProps = { match: { url }, history };
   const props = { ...defaultProps, ...args };
-  return render(
+  render(
     <Router history={createMemoryHistory()}>
       <ColorsContainer {...props} />
     </Router>
   );
+  await screen.findByText("Red");
 }
 
-it("should display the colors list", () => {
-  renderColorsContainer();
+it("should display the colors list", async () => {
+  await renderColorsContainer();
 
   screen.getByText("Red");
   screen.getByText("Green");
 });
 
-it("should route to the color details when color is clicked", () => {
-  const colorName = "Red";
-  renderColorsContainer();
+it("should route to the color details when color is clicked", async () => {
+  await renderColorsContainer();
 
-  fireEvent.click(screen.getByText(colorName));
-  expect(history.push).toHaveBeenCalledWith(url + "/" + colorName);
+  fireEvent.click(screen.getByText("Red"));
+  expect(history.push).toHaveBeenCalledWith(url + "/abc");
 });

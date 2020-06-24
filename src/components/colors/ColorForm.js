@@ -16,7 +16,7 @@ const ColorForm = ({ color, onChangeColor, onSave, onCancel }) => {
           onChange={onChangeColor}
         />
         <label className="font-weight-bold">Color</label>
-        <ChromePicker color={color.rgb} onChangeComplete={onChangeColor} />
+        <ChromePicker color={color.hash} onChangeComplete={onChangeColor} />
 
         <SaveButton />
         <button className="btn btn btn-secondary mt-3 ml-3" onClick={onCancel}>

@@ -6,25 +6,32 @@ HTMLCanvasElement.prototype.getContext = jest.fn();
 
 const history = { push: jest.fn() };
 
-function renderDetailContainer(args) {
+jest.mock("../../api/colorsApi", () => ({
+  getColor: jest
+    .fn()
+    .mockResolvedValue({ id: "abc", name: "Red", hash: "#ff1100" }),
+}));
+
+async function renderDetailContainer(args) {
   const defaultProps = {
     match: { params: { id: "Red" } },
     history,
   };
   const props = { ...defaultProps, ...args };
-  return render(<ColorDetailContainer {...props} />);
+  render(<ColorDetailContainer {...props} />);
+  await screen.findByDisplayValue("Red");
 }
 
 describe("display and edit color", () => {
-  it("should display the given color", () => {
-    renderDetailContainer();
+  it("should display the given color", async () => {
+    await renderDetailContainer();
 
     screen.getByDisplayValue("Red");
     screen.getByDisplayValue("#FF1100");
   });
 
-  it("should change the name of the color", () => {
-    renderDetailContainer();
+  it("should change the name of the color", async () => {
+    await renderDetailContainer();
     fireEvent.change(screen.getByDisplayValue("Red"), {
       target: { value: "Blue" },
     });
@@ -34,8 +41,8 @@ describe("display and edit color", () => {
 });
 
 describe("cancel", () => {
-  it("should not display component anymore when cancelled", () => {
-    renderDetailContainer();
+  it("should not display component anymore when cancelled", async () => {
+    await renderDetailContainer();
     screen.getByDisplayValue("Red");
     fireEvent.click(screen.getByText("Cancel"));
     expect(history.push).toHaveBeenCalledWith("/colors");

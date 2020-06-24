@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import ColorForm from "./ColorForm";
-import { Colors, emptyColor } from "../../data/data";
+import { emptyColor } from "../../data/data";
+import * as api from "../../api/colorsApi";
 
 const ColorDetailContainer = (props) => {
   const [color, setColor] = useState(emptyColor);
 
   useEffect(() => {
-    const color = Colors.find((color) => color.name === props.match.params.id);
-    setColor(color);
+    async function getColorFromApi() {
+      const colorData = await api.getColor(props.match.params.id);
+      setColor(colorData);
+    }
+    getColorFromApi();
   }, [props.match.params.id]);
 
   function saveColorHandler(event) {
@@ -26,7 +30,7 @@ const ColorDetailContainer = (props) => {
       setColor((prevColor) => ({ ...prevColor, [name]: value }));
     }
     if (event.hex) {
-      setColor((prevColor) => ({ ...prevColor, rgb: event.hex }));
+      setColor((prevColor) => ({ ...prevColor, hash: event.hex }));
     }
   }
 
