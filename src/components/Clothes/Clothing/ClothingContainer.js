@@ -1,39 +1,45 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ClothingForm from "./ClothingForm";
 import { Types, Colors, emptyClothing } from "../../../data/data";
 import { toast } from "react-toastify";
 import styles from "./Clothing.module.css";
 import { Redirect } from "react-router-dom";
 import * as api from "../../../api/clothesApi";
+import { AllColorsContext } from "../../../hooks/AllColorsProvider";
 
 const ClothingContainer = (props) => {
   const [clothing, setClothing] = useState(emptyClothing);
   const [types, setTypes] = useState(clothing.category === "" ? [] : Types);
   const [colors, setColors] = useState([]);
-  const [allColors, setAllColors] = useState([]);
   const [errors, setErrors] = useState({});
   const [saveSuccessful, setSaveSuccessful] = useState(false);
   const [saving, setSaving] = useState(false);
+
+  const allColors = useContext(AllColorsContext);
 
   useEffect(() => {
     async function getClothingFromApi(id) {
       const clothingDisplay = await api.getClothing(id);
       setClothing(clothingDisplay);
       determineTypesFromCategory(clothingDisplay.category);
-      setColors(
-        colorsFromApi.filter(
-          (color) => !clothingDisplay.colors.includes(color.id)
-        )
-      );
     }
-    const colorsFromApi = Colors;
-    setColors(colorsFromApi);
-    setAllColors(colorsFromApi);
     const clothingId = props.match.params.id;
     if (clothingId) {
       getClothingFromApi(clothingId);
     }
   }, [props.match.params.id]);
+
+  useEffect(() => {
+    if (allColors.length > 0 && clothing.id) {
+      console.log("set all colors of clothing", clothing);
+      setColors(
+        allColors.filter((color) => !clothing.colors.includes(color.id))
+      );
+    }
+    if (!clothing.id && clothing.colors.length === 0) {
+      setColors(allColors);
+    }
+  }, [allColors, clothing]);
 
   function saveClothesHandler(event) {
     event.preventDefault();
@@ -138,18 +144,23 @@ const ClothingContainer = (props) => {
     <Redirect to="/clothes" />
   ) : (
     <div className={styles.layout}>
-      <ClothingForm
-        clothing={clothing}
-        onSave={saveClothesHandler}
-        onChange={changeClothingHandler}
-        onRemoveColor={removeColorHandler}
-        onChangeColor={changeColorHandler}
-        types={types}
-        colors={colors}
-        errors={errors}
-        saving={saving}
-        allColors={allColors}
-      />
+      <AllColorsContext.Consumer>
+        {() => {
+          return allColors.length > 0 ? (
+            <ClothingForm
+              clothing={clothing}
+              onSave={saveClothesHandler}
+              onChange={changeClothingHandler}
+              onRemoveColor={removeColorHandler}
+              onChangeColor={changeColorHandler}
+              types={types}
+              colors={colors}
+              errors={errors}
+              saving={saving}
+            />
+          ) : null;
+        }}
+      </AllColorsContext.Consumer>
     </div>
   );
 };

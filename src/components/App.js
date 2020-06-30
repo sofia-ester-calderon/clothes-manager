@@ -4,6 +4,7 @@ import Header from "./header/Header";
 import styles from "./App.module.css";
 import ApiErrorProvider from "../hooks/ApiErrorProvider";
 import RoutingComponent from "./routing/RoutingComponent";
+import AllColorsProvider from "../hooks/AllColorsProvider";
 
 function App() {
   return (
@@ -11,7 +12,9 @@ function App() {
       <Header />
       <div className={styles.layout}>
         <ApiErrorProvider>
-          <RoutingComponent />
+          <AllColorsProvider>
+            <RoutingComponent />
+          </AllColorsProvider>
         </ApiErrorProvider>
       </div>
       <ToastContainer autoClose={2000} />

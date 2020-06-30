@@ -1,35 +1,8 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import AllClothesContainer from "../../Clothes/ClothesList/AllClothesContainer";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
-
-const mockClothes = [
-  {
-    id: 1,
-    category: "Tops",
-    type: "Sweater",
-    colors: ["def_col_1"],
-    rating: 5,
-    occasion: "Everyday",
-  },
-  {
-    id: 2,
-    category: "Tops",
-    type: "T-Shirt",
-    colors: ["def_col_2"],
-    rating: 4,
-    occasion: "Sport",
-  },
-  {
-    id: 3,
-    category: "Bottoms",
-    type: "Jeans",
-    colors: ["def_col_3"],
-    rating: 2,
-    occasion: "Everyday",
-  },
-];
+import App from "../../App";
 
 jest.mock("../../../api/clothesApi", () => ({
   getClothes: jest.fn().mockResolvedValue([
@@ -62,26 +35,26 @@ jest.mock("../../../api/clothesApi", () => ({
     id: 1,
     category: "Tops",
     type: "Sweater",
-    colors: ["Red"],
+    colors: [],
     rating: 5,
     occasion: "Everyday",
   }),
   deleteClothing: jest.fn().mockResolvedValue(),
 }));
 
-beforeAll(() => {});
-
 async function renderAllClothesContainer() {
   render(
     <Router history={createMemoryHistory()}>
-      <AllClothesContainer />
+      <App />
     </Router>
   );
+  fireEvent.click(screen.getByText("All Clothes"));
+  // Await for everything to be rendered accordingly
   await screen.findByText("Tops (2)");
 }
 
-describe("first rendering", () => {
-  it("should only display clothes of group TOPS", async () => {
+describe("given the page is opened", () => {
+  it("should only display clothes of type 'Tops' - all others are hidden", async () => {
     await renderAllClothesContainer();
     screen.getByText("Sweater");
     screen.getByText("T-Shirt");
@@ -89,71 +62,72 @@ describe("first rendering", () => {
   });
 });
 
-describe("toggle visibility", () => {
-  it("should display clothes of group if collapsed group clicked", async () => {
+describe("given the visibility toggle icon is clicked", () => {
+  it("should display clothes of that type if they were hidden before", async () => {
     await renderAllClothesContainer();
+    expect(screen.queryByText("Jeans")).not.toBeInTheDocument();
     fireEvent.click(screen.getByText("Bottoms (1)"));
-    mockClothes.forEach((clothing) => {
-      screen.getByText(clothing.type);
-    });
+    screen.getByText("Jeans");
   });
 
-  it("should not display clothes of group if displayed group is clicked", async () => {
+  it("should not display clothes of that type if the were displayed before", async () => {
     await renderAllClothesContainer();
+    screen.getByText("Sweater");
+    screen.getByText("T-Shirt");
     fireEvent.click(screen.getByText("Tops (2)"));
-    mockClothes.forEach((clothing) =>
-      expect(screen.queryByText(clothing.type)).not.toBeInTheDocument()
-    );
-  });
-
-  it("should only display clothes of the filtered color", async () => {
-    await renderAllClothesContainer();
-    fireEvent.change(screen.getByDisplayValue("All Colors"), {
-      target: { value: "def_col_2" },
-    });
-    mockClothes.forEach((clothing) => {
-      clothing.colors.includes("def_col_2")
-        ? screen.getByText(clothing.type)
-        : expect(screen.queryByText(clothing.type)).not.toBeInTheDocument();
-    });
-  });
-
-  it("should only display clothes of the filtered occasion", async () => {
-    await renderAllClothesContainer();
-    fireEvent.change(screen.getByDisplayValue("All Occasions"), {
-      target: { value: "Sport" },
-    });
-    mockClothes.forEach((clothing) => {
-      clothing.occasion === "Sport"
-        ? screen.getByText(clothing.type)
-        : expect(screen.queryByText(clothing.type)).not.toBeInTheDocument();
-    });
-  });
-
-  it("should only display clothes of the filtered rating", async () => {
-    await renderAllClothesContainer();
-    fireEvent.change(screen.getByDisplayValue("All Ratings"), {
-      target: { value: "4" },
-    });
-    mockClothes.forEach((clothing) => {
-      clothing.rating === 4
-        ? screen.getByText(clothing.type)
-        : expect(screen.queryByText(clothing.type)).not.toBeInTheDocument();
-    });
+    expect(screen.queryByText("Sweater")).not.toBeInTheDocument();
+    expect(screen.queryByText("T-Shirt")).not.toBeInTheDocument();
   });
 });
 
-describe("edit and delete", () => {
-  it("should not display an item after deleting", async () => {
-    const clothingToDelete = mockClothes[0];
+describe("given a filter is selected", () => {
+  it("should only display clothes of the selected color", async () => {
     await renderAllClothesContainer();
-    fireEvent.click(screen.getAllByAltText("Delete")[0]);
-    expect(screen.queryByText(clothingToDelete.type)).not.toBeInTheDocument();
+    screen.getByText("Sweater");
+    screen.getByText("T-Shirt");
+    fireEvent.change(screen.getByDisplayValue("All Colors"), {
+      target: { value: "def_col_2" },
+    });
+    expect(screen.queryByText("Sweater")).not.toBeInTheDocument();
+    screen.getByText("T-Shirt");
   });
 
-  it("should route to clothing form if edit is clicked", async () => {
+  it("should only display clothes of the selected occasion", async () => {
+    await renderAllClothesContainer();
+    screen.getByText("Sweater");
+    screen.getByText("T-Shirt");
+    fireEvent.change(screen.getByDisplayValue("All Occasions"), {
+      target: { value: "Sport" },
+    });
+    expect(screen.queryByText("Sweater")).not.toBeInTheDocument();
+    screen.getByText("T-Shirt");
+  });
+
+  it("should only display clothes of the selected rating", async () => {
+    await renderAllClothesContainer();
+    screen.getByText("Sweater");
+    screen.getByText("T-Shirt");
+    fireEvent.change(screen.getByDisplayValue("All Ratings"), {
+      target: { value: "5" },
+    });
+    screen.getByText("Sweater");
+    expect(screen.queryByText("T-Shirt")).not.toBeInTheDocument();
+  });
+});
+
+describe("given the delete button of a clothing item is clicked", () => {
+  it("should not display that item", async () => {
+    await renderAllClothesContainer();
+    screen.getByText("Sweater");
+    fireEvent.click(screen.getAllByAltText("Delete")[0]);
+    expect(screen.queryByText("Sweater")).not.toBeInTheDocument();
+  });
+});
+
+describe("given the edit button of a clothing item is clicked", () => {
+  it("should route to edit clothing page", async () => {
     await renderAllClothesContainer();
     fireEvent.click(screen.getAllByAltText("Edit")[0]);
-    screen.findByText("Edit Clothing");
+    await screen.findByText("Edit Clothing");
   });
 });

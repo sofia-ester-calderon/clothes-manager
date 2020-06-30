@@ -9,6 +9,16 @@ import ClothingContainer from "../../Clothes/Clothing/ClothingContainer";
 import { Colors } from "../../../data/data";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
+import { AllColorsContext } from "../../../hooks/AllColorsProvider";
+
+const colors = [
+  { id: "def_col_1", name: "Red", hash: "#ff1100" },
+  { id: "def_col_2", name: "Green", hash: "#00a80b" },
+  { id: "def_col_3", name: "Blue", hash: "#0019bf" },
+  { id: "def_col_4", name: "Yellow", hash: "#edea13" },
+  { id: "def_col_5", name: "White", hash: "#ffffff" },
+  { id: "def_col_6", name: "Black", hash: "#000000" },
+];
 
 jest.mock("axios");
 
@@ -33,7 +43,9 @@ function renderClothingContainer(args) {
 
   return render(
     <Router history={createMemoryHistory()}>
-      <ClothingContainer {...props} />
+      <AllColorsContext.Provider value={colors}>
+        <ClothingContainer {...props} />
+      </AllColorsContext.Provider>
     </Router>
   );
 }
@@ -191,6 +203,7 @@ describe("saving clothing", () => {
 
   it("should redirect to clothes list if save successful", async () => {
     renderClothingContainer();
+    await screen.findByText("Select Color");
 
     // Title of the form should be displayed
     screen.getByText("Add New Piece of Clothing");

@@ -4,6 +4,7 @@ import ClothesList from "./ClothesList";
 import { Categories } from "../../../data/data";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
+import { AllColorsContext } from "../../../hooks/AllColorsProvider";
 
 const typesToDisplay = [Categories[0], Categories[1]];
 const clothes = [
@@ -43,7 +44,6 @@ function renderClothesList(args) {
   const defaultProps = {
     typesToDisplay,
     clothes,
-    colors,
     onClickGroup: jest.fn(),
     onFilter: jest.fn(),
     onDeleteClothing: jest.fn(),
@@ -51,7 +51,9 @@ function renderClothesList(args) {
   const props = { ...defaultProps, ...args };
   return render(
     <Router history={createMemoryHistory()}>
-      <ClothesList {...props} />
+      <AllColorsContext.Provider value={colors}>
+        <ClothesList {...props} />
+      </AllColorsContext.Provider>
     </Router>
   );
 }

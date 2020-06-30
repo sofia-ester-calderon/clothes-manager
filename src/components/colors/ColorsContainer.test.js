@@ -3,11 +3,17 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 import ColorsContainer from "./ColorsContainer";
+import { AllColorsContext } from "../../hooks/AllColorsProvider";
 
 HTMLCanvasElement.prototype.getContext = jest.fn();
 
 const history = { push: jest.fn() };
 const url = "/url";
+
+const mockedColors = [
+  { id: "abc", name: "Red", hash: "#ff1100" },
+  { id: "def", name: "Green", hash: "#00a80b" },
+];
 
 jest.mock("../../api/colorsApi", () => ({
   getColors: jest.fn().mockResolvedValue([
@@ -21,7 +27,9 @@ async function renderColorsContainer(args) {
   const props = { ...defaultProps, ...args };
   render(
     <Router history={createMemoryHistory()}>
-      <ColorsContainer {...props} />
+      <AllColorsContext.Provider value={mockedColors}>
+        <ColorsContainer {...props} />
+      </AllColorsContext.Provider>
     </Router>
   );
   await screen.findByText("Red");

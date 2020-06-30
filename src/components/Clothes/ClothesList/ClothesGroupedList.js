@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { PropTypes } from "prop-types";
 import styles from "./ClothesList.module.css";
 import upArrow from "../../../assets/img/up-arrow.png";
@@ -9,15 +9,17 @@ import IconButton from "../../common/buttons/IconButton";
 import deleteIcon from "../../../assets/img/trash.png";
 import editIcon from "../../../assets/img/edit.png";
 import { Link } from "react-router-dom";
+import { AllColorsContext } from "../../../hooks/AllColorsProvider";
 
 const ClothesGroupedList = ({
   header,
   clothes,
-  colors = [],
   display,
   onClickHeader,
   onDelete,
 }) => {
+  const colors = useContext(AllColorsContext);
+
   const headerStyle = ["thead-light"];
   if (clothes.length > 0) {
     headerStyle.push(styles.groupHeader);
