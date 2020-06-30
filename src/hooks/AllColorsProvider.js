@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Colors } from "../data/data";
+import * as api from "../api/colorsApi";
 
 export const AllColorsContext = React.createContext([]);
 
@@ -8,9 +8,11 @@ function AllColorsProvider({ children }) {
   const [allColors, setAllColors] = useState([]);
 
   useEffect(() => {
-    setTimeout(function () {
-      setAllColors(Colors);
-    }, 1000);
+    async function getColorsFromApi() {
+      const colorData = await api.getColors();
+      setAllColors(colorData);
+    }
+    getColorsFromApi();
   }, []);
 
   return (

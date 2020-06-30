@@ -15,13 +15,6 @@ const mockedColors = [
   { id: "def", name: "Green", hash: "#00a80b" },
 ];
 
-jest.mock("../../api/colorsApi", () => ({
-  getColors: jest.fn().mockResolvedValue([
-    { id: "abc", name: "Red", hash: "#ff1100" },
-    { id: "def", name: "Green", hash: "#00a80b" },
-  ]),
-}));
-
 async function renderColorsContainer(args) {
   const defaultProps = { match: { url }, history };
   const props = { ...defaultProps, ...args };

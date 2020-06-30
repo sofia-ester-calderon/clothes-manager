@@ -31,7 +31,6 @@ const ClothingContainer = (props) => {
 
   useEffect(() => {
     if (allColors.length > 0 && clothing.id) {
-      console.log("set all colors of clothing", clothing);
       setColors(
         allColors.filter((color) => !clothing.colors.includes(color.id))
       );

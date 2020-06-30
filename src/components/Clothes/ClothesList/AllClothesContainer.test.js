@@ -42,6 +42,14 @@ jest.mock("../../../api/clothesApi", () => ({
   deleteClothing: jest.fn().mockResolvedValue(),
 }));
 
+jest.mock("../../../api/colorsApi", () => ({
+  getColors: jest.fn().mockResolvedValue([
+    { id: "def_col_1", name: "Red", hash: "#ff1100" },
+    { id: "def_col_2", name: "Green", hash: "#00a80b" },
+    { id: "def_col_3", name: "Blue", hash: "#0019bf" },
+  ]),
+}));
+
 async function renderAllClothesContainer() {
   render(
     <Router history={createMemoryHistory()}>
