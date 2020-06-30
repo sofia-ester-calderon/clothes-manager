@@ -17,7 +17,7 @@ jest.mock("../../../api/clothesApi", () => ({
     id: 1,
     category: "Tops",
     type: "Sweater",
-    colors: ["Red"],
+    colors: ["def_col_1"],
     rating: 5,
     occasion: "Everyday",
   }),
@@ -75,64 +75,65 @@ describe("change category and types", () => {
 });
 
 describe("change colors", () => {
-  const chosenColor = Colors[0].name;
+  const chosenColor = { id: "def_col_1", name: "Red" };
   it("should display an extra color select box with the selected color and delete button after color was selected", () => {
     renderClothingContainer();
     // Selecting a new color adds a new select box with that color as selected value
     // and changes the original select box's default value to 'Add New Color'
     fireEvent.change(screen.getByDisplayValue("Select Color"), {
-      target: { value: chosenColor },
+      target: { value: chosenColor.id },
     });
-    screen.getByDisplayValue(chosenColor);
+    screen.getByDisplayValue(chosenColor.name);
     screen.getByAltText("Delete");
     screen.getByDisplayValue("Add New Color");
   });
 
-  it("should only display selected color as option of the 'clothing color' select box", () => {
-    const chosenColor2 = Colors[1].name;
+  it("should only display the two selected colors as option of the 'clothing color' select box", () => {
+    const secondChosenColor = { id: "def_col_2", name: "Green" };
 
     renderClothingContainer();
     // Selecting a new color adds a new select box with that color as selected value
     // and changes the original select box's default value to 'Add New Color'
     fireEvent.change(screen.getByDisplayValue("Select Color"), {
-      target: { value: chosenColor },
+      target: { value: chosenColor.id },
     });
     fireEvent.change(screen.getByDisplayValue("Add New Color"), {
-      target: { value: chosenColor2 },
+      target: { value: secondChosenColor.id },
     });
 
     // Selected colors will only be displayed as options in their select boxes
     // All other colors will be displayed as options in all select boxes
     Colors.forEach((color) => {
       const optionsOfColor = screen.queryAllByText(color.name);
-      color.name === chosenColor || color.name === chosenColor2
+      color.name === chosenColor.name || color.name === secondChosenColor.name
         ? expect(optionsOfColor).toHaveLength(1)
         : expect(optionsOfColor).toHaveLength(3);
     });
   });
 
   it("should only display selected color as option of the 'clothing color' select box after changing that color", () => {
-    const chosenColor2 = Colors[1].name;
-    const changedColor = Colors[2].name;
+    const secondChosenColor = { id: "def_col_2", name: "Green" };
+    const changedColor = { id: "def_col_3", name: "Blue" };
+
     // Selecting a new color adds a new select box with that color as selected value
     // and changes the original select box's default value to 'Add New Color'
     renderClothingContainer();
     fireEvent.change(screen.getByDisplayValue("Select Color"), {
-      target: { value: chosenColor },
+      target: { value: chosenColor.id },
     });
     fireEvent.change(screen.getByDisplayValue("Add New Color"), {
-      target: { value: chosenColor2 },
+      target: { value: secondChosenColor.id },
     });
     // Changing a selected color
-    fireEvent.change(screen.getByDisplayValue(chosenColor2), {
-      target: { value: changedColor },
+    fireEvent.change(screen.getByDisplayValue(secondChosenColor.name), {
+      target: { value: changedColor.id },
     });
 
     // Selected colors will only be displayed as options in their select boxes
     // All other colors will be displayed as options in all select boxes
     Colors.forEach((color) => {
       const optionsOfColor = screen.queryAllByText(color.name);
-      color.name === chosenColor || color.name === changedColor
+      color.name === chosenColor.name || color.name === changedColor.name
         ? expect(optionsOfColor).toHaveLength(1)
         : expect(optionsOfColor).toHaveLength(3);
     });
@@ -141,10 +142,12 @@ describe("change colors", () => {
   it("should not display extra color select box when delet button clicked and show all colors as option again (all colors once)", () => {
     renderClothingContainer();
     fireEvent.change(screen.getByDisplayValue("Select Color"), {
-      target: { value: chosenColor },
+      target: { value: chosenColor.id },
     });
     fireEvent.click(screen.getByAltText("Delete"));
-    expect(screen.queryByDisplayValue(chosenColor)).not.toBeInTheDocument();
+    expect(
+      screen.queryByDisplayValue(chosenColor.name)
+    ).not.toBeInTheDocument();
     // All colors should again be displayed in the only color select box
     Colors.forEach((color) =>
       expect(screen.queryAllByText(color.name)).toHaveLength(1)
@@ -173,7 +176,7 @@ describe("saving clothing", () => {
       target: { value: "Sweater" },
     });
     fireEvent.change(screen.getByDisplayValue("Select Color"), {
-      target: { value: "Red" },
+      target: { value: "def_col_1" },
     });
     fireEvent.change(screen.getByDisplayValue("Select Occasion"), {
       target: { value: "Formal" },
@@ -200,7 +203,7 @@ describe("saving clothing", () => {
       target: { value: "Sweater" },
     });
     fireEvent.change(screen.getByDisplayValue("Select Color"), {
-      target: { value: "Red" },
+      target: { value: "def_col_1" },
     });
     fireEvent.change(screen.getByDisplayValue("Select Occasion"), {
       target: { value: "Formal" },

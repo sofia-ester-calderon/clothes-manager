@@ -1,14 +1,13 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import ClothingForm from "../Clothing/ClothingForm";
-import {
-  emptyClothing,
-  Categories,
-  Occasion,
-  Colors,
-  clothesData,
-  Types,
-} from "../../../data/data";
+import { emptyClothing, Categories, Occasion, Types } from "../../../data/data";
+
+const allColors = [
+  { id: "def_col_1", name: "Red", hash: "#ff1100" },
+  { id: "def_col_2", name: "Green", hash: "#00a80b" },
+  { id: "def_col_3", name: "Blue", hash: "#0019bf" },
+];
 
 function renderClothingForm(args) {
   const defaultProps = {
@@ -17,9 +16,10 @@ function renderClothingForm(args) {
     errors: {},
     onChange: jest.fn(),
     types: [],
-    colors: Colors,
+    colors: allColors,
     onRemoveColor: jest.fn(),
     onChangeColor: jest.fn(),
+    allColors,
   };
   const props = { ...defaultProps, ...args };
   return render(<ClothingForm {...props} />);
@@ -61,7 +61,14 @@ describe("form with empty clothing and types as param", () => {
 });
 
 describe("form with clothing and types as param", () => {
-  const clothing = clothesData[1];
+  const clothing = {
+    id: 2,
+    category: "Tops",
+    type: "T-Shirt",
+    colors: ["def_col_1", "def_col_2"],
+    rating: 4,
+    occasion: "Sport",
+  };
   const types = Types;
 
   it("should display category of clothing as selected", () => {
@@ -78,7 +85,8 @@ describe("form with clothing and types as param", () => {
   it("should display select boxes of all clothing colors with each color as selected", () => {
     renderClothingForm({ clothing, types });
     screen.getByText("Color");
-    clothing.colors.forEach((color) => screen.getByDisplayValue(color));
+    screen.getByDisplayValue("Red");
+    screen.getByDisplayValue("Green");
   });
 
   it("should display single select box with 'Add Color' as selected value", () => {

@@ -16,7 +16,6 @@ const ColorDetailContainer = (props) => {
 
   function saveColorHandler(event) {
     event.preventDefault();
-    console.log("save color", color);
   }
 
   function cancelFormHandler(event) {

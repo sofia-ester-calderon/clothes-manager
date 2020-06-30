@@ -22,7 +22,7 @@ const ColorList = ({ colors, onClick }) => {
             >
               <td>{color.name}</td>
               <td>
-                <ColorCircle color={color.name} />
+                <ColorCircle color={color} />
               </td>
             </tr>
           ))}

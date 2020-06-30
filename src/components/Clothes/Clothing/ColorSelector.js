@@ -3,7 +3,6 @@ import SelectInput from "../../common/inputs/select/SelectInput";
 import { PropTypes } from "prop-types";
 import styles from "./Clothing.module.css";
 import IconButton from "../../common/buttons/IconButton";
-import { Colors } from "../../../data/data";
 import ColorCircle from "../../common/specialForms/ColorCircle";
 import deleteIcon from "../../../assets/img/trash.png";
 
@@ -13,14 +12,15 @@ const ColorSelector = ({
   clothingColors = [],
   onColorChanged,
   onColorDeleted,
+  colors = [],
 }) => {
   function getSelectionOptions() {
-    const colorsToDisplay = Colors.filter(
+    const colorsToDisplay = colors.filter(
       (color) =>
-        !clothingColors.includes(color.name) || color.name === selectedColor
+        !clothingColors.includes(color.id) || color.id === selectedColor.id
     );
     return colorsToDisplay.map((color) => ({
-      value: color.name,
+      value: color.id,
       text: color.name,
     }));
   }
@@ -31,7 +31,7 @@ const ColorSelector = ({
         <SelectInput
           name="colors"
           label={label}
-          value={selectedColor}
+          value={selectedColor.id}
           options={getSelectionOptions()}
           onChange={onColorChanged}
         />
@@ -56,10 +56,11 @@ const ColorSelector = ({
 
 ColorSelector.propTypes = {
   label: PropTypes.string,
-  selectedColor: PropTypes.string.isRequired,
+  selectedColor: PropTypes.object.isRequired,
   onColorChanged: PropTypes.func.isRequired,
   onColorDeleted: PropTypes.func.isRequired,
   clothingColors: PropTypes.array,
+  colors: PropTypes.array,
 };
 
 export default ColorSelector;

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import ClothesList from "./ClothesList";
-import { Categories } from "../../../data/data";
+import { Categories, Colors } from "../../../data/data";
 import * as api from "../../../api/clothesApi";
 
 const AllClothesContainer = () => {
   const [allClothes, setAllClothes] = useState([]);
   const [filteredClothes, setFilteredClothes] = useState(allClothes);
   const [typesToDisplay, settypesToDisplay] = useState([Categories[0]]);
+  const [colors, setColors] = useState([]);
   const [filters, setFilter] = useState({
     colors: "",
     occasion: "",
@@ -20,6 +21,7 @@ const AllClothesContainer = () => {
       setFilteredClothes(clothes);
     }
     getClothesFromApi();
+    setColors(Colors);
   }, []);
 
   useEffect(() => {
@@ -83,6 +85,7 @@ const AllClothesContainer = () => {
       onClickCategory={toggleVisibilityHandler}
       onFilter={filterHandler}
       onDeleteClothing={deleteClothingHandler}
+      colors={colors}
     />
   );
 };

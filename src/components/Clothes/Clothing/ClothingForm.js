@@ -16,6 +16,7 @@ const ClothingForm = ({
   onRemoveColor,
   onChangeColor,
   saving = false,
+  allColors,
 }) => {
   return (
     <form onSubmit={onSave}>
@@ -56,20 +57,21 @@ const ClothingForm = ({
         disabled={types.length === 0}
       />
 
-      {clothing.colors.map((color, idx) => {
+      {clothing.colors.map((colorId, idx) => {
         return (
           <ColorSelector
             key={idx}
             label={idx === 0 ? "Color" : null}
-            selectedColor={color}
-            onColorChanged={(e) => onChangeColor(e, color)}
-            onColorDeleted={() => onRemoveColor(color)}
+            selectedColor={allColors.find((color) => color.id === colorId)}
+            onColorChanged={(e) => onChangeColor(e, colorId)}
+            onColorDeleted={() => onRemoveColor(colorId)}
             clothingColors={clothing.colors}
+            colors={allColors}
           />
         );
       })}
 
-      {colors.length !== 0 ? (
+      {colors.length > 0 && (
         <SelectInput
           name="colors"
           label={clothing.colors.length === 0 ? "Color" : null}
@@ -78,13 +80,13 @@ const ClothingForm = ({
             clothing.colors.length === 0 ? "Select Color" : "Add New Color"
           }
           options={colors.map((color) => ({
-            value: color.name,
+            value: color.id,
             text: color.name,
           }))}
           onChange={onChange}
           error={errors.colors}
         />
-      ) : null}
+      )}
 
       <SelectInput
         name="occasion"
@@ -113,6 +115,7 @@ ClothingForm.propTypes = {
   onChange: PropTypes.func.isRequired,
   types: PropTypes.array.isRequired,
   colors: PropTypes.array.isRequired,
+  allColors: PropTypes.array.isRequired,
   onRemoveColor: PropTypes.func.isRequired,
   onChangeColor: PropTypes.func.isRequired,
   saving: PropTypes.bool,

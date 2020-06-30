@@ -9,7 +9,7 @@ const mockClothes = [
     id: 1,
     category: "Tops",
     type: "Sweater",
-    colors: ["Red"],
+    colors: ["def_col_1"],
     rating: 5,
     occasion: "Everyday",
   },
@@ -17,7 +17,7 @@ const mockClothes = [
     id: 2,
     category: "Tops",
     type: "T-Shirt",
-    colors: ["Green"],
+    colors: ["def_col_2"],
     rating: 4,
     occasion: "Sport",
   },
@@ -25,7 +25,7 @@ const mockClothes = [
     id: 3,
     category: "Bottoms",
     type: "Jeans",
-    colors: ["Blue"],
+    colors: ["def_col_3"],
     rating: 2,
     occasion: "Everyday",
   },
@@ -37,7 +37,7 @@ jest.mock("../../../api/clothesApi", () => ({
       id: 1,
       category: "Tops",
       type: "Sweater",
-      colors: ["Red"],
+      colors: ["def_col_1"],
       rating: 5,
       occasion: "Everyday",
     },
@@ -45,7 +45,7 @@ jest.mock("../../../api/clothesApi", () => ({
       id: 2,
       category: "Tops",
       type: "T-Shirt",
-      colors: ["Green"],
+      colors: ["def_col_2"],
       rating: 4,
       occasion: "Sport",
     },
@@ -53,7 +53,7 @@ jest.mock("../../../api/clothesApi", () => ({
       id: 3,
       category: "Bottoms",
       type: "Jeans",
-      colors: ["Blue"],
+      colors: ["def_col_3"],
       rating: 2,
       occasion: "Everyday",
     },
@@ -109,10 +109,10 @@ describe("toggle visibility", () => {
   it("should only display clothes of the filtered color", async () => {
     await renderAllClothesContainer();
     fireEvent.change(screen.getByDisplayValue("All Colors"), {
-      target: { value: "Green" },
+      target: { value: "def_col_2" },
     });
     mockClothes.forEach((clothing) => {
-      clothing.colors.includes("Green")
+      clothing.colors.includes("def_col_2")
         ? screen.getByText(clothing.type)
         : expect(screen.queryByText(clothing.type)).not.toBeInTheDocument();
     });

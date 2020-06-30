@@ -31,19 +31,15 @@ export const Types = [
 ];
 
 export const Colors = [
-  { name: "Red", hash: "#ff1100" },
-  { name: "Green", hash: "#00a80b" },
-  { name: "Blue", hash: "#0019bf" },
-  { name: "Yellow", hash: "#edea13" },
-  { name: "White", hash: "#ffffff" },
-  { name: "Black", hash: "#000000" },
+  { id: "def_col_1", name: "Red", hash: "#ff1100" },
+  { id: "def_col_2", name: "Green", hash: "#00a80b" },
+  { id: "def_col_3", name: "Blue", hash: "#0019bf" },
+  { id: "def_col_4", name: "Yellow", hash: "#edea13" },
+  { id: "def_col_5", name: "White", hash: "#ffffff" },
+  { id: "def_col_6", name: "Black", hash: "#000000" },
 ];
 
 export const emptyColor = { name: "", hash: "" };
-
-export function getColorFromId(id, colors) {
-  return colors.find((color) => color.id === id);
-}
 
 export const Occasion = ["Sport", "Formal", "Everyday"];
 

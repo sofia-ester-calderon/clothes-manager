@@ -33,10 +33,17 @@ const clothes = [
   },
 ];
 
+const colors = [
+  { id: "def_col_1", name: "Red", hash: "#ff1100" },
+  { id: "def_col_2", name: "Green", hash: "#00a80b" },
+  { id: "def_col_3", name: "Blue", hash: "#0019bf" },
+];
+
 function renderClothesList(args) {
   const defaultProps = {
     typesToDisplay,
     clothes,
+    colors,
     onClickGroup: jest.fn(),
     onFilter: jest.fn(),
     onDeleteClothing: jest.fn(),

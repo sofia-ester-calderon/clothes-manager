@@ -9,22 +9,29 @@ import * as api from "../../../api/clothesApi";
 const ClothingContainer = (props) => {
   const [clothing, setClothing] = useState(emptyClothing);
   const [types, setTypes] = useState(clothing.category === "" ? [] : Types);
-  const [colors, setColors] = useState(Colors);
+  const [colors, setColors] = useState([]);
+  const [allColors, setAllColors] = useState([]);
   const [errors, setErrors] = useState({});
   const [saveSuccessful, setSaveSuccessful] = useState(false);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
+    async function getClothingFromApi(id) {
+      const clothingDisplay = await api.getClothing(id);
+      setClothing(clothingDisplay);
+      determineTypesFromCategory(clothingDisplay.category);
+      setColors(
+        colorsFromApi.filter(
+          (color) => !clothingDisplay.colors.includes(color.id)
+        )
+      );
+    }
+    const colorsFromApi = Colors;
+    setColors(colorsFromApi);
+    setAllColors(colorsFromApi);
     const clothingId = props.match.params.id;
     if (clothingId) {
-      api.getClothing(clothingId).then((data) => {
-        const clothingDisplay = data;
-        setClothing(clothingDisplay);
-        determineTypesFromCategory(clothingDisplay.category);
-        setColors(
-          Colors.filter((color) => !clothingDisplay.colors.includes(color.name))
-        );
-      });
+      getClothingFromApi(clothingId);
     }
   }, [props.match.params.id]);
 
@@ -98,7 +105,7 @@ const ClothingContainer = (props) => {
   }
 
   function removeColorFromColorSelection(chosenColor) {
-    setColors(colors.filter((color) => color.name !== chosenColor));
+    setColors(colors.filter((color) => color.id !== chosenColor));
   }
 
   function removeColorHandler(deletedColor) {
@@ -107,7 +114,7 @@ const ClothingContainer = (props) => {
       colors: prevClothing.colors.filter((color) => color !== deletedColor),
     }));
 
-    setColors([...colors, Colors.find((c) => c.name === deletedColor)]);
+    setColors([...colors, Colors.find((c) => c.id === deletedColor)]);
   }
 
   function changeColorHandler(event, prevColor) {
@@ -120,8 +127,8 @@ const ClothingContainer = (props) => {
     }));
 
     const newSelectionColors = colors.map((color) => {
-      return color.name === newColor
-        ? Colors.find((c) => c.name === prevColor)
+      return color.id === newColor
+        ? allColors.find((c) => c.id === prevColor)
         : color;
     });
     setColors(newSelectionColors);
@@ -141,6 +148,7 @@ const ClothingContainer = (props) => {
         colors={colors}
         errors={errors}
         saving={saving}
+        allColors={allColors}
       />
     </div>
   );

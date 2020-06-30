@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import ColorForm from "./ColorForm";
 
-const color = { name: "Red", hash: "#FF1100" };
+const color = { id: "def_col_1", name: "Red", hash: "#FF1100" };
 
 HTMLCanvasElement.prototype.getContext = jest.fn();
 

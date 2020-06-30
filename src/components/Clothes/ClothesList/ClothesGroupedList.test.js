@@ -6,12 +6,18 @@ import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 
 const header = "header";
+const colors = [
+  { id: "def_col_1", name: "Red", hash: "#ff1100" },
+  { id: "def_col_2", name: "Green", hash: "#00a80b" },
+  { id: "def_col_3", name: "Blue", hash: "#0019bf" },
+];
+
 const clothes = [
   {
     id: 1,
     category: TOPS,
     type: "typ2",
-    colors: [Colors[0].name, Colors[1].name, Colors[2].name, Colors[3].name],
+    colors: [colors[0].id, colors[1].id, colors[2].id],
     rating: 1,
     occasion: "occasion",
   },
@@ -21,6 +27,7 @@ function renderClothesGroupedList(args) {
   const defaultProps = {
     header,
     clothes,
+    colors,
     display: true,
     onClickHeader: jest.fn(),
     onDelete: jest.fn(),
