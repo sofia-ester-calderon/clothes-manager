@@ -5,27 +5,28 @@ import {
   transformObjectToJson,
 } from "./firebaseHelper";
 
-const CLOTHES_PREFIX = "/colors";
+const COLORS_PREFIX = "/colors";
 
-export async function getColors() {
-  const colorData = await axios.get(`${CLOTHES_PREFIX}.json`);
+async function getColors() {
+  const colorData = await axios.get(`${COLORS_PREFIX}.json`);
   return transformJsonToArray(colorData.data);
 }
 
-export async function getColor(id) {
-  const color = await axios.get(`${CLOTHES_PREFIX}/${id}.json`);
+async function getColor(id) {
+  const color = await axios.get(`${COLORS_PREFIX}/${id}.json`);
   return transformJsonToObject(color.data, id);
 }
 
-// export async function saveClothing(clothing) {
-//   return axios.post(`${CLOTHES_PREFIX}.json`, clothing);
-// }
+async function editColor(color) {
+  const id = color.id;
+  const jsonClothing = transformObjectToJson(color);
+  return axios.put(`${COLORS_PREFIX}/${id}.json`, jsonClothing);
+}
 
-// export async function editClothing(clothing) {
-//   const jsonClothing = transformObjectToJson(clothing);
-//   return axios.put(`${CLOTHES_PREFIX}.json`, jsonClothing);
-// }
+const colorApi = {
+  getColors,
+  getColor,
+  editColor,
+};
 
-// export function deleteClothing(id) {
-//   axios.delete(`${CLOTHES_PREFIX}/${id}.json`);
-// }
+export default colorApi;

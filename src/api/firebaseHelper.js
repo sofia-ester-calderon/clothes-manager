@@ -15,6 +15,5 @@ export function transformJsonToObject(obj, id) {
 
 export function transformObjectToJson(object) {
   delete object.id;
-  console.log(object);
   return object;
 }

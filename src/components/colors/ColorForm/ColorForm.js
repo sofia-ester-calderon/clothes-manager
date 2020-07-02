@@ -4,7 +4,7 @@ import { PropTypes } from "prop-types";
 import { ChromePicker } from "react-color";
 import SaveButton from "../../common/buttons/SaveButton";
 
-const ColorForm = ({ color, onChangeColor, onSave, onCancel }) => {
+const ColorForm = ({ color, onChangeColor, onSave, onCancel, errors = {} }) => {
   return (
     <>
       <h2>Edit</h2>
@@ -14,6 +14,7 @@ const ColorForm = ({ color, onChangeColor, onSave, onCancel }) => {
           name="name"
           value={color.name}
           onChange={onChangeColor}
+          error={errors.name}
         />
         <label className="font-weight-bold">Color</label>
         <ChromePicker color={color.hash} onChangeComplete={onChangeColor} />

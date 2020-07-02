@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import ColorForm from "./ColorForm";
 import { emptyColor } from "../../../data/data";
-import * as api from "../../../api/colorsApi";
+import colorApi from "../../../api/colorsApi";
 
 const ColorDetailContainer = (props) => {
   const [color, setColor] = useState(emptyColor);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     async function getColorFromApi() {
-      const colorData = await api.getColor(props.match.params.id);
+      const colorData = await colorApi.getColor(props.match.params.id);
       setColor(colorData);
     }
     getColorFromApi();
@@ -16,6 +17,20 @@ const ColorDetailContainer = (props) => {
 
   function saveColorHandler(event) {
     event.preventDefault();
+    if (isFormValid()) {
+      colorApi.editColor(color).then(() => {
+        props.history.push("/colors");
+      });
+    }
+  }
+
+  function isFormValid() {
+    const errors = {};
+    if (!color.name || color.name === "") {
+      errors.name = "Name is required";
+    }
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
   }
 
   function cancelFormHandler(event) {
@@ -39,6 +54,7 @@ const ColorDetailContainer = (props) => {
       onChangeColor={changeColorHandler}
       onSave={saveColorHandler}
       onCancel={cancelFormHandler}
+      errors={errors}
     />
   );
 };
