@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import ApiErrorProvider from "../../hooks/ApiErrorProvider";
 import withApiErrorHandler from "./withApiErrorHandler";
-import axios from "../../api/axios-clothes";
+import axios from "../../api/axios-api";
 
 axios.get = jest.fn().mockResolvedValue();
 

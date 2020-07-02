@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import axiosInstance from "../api/axios-clothes";
+import axiosInstance from "../api/axios-api";
 
 export const ApiErrorContext = React.createContext();
 

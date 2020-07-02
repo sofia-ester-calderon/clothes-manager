@@ -1,4 +1,4 @@
-import axios from "./axios-clothes";
+import axios from "./axios-api";
 import {
   transformJsonToArray,
   transformJsonToObject,

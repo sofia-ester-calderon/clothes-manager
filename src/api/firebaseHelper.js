@@ -13,10 +13,8 @@ export function transformJsonToObject(obj, id) {
   return obj;
 }
 
-export function transformObjectToJson(clothing) {
-  const id = clothing.id;
-  delete clothing.id;
-  const jsonObj = {};
-  jsonObj[id] = clothing;
-  return jsonObj;
+export function transformObjectToJson(object) {
+  delete object.id;
+  console.log(object);
+  return object;
 }

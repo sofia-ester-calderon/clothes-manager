@@ -1,4 +1,4 @@
-import axios from "./axios-clothes";
+import axios from "./axios-api";
 import {
   transformJsonToArray,
   transformJsonToObject,
@@ -22,8 +22,9 @@ export async function saveClothing(clothing) {
 }
 
 export async function editClothing(clothing) {
+  const id = clothing.id;
   const jsonClothing = transformObjectToJson(clothing);
-  return axios.put(`${CLOTHES_PREFIX}.json`, jsonClothing);
+  return axios.put(`${CLOTHES_PREFIX}/${id}.json`, jsonClothing);
 }
 
 export function deleteClothing(id) {
