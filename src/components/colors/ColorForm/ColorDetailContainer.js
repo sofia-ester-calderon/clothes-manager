@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ColorForm from "./ColorForm";
-import { emptyColor } from "../../data/data";
-import * as api from "../../api/colorsApi";
+import { emptyColor } from "../../../data/data";
+import * as api from "../../../api/colorsApi";
 
 const ColorDetailContainer = (props) => {
   const [color, setColor] = useState(emptyColor);

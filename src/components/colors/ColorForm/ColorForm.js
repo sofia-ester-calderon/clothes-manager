@@ -1,8 +1,8 @@
 import React from "react";
-import TextInput from "../common/inputs/text/TextInput";
+import TextInput from "../../common/inputs/text/TextInput";
 import { PropTypes } from "prop-types";
 import { ChromePicker } from "react-color";
-import SaveButton from "../common/buttons/SaveButton";
+import SaveButton from "../../common/buttons/SaveButton";
 
 const ColorForm = ({ color, onChangeColor, onSave, onCancel }) => {
   return (

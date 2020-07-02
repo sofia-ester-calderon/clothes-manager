@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import ColorList from "./ColorList";
-import { AllColorsContext } from "../../hooks/AllColorsProvider";
+import { AllColorsContext } from "../../../hooks/AllColorsProvider";
 
 const mockColors = [
   { name: "Red", hash: "#ff1100" },

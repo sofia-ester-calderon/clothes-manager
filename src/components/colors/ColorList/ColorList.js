@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { PropTypes } from "prop-types";
-import ColorCircle from "../common/specialForms/ColorCircle";
-import { AllColorsContext } from "../../hooks/AllColorsProvider";
+import ColorCircle from "../../common/specialForms/ColorCircle";
+import { AllColorsContext } from "../../../hooks/AllColorsProvider";
 
 const ColorList = ({ onClick }) => {
   const colors = useContext(AllColorsContext);

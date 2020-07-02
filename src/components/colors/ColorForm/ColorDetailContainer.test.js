@@ -6,7 +6,7 @@ HTMLCanvasElement.prototype.getContext = jest.fn();
 
 const history = { push: jest.fn() };
 
-jest.mock("../../api/colorsApi", () => ({
+jest.mock("../../../api/colorsApi", () => ({
   getColor: jest
     .fn()
     .mockResolvedValue({ id: "abc", name: "Red", hash: "#ff1100" }),

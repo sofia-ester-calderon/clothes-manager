@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 import ColorsContainer from "./ColorsContainer";
-import { AllColorsContext } from "../../hooks/AllColorsProvider";
+import { AllColorsContext } from "../../../hooks/AllColorsProvider";
 
 HTMLCanvasElement.prototype.getContext = jest.fn();
 
