@@ -21,7 +21,7 @@ const ColorForm = ({ color, onChangeColor, onSave, onCancel, errors = {} }) => {
 
         <SaveButton />
         <button className="btn btn btn-secondary mt-3 ml-3" onClick={onCancel}>
-          Cancel{" "}
+          Cancel
         </button>
       </form>
     </>

@@ -12,6 +12,7 @@ const ColorsContainer = (props) => {
     <div className="row">
       <div className="col">
         <ColorList onClick={showColorHandler} />
+        <button className="btn btn btn-dark mt-3">Add New Color</button>
       </div>
       <div className="col ml-4">
         <Route
