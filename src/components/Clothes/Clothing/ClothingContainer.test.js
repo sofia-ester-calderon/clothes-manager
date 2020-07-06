@@ -10,6 +10,7 @@ import { Colors } from "../../../data/data";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 import { AllColorsContext } from "../../../hooks/AllColorsProvider";
+import clothesApi from "../../../api/clothesApi";
 
 const colors = [
   { id: "def_col_1", name: "Red", hash: "#ff1100" },
@@ -22,18 +23,18 @@ const colors = [
 
 jest.mock("axios");
 
-jest.mock("../../../api/clothesApi", () => ({
-  getClothing: jest.fn().mockResolvedValue({
-    id: 1,
-    category: "Tops",
-    type: "Sweater",
-    colors: ["def_col_1"],
-    rating: 5,
-    occasion: "Everyday",
-  }),
-  saveClothing: jest.fn().mockResolvedValue({ data: "data" }),
-  editClothing: jest.fn().mockRejectedValue(),
-}));
+clothesApi.getClothing = jest.fn().mockResolvedValue({
+  id: 1,
+  category: "Tops",
+  type: "Sweater",
+  colors: ["def_col_1"],
+  rating: 5,
+  occasion: "Everyday",
+});
+
+clothesApi.saveClothing = jest.fn().mockResolvedValue({ data: "data" });
+
+clothesApi.editClothing = jest.fn().mockRejectedValue();
 
 function renderClothingContainer(args) {
   const defaultProps = {

@@ -4,7 +4,7 @@ import { Types, Colors, emptyClothing } from "../../../data/data";
 import { toast } from "react-toastify";
 import styles from "./Clothing.module.css";
 import { Redirect } from "react-router-dom";
-import * as api from "../../../api/clothesApi";
+import clothesApi from "../../../api/clothesApi";
 import { AllColorsContext } from "../../../hooks/AllColorsProvider";
 
 const ClothingContainer = (props) => {
@@ -19,7 +19,7 @@ const ClothingContainer = (props) => {
 
   useEffect(() => {
     async function getClothingFromApi(id) {
-      const clothingDisplay = await api.getClothing(id);
+      const clothingDisplay = await clothesApi.getClothing(id);
       setClothing(clothingDisplay);
       determineTypesFromCategory(clothingDisplay.category);
     }
@@ -46,12 +46,12 @@ const ClothingContainer = (props) => {
     if (isFormValid()) {
       setSaving(true);
       if (clothing.id) {
-        api
+        clothesApi
           .editClothing(clothing)
           .then(() => savingSuccessful())
           .catch(() => savingUnsucessful());
       } else {
-        api
+        clothesApi
           .saveClothing(clothing)
           .then(() => savingSuccessful())
           .catch(() => savingUnsucessful());

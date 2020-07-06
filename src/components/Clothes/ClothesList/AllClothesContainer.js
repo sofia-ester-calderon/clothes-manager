@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ClothesList from "./ClothesList";
 import { Categories } from "../../../data/data";
-import * as api from "../../../api/clothesApi";
+import clothesApi from "../../../api/clothesApi";
 
 const AllClothesContainer = () => {
   const [allClothes, setAllClothes] = useState([]);
@@ -15,7 +15,7 @@ const AllClothesContainer = () => {
 
   useEffect(() => {
     async function getClothesFromApi() {
-      const clothes = await api.getClothes();
+      const clothes = await clothesApi.getClothes();
       setAllClothes(clothes);
       setFilteredClothes(clothes);
     }
@@ -70,7 +70,7 @@ const AllClothesContainer = () => {
   }
 
   function deleteClothingHandler(deleteId) {
-    api.deleteClothing(deleteId);
+    clothesApi.deleteClothing(deleteId);
     setAllClothes((prevClothes) =>
       prevClothes.filter((clothing) => clothing.id !== deleteId)
     );

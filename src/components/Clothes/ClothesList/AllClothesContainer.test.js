@@ -3,44 +3,45 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 import App from "../../App";
+import clothesApi from "../../../api/clothesApi";
 
-jest.mock("../../../api/clothesApi", () => ({
-  getClothes: jest.fn().mockResolvedValue([
-    {
-      id: 1,
-      category: "Tops",
-      type: "Sweater",
-      colors: ["def_col_1"],
-      rating: 5,
-      occasion: "Everyday",
-    },
-    {
-      id: 2,
-      category: "Tops",
-      type: "T-Shirt",
-      colors: ["def_col_2"],
-      rating: 4,
-      occasion: "Sport",
-    },
-    {
-      id: 3,
-      category: "Bottoms",
-      type: "Jeans",
-      colors: ["def_col_3"],
-      rating: 2,
-      occasion: "Everyday",
-    },
-  ]),
-  getClothing: jest.fn().mockResolvedValue({
+clothesApi.getClothes = jest.fn().mockResolvedValue([
+  {
     id: 1,
     category: "Tops",
     type: "Sweater",
-    colors: [],
+    colors: ["def_col_1"],
     rating: 5,
     occasion: "Everyday",
-  }),
-  deleteClothing: jest.fn().mockResolvedValue(),
-}));
+  },
+  {
+    id: 2,
+    category: "Tops",
+    type: "T-Shirt",
+    colors: ["def_col_2"],
+    rating: 4,
+    occasion: "Sport",
+  },
+  {
+    id: 3,
+    category: "Bottoms",
+    type: "Jeans",
+    colors: ["def_col_3"],
+    rating: 2,
+    occasion: "Everyday",
+  },
+]);
+
+clothesApi.getClothing = jest.fn().mockResolvedValue({
+  id: 1,
+  category: "Tops",
+  type: "Sweater",
+  colors: [],
+  rating: 5,
+  occasion: "Everyday",
+});
+
+clothesApi.deleteClothing = jest.fn().mockResolvedValue();
 
 jest.mock("../../../api/colorsApi", () => ({
   getColors: jest.fn().mockResolvedValue([
