@@ -31,7 +31,7 @@ jobs:
       - run: npm run build
       # Persist entire project directory to the next job
       - persist_to_workspace:
-          root: dist
+          root: build
           paths:
             - "**"
   deploy:
