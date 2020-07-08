@@ -12,6 +12,7 @@ jobs:
     <<: *defaults
     docker:
       # specify the version you desire here
+      # TODO: use the dockerfile
       - image: circleci/node:12-browsers
     steps:
       - checkout
@@ -26,14 +27,23 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-      # run tests!
-      - run: npm test
       - run: npm run build
       # Persist entire project directory to the next job
       - persist_to_workspace:
           root: dist
           paths:
             - "**"
+
+  test:
+    <<: *defaults
+    docker:
+      # specify the version you desire here
+      # TODO: use the dockerfile
+      - image: circleci/node:12-browsers
+    steps:
+      - checkout
+      - run: npm test
+
   deploy:
     <<: *defaults
     docker:
@@ -51,6 +61,15 @@ jobs:
 # Specify workflows
 workflows:
   version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
   build-and-deploy:
     jobs:
       - build
