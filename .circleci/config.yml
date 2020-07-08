@@ -6,9 +6,6 @@
 defaults: &defaults
   working_directory: ~/repo
 
-orbs:
-  aws-cli: circleci/aws-cli@1.2.1
-
 version: 2
 jobs:
   node-install:
@@ -50,8 +47,11 @@ jobs:
 
   deploy:
     <<: *defaults
-    executor: aws-cli/default
+    docker:
+      # specify the version you desire here
+      - image: amazon/aws-cli:2.0.28
     steps:
+      - run: yum install -y tar
       - attach_workspace:
           at: ~/repo
       # - run:
