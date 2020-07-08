@@ -1,16 +1,19 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
-import RoutingComponent from "./RoutingComponent";
+import { screen } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router-dom";
+
+import { renderWithStore } from "../../test-utils/test-utils";
+
 import ApiErrorProvider from "../../hooks/ApiErrorProvider";
+import RoutingComponent from "./RoutingComponent";
 
 jest.mock("../../api/clothesApi", () => ({
   getClothes: jest.fn().mockResolvedValue([]),
 }));
 
 function renderRoutingComponent(history) {
-  render(
+  renderWithStore(
     <Router history={history}>
       <ApiErrorProvider
         value={{

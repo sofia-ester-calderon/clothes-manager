@@ -47,13 +47,12 @@ function renderClothesList(args) {
     onClickGroup: jest.fn(),
     onFilter: jest.fn(),
     onDeleteClothing: jest.fn(),
+    colors,
   };
   const props = { ...defaultProps, ...args };
   return render(
     <Router history={createMemoryHistory()}>
-      <AllColorsContext.Provider value={colors}>
-        <ClothesList {...props} />
-      </AllColorsContext.Provider>
+      <ClothesList {...props} />
     </Router>
   );
 }

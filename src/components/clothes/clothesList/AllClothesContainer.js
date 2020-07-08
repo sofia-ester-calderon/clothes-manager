@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import ClothesList from "./ClothesList";
+import { connect } from "react-redux";
 import { Categories } from "../../../data/data";
 import clothesApi from "../../../api/clothesApi";
 
-const AllClothesContainer = () => {
+import ClothesList from "./ClothesList";
+
+const AllClothesContainer = ({ colors }) => {
   const [allClothes, setAllClothes] = useState([]);
   const [filteredClothes, setFilteredClothes] = useState(allClothes);
   const [typesToDisplay, settypesToDisplay] = useState([Categories[0]]);
@@ -83,8 +85,13 @@ const AllClothesContainer = () => {
       onClickCategory={toggleVisibilityHandler}
       onFilter={filterHandler}
       onDeleteClothing={deleteClothingHandler}
+      colors={colors}
     />
   );
 };
 
-export default AllClothesContainer;
+const mapStateToProps = (state) => {
+  return { colors: state.colors };
+};
+
+export default connect(mapStateToProps)(AllClothesContainer);

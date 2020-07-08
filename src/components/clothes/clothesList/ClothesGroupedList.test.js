@@ -1,10 +1,11 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import ClothesGroupedList from "./ClothesGroupedList";
-import { TOPS } from "../../../data/data";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
-import { AllColorsContext } from "../../../hooks/AllColorsProvider";
+
+import { TOPS } from "../../../data/data";
+
+import ClothesGroupedList from "./ClothesGroupedList";
 
 const header = "header";
 const colors = [
@@ -30,13 +31,12 @@ function renderClothesGroupedList(args) {
     display: true,
     onClickHeader: jest.fn(),
     onDelete: jest.fn(),
+    colors,
   };
   const props = { ...defaultProps, ...args };
   return render(
     <Router history={createMemoryHistory()}>
-      <AllColorsContext.Provider value={colors}>
-        <ClothesGroupedList {...props} />
-      </AllColorsContext.Provider>
+      <ClothesGroupedList {...props} />
     </Router>
   );
 }

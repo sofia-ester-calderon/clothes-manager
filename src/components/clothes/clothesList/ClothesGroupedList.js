@@ -1,15 +1,16 @@
-import React, { useContext } from "react";
+import React from "react";
 import { PropTypes } from "prop-types";
-import styles from "./ClothesList.module.css";
+import { Link } from "react-router-dom";
+
 import upArrow from "../../../assets/img/up-arrow.png";
 import downArrow from "../../../assets/img/down-arrow.png";
+import deleteIcon from "../../../assets/img/trash.png";
+import editIcon from "../../../assets/img/edit.png";
+import styles from "./ClothesList.module.css";
+
 import ColorCircle from "../../common/specialForms/ColorCircle";
 import Rating from "../../common/specialForms/Rating";
 import IconButton from "../../common/buttons/IconButton";
-import deleteIcon from "../../../assets/img/trash.png";
-import editIcon from "../../../assets/img/edit.png";
-import { Link } from "react-router-dom";
-import { AllColorsContext } from "../../../hooks/AllColorsProvider";
 
 const ClothesGroupedList = ({
   header,
@@ -17,9 +18,8 @@ const ClothesGroupedList = ({
   display,
   onClickHeader,
   onDelete,
+  colors,
 }) => {
-  const colors = useContext(AllColorsContext);
-
   const headerStyle = ["thead-light"];
   if (clothes.length > 0) {
     headerStyle.push(styles.groupHeader);

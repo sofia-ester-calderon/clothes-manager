@@ -1,9 +1,12 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { screen, fireEvent, wait } from "@testing-library/react";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
-import App from "../../App";
+
 import clothesApi from "../../../api/clothesApi";
+import { renderWithStore } from "../../../test-utils/test-utils";
+
+import AllClothesContainer from "./AllClothesContainer";
 
 clothesApi.getClothes = jest.fn().mockResolvedValue([
   {
@@ -51,13 +54,15 @@ jest.mock("../../../api/colorsApi", () => ({
   ]),
 }));
 
-async function renderAllClothesContainer() {
-  render(
+async function renderAllClothesContainer(history) {
+  const props = {
+    history,
+  };
+  renderWithStore(
     <Router history={createMemoryHistory()}>
-      <App />
+      <AllClothesContainer {...props} />
     </Router>
   );
-  fireEvent.click(screen.getByText("All Clothes"));
   // Await for everything to be rendered accordingly
   await screen.findByText("Tops (2)");
 }
@@ -134,9 +139,11 @@ describe("given the delete button of a clothing item is clicked", () => {
 });
 
 describe("given the edit button of a clothing item is clicked", () => {
-  it("should route to edit clothing page", async () => {
-    await renderAllClothesContainer();
+  it("should route to edit clothing page - not display this container anymore", async () => {
+    const history = { push: jest.fn() };
+    await renderAllClothesContainer(history);
     fireEvent.click(screen.getAllByAltText("Edit")[0]);
-    await screen.findByText("Edit Clothing");
+
+    wait(() => expect(screen.queryByText("Tops (2)")).not.toBeInTheDocument());
   });
 });
