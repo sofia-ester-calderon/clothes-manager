@@ -4,7 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import Home from "../home/Home";
 import AllClothesContainer from "../clothes/clothesList/AllClothesContainer";
 import withApiErrorHandler from "../hoc/withApiErrorHandler";
-import ColorsContainer from "../colors/ColorList/ColorsContainer";
+import ColorsContainer from "../colors/colorList/ColorsContainer";
 import NotFound from "../notFound/NotFound";
 
 function RoutingComponent() {

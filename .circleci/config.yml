@@ -1,0 +1,80 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+
+defaults: &defaults
+  working_directory: ~/repo
+
+version: 2
+jobs:
+  node-install:
+    <<: *defaults
+    docker:
+      - image: circleci/node:12-browsers
+    steps:
+      - checkout
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+      - run: npm ci
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - "**"
+
+  build:
+    <<: *defaults
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:12-browsers
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run: npm run build
+      # Persist entire project directory to the next job
+      - persist_to_workspace:
+          root: build
+          paths:
+            - "**"
+
+  deploy:
+    <<: *defaults
+    docker:
+      # specify the version you desire here
+      - image: amazon/aws-cli:2.0.28
+    steps:
+      - run: yum install -y tar
+      - attach_workspace:
+          at: ~/repo
+      # - run:
+      #     name: Configure AWS CLI
+      #     command: aws configure set default.region ${AWS_DEFAULT_REGION}
+      - run:
+          name: Deploy entire directory
+          command: aws s3 cp . s3://${BUCKET_NAME} --recursive
+# Specify workflows
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - node-install
+      - build:
+          requires:
+            - node-install
+      - deploy:
+          filters:
+            branches:
+              only: master
+          requires:
+            - build
+      # - test:
+      #     requires:
+      #       - node-install

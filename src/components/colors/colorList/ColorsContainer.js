@@ -1,7 +1,7 @@
 import React from "react";
 import ColorList from "./ColorList";
 import { Route } from "react-router-dom";
-import ColorDetailContainer from "../ColorForm/ColorDetailContainer";
+import ColorDetailContainer from "../colorForm/ColorDetailContainer";
 
 const ColorsContainer = (props) => {
   function showColorHandler(color) {

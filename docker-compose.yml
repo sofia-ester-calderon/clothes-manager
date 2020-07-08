@@ -1,11 +1,9 @@
 version: "3.8"
 services:
   reactapp:
-    build: .
+    image: circleci/node:12-browsers
     ports:
       - 3000:3000
-    depends_on:
-      - db
     stdin_open: true
-  db:
-    image: postgres
+    volumes:
+      - .:/home/circleci/react-app
