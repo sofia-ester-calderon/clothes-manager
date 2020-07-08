@@ -1,0 +1,17 @@
+.layout {
+  max-width: 800px;
+}
+
+.icon {
+  position: absolute;
+  bottom: 22px;
+  margin-left: 25%;
+}
+
+.iconDelete {
+  bottom: 22px;
+}
+
+.iconCircle {
+  bottom: 18px;
+}
