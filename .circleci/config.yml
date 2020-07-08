@@ -64,6 +64,7 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
+      - node-install
       - build:
           requires:
             - node-install
