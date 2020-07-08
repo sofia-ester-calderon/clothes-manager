@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import ClothingForm from "../Clothing/ClothingForm";
+import ClothingForm from "../clothing/ClothingForm";
 import { emptyClothing, Categories, Occasion, Types } from "../../../data/data";
 import { AllColorsContext } from "../../../hooks/AllColorsProvider";
 

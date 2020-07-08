@@ -5,7 +5,7 @@ import {
   fireEvent,
   waitForDomChange,
 } from "@testing-library/react";
-import ClothingContainer from "../../Clothes/Clothing/ClothingContainer";
+import ClothingContainer from "../../clothes/clothing/ClothingContainer";
 import { Colors } from "../../../data/data";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
