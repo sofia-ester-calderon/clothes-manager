@@ -1,29 +1,24 @@
 import React, { useEffect, useState } from "react";
-import ColorForm from "./ColorForm";
-import { emptyColor } from "../../../data/data";
-import colorApi from "../../../api/colorsApi";
 import { connect } from "react-redux";
+
 import * as actionTypes from "../../../store/actions";
+import { emptyColor } from "../../../data/data";
+
+import ColorForm from "./ColorForm";
 
 const ColorDetailContainer = (props) => {
-  const [color, setColor] = useState(props.color);
+  const [color, setColor] = useState({ ...props.color });
   const [errors, setErrors] = useState({});
 
-  // useEffect(() => {
-  //   async function getColorFromApi() {
-  //     const colorData = await colorApi.getColor(props.match.params.id);
-  //     setColor(colorData);
-  //   }
-  //   getColorFromApi();
-  // }, [props.match.params.id]);
+  useEffect(() => {
+    setColor(props.color);
+  }, [props.color]);
 
   function saveColorHandler(event) {
     event.preventDefault();
     if (isFormValid()) {
       props.onUpdateColor(color);
-      // colorApi.editColor(color).then(() => {
       props.history.push("/colors");
-      // });
     }
   }
 

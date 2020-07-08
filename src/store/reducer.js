@@ -1,6 +1,6 @@
 import * as actionTypes from "./actions";
 
-const initialState = {
+export const initialState = {
   colors: [
     { id: "def_col_1", name: "Red", hash: "#ff1100" },
     { id: "def_col_2", name: "Green", hash: "#00a80b" },
@@ -11,7 +11,7 @@ const initialState = {
   ],
 };
 
-const reducer = (state = initialState, action) => {
+export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.EDIT_COLOR:
       const colors = state.colors.map((color) =>
