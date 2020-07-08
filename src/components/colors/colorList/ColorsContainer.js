@@ -1,7 +1,9 @@
 import React from "react";
-import ColorList from "./ColorList";
 import { Route } from "react-router-dom";
+import { connect } from "react-redux";
+
 import ColorDetailContainer from "../colorForm/ColorDetailContainer";
+import ColorList from "./ColorList";
 
 const ColorsContainer = (props) => {
   function showColorHandler(color) {
@@ -11,7 +13,7 @@ const ColorsContainer = (props) => {
   return (
     <div className="row">
       <div className="col">
-        <ColorList onClick={showColorHandler} />
+        <ColorList onClick={showColorHandler} colors={props.colors} />
         <button className="btn btn btn-dark mt-3">Add New Color</button>
       </div>
       <div className="col ml-4">
@@ -24,4 +26,10 @@ const ColorsContainer = (props) => {
   );
 };
 
-export default ColorsContainer;
+const mapStateToProps = (state) => {
+  return {
+    colors: state.colors,
+  };
+};
+
+export default connect(mapStateToProps)(ColorsContainer);

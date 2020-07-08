@@ -1,11 +1,11 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
+
 import ColorList from "./ColorList";
-import { AllColorsContext } from "../../../hooks/AllColorsProvider";
 
 const mockColors = [
-  { name: "Red", hash: "#ff1100" },
-  { name: "Green", hash: "#00a80b" },
+  { id: "def_col_1", name: "Red", hash: "#ff1100" },
+  { id: "def_col_2", name: "Green", hash: "#00a80b" },
 ];
 
 function renderColorList(args) {
@@ -14,11 +14,7 @@ function renderColorList(args) {
     onClick: jest.fn(),
   };
   const props = { ...defaultProps, ...args };
-  return render(
-    <AllColorsContext.Provider value={mockColors}>
-      <ColorList {...props} />
-    </AllColorsContext.Provider>
-  );
+  return render(<ColorList {...props} />);
 }
 
 it("should render all colors in list", () => {
