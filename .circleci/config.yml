@@ -36,11 +36,15 @@ jobs:
       - image: hashicorp/terraform:0.12.21
     steps:
       - checkout
-      - run: cd ~/repo/deploy/
-      - run: ls
-      - run: terraform init -backend=false
-      - run: terraform validate
-      - run: terraform fmt -check
+      - run:
+          name: terraform init
+          command: cd deploy && terraform init -backend=false
+      - run:
+          name: terraform validate
+          command: cd deploy && terraform validate
+      - run:
+          name: terraform format check
+          command: cd deploy && terraform fmt -check
 
   build:
     <<: *defaults
