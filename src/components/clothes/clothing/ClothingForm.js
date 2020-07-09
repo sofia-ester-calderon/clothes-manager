@@ -1,11 +1,12 @@
-import React, { useContext } from "react";
+import React from "react";
+import { PropTypes } from "prop-types";
+
+import { Categories, Occasion } from "../../../data/data";
+
 import SelectInput from "../../common/inputs/select/SelectInput";
 import RatingInput from "../../common/inputs/rating/RatingInput";
-import { Categories, Occasion } from "../../../data/data";
 import ColorSelector from "./ColorSelector";
-import { PropTypes } from "prop-types";
 import SaveButton from "../../common/buttons/SaveButton";
-import { AllColorsContext } from "../../../hooks/AllColorsProvider";
 
 const ClothingForm = ({
   clothing,
@@ -17,8 +18,8 @@ const ClothingForm = ({
   onRemoveColor,
   onChangeColor,
   saving = false,
+  allColors,
 }) => {
-  const allColors = useContext(AllColorsContext);
   return (
     <form onSubmit={onSave}>
       <h2 className="mb-4">
@@ -119,6 +120,7 @@ ClothingForm.propTypes = {
   onRemoveColor: PropTypes.func.isRequired,
   onChangeColor: PropTypes.func.isRequired,
   saving: PropTypes.bool,
+  allColors: PropTypes.array,
 };
 
 export default ClothingForm;

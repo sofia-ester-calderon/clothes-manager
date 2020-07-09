@@ -1,8 +1,9 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import ClothingForm from "../clothing/ClothingForm";
+
 import { emptyClothing, Categories, Occasion, Types } from "../../../data/data";
-import { AllColorsContext } from "../../../hooks/AllColorsProvider";
+
+import ClothingForm from "../clothing/ClothingForm";
 
 const allColors = [
   { id: "def_col_1", name: "Red", hash: "#ff1100" },
@@ -20,13 +21,10 @@ function renderClothingForm(args) {
     colors: allColors,
     onRemoveColor: jest.fn(),
     onChangeColor: jest.fn(),
+    allColors,
   };
   const props = { ...defaultProps, ...args };
-  return render(
-    <AllColorsContext.Provider value={allColors}>
-      <ClothingForm {...props} />
-    </AllColorsContext.Provider>
-  );
+  return render(<ClothingForm {...props} />);
 }
 
 describe("form with empty clothing and types as param", () => {

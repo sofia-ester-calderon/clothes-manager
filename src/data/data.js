@@ -30,15 +30,6 @@ export const Types = [
   TypeScarf,
 ];
 
-export const Colors = [
-  { id: "def_col_1", name: "Red", hash: "#ff1100" },
-  { id: "def_col_2", name: "Green", hash: "#00a80b" },
-  { id: "def_col_3", name: "Blue", hash: "#0019bf" },
-  { id: "def_col_4", name: "Yellow", hash: "#edea13" },
-  { id: "def_col_5", name: "White", hash: "#ffffff" },
-  { id: "def_col_6", name: "Black", hash: "#000000" },
-];
-
 export const emptyColor = { name: "", hash: "" };
 
 export const Occasion = ["Sport", "Formal", "Everyday"];

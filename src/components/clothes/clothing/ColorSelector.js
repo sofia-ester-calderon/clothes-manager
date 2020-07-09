@@ -1,10 +1,12 @@
 import React from "react";
-import SelectInput from "../../common/inputs/select/SelectInput";
 import { PropTypes } from "prop-types";
+
+import deleteIcon from "../../../assets/img/trash.png";
 import styles from "./Clothing.module.css";
+
+import SelectInput from "../../common/inputs/select/SelectInput";
 import IconButton from "../../common/buttons/IconButton";
 import ColorCircle from "../../common/specialForms/ColorCircle";
-import deleteIcon from "../../../assets/img/trash.png";
 
 const ColorSelector = ({
   label,

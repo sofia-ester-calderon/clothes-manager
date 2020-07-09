@@ -1,25 +1,12 @@
 import React from "react";
-import {
-  render,
-  screen,
-  fireEvent,
-  waitForDomChange,
-} from "@testing-library/react";
-import ClothingContainer from "../../clothes/clothing/ClothingContainer";
-import { Colors } from "../../../data/data";
+import { screen, fireEvent, waitForDomChange } from "@testing-library/react";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
-import { AllColorsContext } from "../../../hooks/AllColorsProvider";
+
+import { renderWithStore } from "../../../test-utils/test-utils";
 import clothesApi from "../../../api/clothesApi";
 
-const colors = [
-  { id: "def_col_1", name: "Red", hash: "#ff1100" },
-  { id: "def_col_2", name: "Green", hash: "#00a80b" },
-  { id: "def_col_3", name: "Blue", hash: "#0019bf" },
-  { id: "def_col_4", name: "Yellow", hash: "#edea13" },
-  { id: "def_col_5", name: "White", hash: "#ffffff" },
-  { id: "def_col_6", name: "Black", hash: "#000000" },
-];
+import ClothingContainer from "../../clothes/clothing/ClothingContainer";
 
 jest.mock("axios");
 
@@ -42,11 +29,9 @@ function renderClothingContainer(args) {
   };
   const props = { ...defaultProps, ...args };
 
-  return render(
+  return renderWithStore(
     <Router history={createMemoryHistory()}>
-      <AllColorsContext.Provider value={colors}>
-        <ClothingContainer {...props} />
-      </AllColorsContext.Provider>
+      <ClothingContainer {...props} />
     </Router>
   );
 }
@@ -114,42 +99,46 @@ describe("change colors", () => {
       target: { value: secondChosenColor.id },
     });
 
-    // Selected colors will only be displayed as options in their select boxes
-    // All other colors will be displayed as options in all select boxes
-    Colors.forEach((color) => {
-      const optionsOfColor = screen.queryAllByText(color.name);
-      color.name === chosenColor.name || color.name === secondChosenColor.name
-        ? expect(optionsOfColor).toHaveLength(1)
-        : expect(optionsOfColor).toHaveLength(3);
-    });
+    // Red is a selected color, so it should only be present as option in one select box
+    // The one where it is the display value
+    const optionsOfColorRed = screen.queryAllByText("Red");
+    expect(optionsOfColorRed).toHaveLength(1);
+
+    // Green is a selected color, so it should only be present as option in one select box
+    // The one where it is the display value
+    const optionsOfColorGreen = screen.queryAllByText("Green");
+    expect(optionsOfColorGreen).toHaveLength(1);
+
+    // Blue isn't a selected color, so it should be present as option in all 3 select boxes
+    const optionsOfColorBlue = screen.queryAllByText("Blue");
+    expect(optionsOfColorBlue).toHaveLength(3);
+
+    // Yellow isn't a selected color, so it should be present as option in all 3 select boxes
+    const optionsOfColorYellow = screen.queryAllByText("Yellow");
+    expect(optionsOfColorYellow).toHaveLength(3);
   });
 
   it("should only display selected color as option of the 'clothing color' select box after changing that color", () => {
-    const secondChosenColor = { id: "def_col_2", name: "Green" };
     const changedColor = { id: "def_col_3", name: "Blue" };
 
-    // Selecting a new color adds a new select box with that color as selected value
-    // and changes the original select box's default value to 'Add New Color'
     renderClothingContainer();
     fireEvent.change(screen.getByDisplayValue("Select Color"), {
       target: { value: chosenColor.id },
     });
-    fireEvent.change(screen.getByDisplayValue("Add New Color"), {
-      target: { value: secondChosenColor.id },
-    });
-    // Changing a selected color
-    fireEvent.change(screen.getByDisplayValue(secondChosenColor.name), {
+
+    // Change a selected color
+    fireEvent.change(screen.getByDisplayValue(chosenColor.name), {
       target: { value: changedColor.id },
     });
 
-    // Selected colors will only be displayed as options in their select boxes
-    // All other colors will be displayed as options in all select boxes
-    Colors.forEach((color) => {
-      const optionsOfColor = screen.queryAllByText(color.name);
-      color.name === chosenColor.name || color.name === changedColor.name
-        ? expect(optionsOfColor).toHaveLength(1)
-        : expect(optionsOfColor).toHaveLength(3);
-    });
+    // Blue is a selected color, so it should only be present as option in one select box
+    // The one where it is the display value
+    const optionsOfColorBlue = screen.queryAllByText("Blue");
+    expect(optionsOfColorBlue).toHaveLength(1);
+
+    // Red isn't a selected color, so it should be present as option in all 2 select boxes
+    const optionsOfColorRed = screen.queryAllByText("Red");
+    expect(optionsOfColorRed).toHaveLength(2);
   });
 
   it("should not display extra color select box when delet button clicked and show all colors as option again (all colors once)", () => {
@@ -161,10 +150,10 @@ describe("change colors", () => {
     expect(
       screen.queryByDisplayValue(chosenColor.name)
     ).not.toBeInTheDocument();
-    // All colors should again be displayed in the only color select box
-    Colors.forEach((color) =>
-      expect(screen.queryAllByText(color.name)).toHaveLength(1)
-    );
+
+    // Red isn't a selected color, so it should be present as option in the select box
+    const optionsOfColorRed = screen.queryAllByText("Red");
+    expect(optionsOfColorRed).toHaveLength(1);
   });
 });
 

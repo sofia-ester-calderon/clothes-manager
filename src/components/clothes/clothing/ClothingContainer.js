@@ -1,11 +1,13 @@
-import React, { useState, useEffect, useContext } from "react";
-import ClothingForm from "./ClothingForm";
-import { Types, Colors, emptyClothing } from "../../../data/data";
+import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import styles from "./Clothing.module.css";
 import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+
 import clothesApi from "../../../api/clothesApi";
-import { AllColorsContext } from "../../../hooks/AllColorsProvider";
+import styles from "./Clothing.module.css";
+import { Types, emptyClothing } from "../../../data/data";
+
+import ClothingForm from "./ClothingForm";
 
 const ClothingContainer = (props) => {
   const [clothing, setClothing] = useState(emptyClothing);
@@ -14,8 +16,6 @@ const ClothingContainer = (props) => {
   const [errors, setErrors] = useState({});
   const [saveSuccessful, setSaveSuccessful] = useState(false);
   const [saving, setSaving] = useState(false);
-
-  const allColors = useContext(AllColorsContext);
 
   useEffect(() => {
     async function getClothingFromApi(id) {
@@ -30,15 +30,15 @@ const ClothingContainer = (props) => {
   }, [props.match.params.id]);
 
   useEffect(() => {
-    if (allColors.length > 0 && clothing.id) {
+    if (props.allColors.length > 0 && clothing.id) {
       setColors(
-        allColors.filter((color) => !clothing.colors.includes(color.id))
+        props.allColors.filter((color) => !clothing.colors.includes(color.id))
       );
     }
     if (!clothing.id && clothing.colors.length === 0) {
-      setColors(allColors);
+      setColors(props.allColors);
     }
-  }, [allColors, clothing]);
+  }, [props.allColors, clothing]);
 
   function saveClothesHandler(event) {
     event.preventDefault();
@@ -119,7 +119,7 @@ const ClothingContainer = (props) => {
       colors: prevClothing.colors.filter((color) => color !== deletedColor),
     }));
 
-    setColors([...colors, Colors.find((c) => c.id === deletedColor)]);
+    setColors([...colors, props.allColors.find((c) => c.id === deletedColor)]);
   }
 
   function changeColorHandler(event, prevColor) {
@@ -133,7 +133,7 @@ const ClothingContainer = (props) => {
 
     const newSelectionColors = colors.map((color) => {
       return color.id === newColor
-        ? allColors.find((c) => c.id === prevColor)
+        ? props.allColors.find((c) => c.id === prevColor)
         : color;
     });
     setColors(newSelectionColors);
@@ -143,25 +143,26 @@ const ClothingContainer = (props) => {
     <Redirect to="/clothes" />
   ) : (
     <div className={styles.layout}>
-      <AllColorsContext.Consumer>
-        {() => {
-          return allColors.length > 0 ? (
-            <ClothingForm
-              clothing={clothing}
-              onSave={saveClothesHandler}
-              onChange={changeClothingHandler}
-              onRemoveColor={removeColorHandler}
-              onChangeColor={changeColorHandler}
-              types={types}
-              colors={colors}
-              errors={errors}
-              saving={saving}
-            />
-          ) : null;
-        }}
-      </AllColorsContext.Consumer>
+      {props.allColors.length > 0 ? (
+        <ClothingForm
+          clothing={clothing}
+          onSave={saveClothesHandler}
+          onChange={changeClothingHandler}
+          onRemoveColor={removeColorHandler}
+          onChangeColor={changeColorHandler}
+          types={types}
+          colors={colors}
+          errors={errors}
+          saving={saving}
+          allColors={props.allColors}
+        />
+      ) : null}
     </div>
   );
 };
 
-export default ClothingContainer;
+const mapStateToProps = (state) => {
+  return { allColors: state.colors };
+};
+
+export default connect(mapStateToProps)(ClothingContainer);
