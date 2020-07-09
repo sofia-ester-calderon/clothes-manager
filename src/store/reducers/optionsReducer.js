@@ -1,4 +1,4 @@
-import * as actionTypes from "./actions";
+import * as actionTypes from "../actions";
 
 const initialState = {
   colors: [
@@ -9,9 +9,10 @@ const initialState = {
     { id: "def_col_5", name: "White", hash: "#ffffff" },
     { id: "def_col_6", name: "Black", hash: "#000000" },
   ],
+  categories: ["Tops", "Bottoms", "Underwear", "Shoes", "Accessories"],
 };
 
-const reducer = (state = initialState, action) => {
+const optionsReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.EDIT_COLOR:
       const colors = state.colors.map((color) =>
@@ -23,4 +24,4 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export default reducer;
+export default optionsReducer;

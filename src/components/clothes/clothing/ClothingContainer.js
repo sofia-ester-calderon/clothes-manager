@@ -30,15 +30,17 @@ const ClothingContainer = (props) => {
   }, [props.match.params.id]);
 
   useEffect(() => {
-    if (props.allColors.length > 0 && clothing.id) {
+    if (props.options.colors.length > 0 && clothing.id) {
       setColors(
-        props.allColors.filter((color) => !clothing.colors.includes(color.id))
+        props.options.colors.filter(
+          (color) => !clothing.colors.includes(color.id)
+        )
       );
     }
     if (!clothing.id && clothing.colors.length === 0) {
-      setColors(props.allColors);
+      setColors(props.options.colors);
     }
-  }, [props.allColors, clothing]);
+  }, [props.options.colors, clothing]);
 
   function saveClothesHandler(event) {
     event.preventDefault();
@@ -119,7 +121,10 @@ const ClothingContainer = (props) => {
       colors: prevClothing.colors.filter((color) => color !== deletedColor),
     }));
 
-    setColors([...colors, props.allColors.find((c) => c.id === deletedColor)]);
+    setColors([
+      ...colors,
+      props.options.colors.find((c) => c.id === deletedColor),
+    ]);
   }
 
   function changeColorHandler(event, prevColor) {
@@ -133,7 +138,7 @@ const ClothingContainer = (props) => {
 
     const newSelectionColors = colors.map((color) => {
       return color.id === newColor
-        ? props.allColors.find((c) => c.id === prevColor)
+        ? props.options.colors.find((c) => c.id === prevColor)
         : color;
     });
     setColors(newSelectionColors);
@@ -143,7 +148,7 @@ const ClothingContainer = (props) => {
     <Redirect to="/clothes" />
   ) : (
     <div className={styles.layout}>
-      {props.allColors.length > 0 ? (
+      {props.options.colors.length > 0 ? (
         <ClothingForm
           clothing={clothing}
           onSave={saveClothesHandler}
@@ -154,7 +159,7 @@ const ClothingContainer = (props) => {
           colors={colors}
           errors={errors}
           saving={saving}
-          allColors={props.allColors}
+          options={props.options}
         />
       ) : null}
     </div>
@@ -162,7 +167,7 @@ const ClothingContainer = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  return { allColors: state.colors };
+  return { options: { colors: state.colors, categories: state.categories } };
 };
 
 export default connect(mapStateToProps)(ClothingContainer);

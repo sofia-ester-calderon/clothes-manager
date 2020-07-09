@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "@testing-library/react";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
-import reducer from "../store/reducer";
+import optionsReducer from "../store/reducers/optionsReducer";
 
 const initialState = {
   colors: [
@@ -13,11 +13,12 @@ const initialState = {
     { id: "def_col_5", name: "White", hash: "#ffffff" },
     { id: "def_col_6", name: "Black", hash: "#000000" },
   ],
+  categories: ["Tops", "Bottoms", "Underwear", "Shoes", "Accessories"],
 };
 
 function renderWithStore(
   ui,
-  { store = createStore(reducer, initialState), ...renderOptions } = {}
+  { store = createStore(optionsReducer, initialState), ...renderOptions } = {}
 ) {
   function Wrapper({ children }) {
     return <Provider store={store}>{children}</Provider>;

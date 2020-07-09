@@ -2,7 +2,7 @@ import React from "react";
 import { PropTypes } from "prop-types";
 
 import styles from "./ClothesList.module.css";
-import { Categories, Occasion } from "../../../data/data";
+import { Occasion } from "../../../data/data";
 
 import SelectInput from "../../common/inputs/select/SelectInput";
 import ClothesGroupedList from "./ClothesGroupedList";
@@ -13,7 +13,7 @@ const ClothesList = ({
   onClickCategory,
   onFilter,
   onDeleteClothing,
-  colors,
+  options,
 }) => {
   function getClothesByCategory(category) {
     return clothes.filter((clothing) => clothing.category === category);
@@ -35,7 +35,7 @@ const ClothesList = ({
                   <SelectInput
                     name="color-filter"
                     defaultOption="All Colors"
-                    options={colors.map((color) => ({
+                    options={options.colors.map((color) => ({
                       value: color.id,
                       text: color.name,
                     }))}
@@ -76,7 +76,7 @@ const ClothesList = ({
             </tr>
           </thead>
         </table>
-        {Categories.map((category) => (
+        {options.categories.map((category) => (
           <ClothesGroupedList
             key={category}
             header={category}
@@ -84,7 +84,7 @@ const ClothesList = ({
             display={typesToDisplay.includes(category)}
             onClickHeader={() => onClickCategory(category)}
             onDelete={onDeleteClothing}
-            colors={colors}
+            colors={options.colors}
           />
         ))}
       </>
@@ -94,7 +94,7 @@ const ClothesList = ({
 
 ClothesList.propTypes = {
   clothes: PropTypes.array,
-  colors: PropTypes.array,
+  options: PropTypes.object,
   typesToDisplay: PropTypes.array.isRequired,
   onFilter: PropTypes.func.isRequired,
   onDeleteClothing: PropTypes.func.isRequired,

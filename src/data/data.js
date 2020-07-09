@@ -4,8 +4,6 @@ const UNDERWEAR = "Underwear";
 const SHOES = "Shoes";
 const ACCESSORIES = "Accessories";
 
-export const Categories = [TOPS, BOTTOMS, UNDERWEAR, SHOES, ACCESSORIES];
-
 const TypeSweater = { id: 1, name: "Sweater", category: TOPS };
 const TypeTShirt = { id: 2, name: "T-Shirt", category: TOPS };
 const TypeJeans = { id: 3, name: "Jeans", category: BOTTOMS };

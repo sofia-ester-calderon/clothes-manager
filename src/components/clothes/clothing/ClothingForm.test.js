@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 
-import { emptyClothing, Categories, Occasion, Types } from "../../../data/data";
+import { emptyClothing, Occasion, Types } from "../../../data/data";
 
 import ClothingForm from "../clothing/ClothingForm";
 
@@ -10,6 +10,13 @@ const allColors = [
   { id: "def_col_2", name: "Green", hash: "#00a80b" },
   { id: "def_col_3", name: "Blue", hash: "#0019bf" },
 ];
+
+const categories = ["Tops", "Bottoms", "Underwear", "Shoes", "Accessories"];
+
+const options = {
+  colors: allColors,
+  categories,
+};
 
 function renderClothingForm(args) {
   const defaultProps = {
@@ -21,7 +28,7 @@ function renderClothingForm(args) {
     colors: allColors,
     onRemoveColor: jest.fn(),
     onChangeColor: jest.fn(),
-    allColors,
+    options,
   };
   const props = { ...defaultProps, ...args };
   return render(<ClothingForm {...props} />);
@@ -32,7 +39,7 @@ describe("form with empty clothing and types as param", () => {
     renderClothingForm();
     screen.getByText("Category");
     screen.getByDisplayValue("Select Category");
-    Categories.forEach((category) => {
+    categories.forEach((category) => {
       screen.getByText(category);
     });
   });
@@ -47,7 +54,7 @@ describe("form with empty clothing and types as param", () => {
     renderClothingForm();
     screen.getByText("Color");
     screen.getByDisplayValue("Select Color");
-    Categories.forEach((color) => {
+    categories.forEach((color) => {
       screen.getByText(color);
     });
   });

@@ -8,9 +8,9 @@ import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
-import reducer from "./store/reducer";
+import optionsReducer from "./store/reducers/optionsReducer";
 
-const store = createStore(reducer);
+const store = createStore(optionsReducer);
 
 ReactDOM.render(
   <Provider store={store}>

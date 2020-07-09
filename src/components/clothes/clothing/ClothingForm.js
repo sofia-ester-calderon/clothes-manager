@@ -1,7 +1,7 @@
 import React from "react";
 import { PropTypes } from "prop-types";
 
-import { Categories, Occasion } from "../../../data/data";
+import { Occasion } from "../../../data/data";
 
 import SelectInput from "../../common/inputs/select/SelectInput";
 import RatingInput from "../../common/inputs/rating/RatingInput";
@@ -18,7 +18,7 @@ const ClothingForm = ({
   onRemoveColor,
   onChangeColor,
   saving = false,
-  allColors,
+  options,
 }) => {
   return (
     <form onSubmit={onSave}>
@@ -37,7 +37,7 @@ const ClothingForm = ({
         label="Category"
         value={clothing.category}
         defaultOption="Select Category"
-        options={Categories.map((category) => ({
+        options={options.categories.map((category) => ({
           value: category,
           text: category,
         }))}
@@ -64,11 +64,11 @@ const ClothingForm = ({
           <ColorSelector
             key={idx}
             label={idx === 0 ? "Color" : null}
-            selectedColor={allColors.find((color) => color.id === colorId)}
+            selectedColor={options.colors.find((color) => color.id === colorId)}
             onColorChanged={(e) => onChangeColor(e, colorId)}
             onColorDeleted={() => onRemoveColor(colorId)}
             clothingColors={clothing.colors}
-            colors={allColors}
+            colors={options.colors}
           />
         );
       })}
@@ -120,7 +120,7 @@ ClothingForm.propTypes = {
   onRemoveColor: PropTypes.func.isRequired,
   onChangeColor: PropTypes.func.isRequired,
   saving: PropTypes.bool,
-  allColors: PropTypes.array,
+  options: PropTypes.object,
 };
 
 export default ClothingForm;

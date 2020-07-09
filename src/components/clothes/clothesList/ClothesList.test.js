@@ -1,16 +1,14 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import ClothesList from "./ClothesList";
-import { Categories } from "../../../data/data";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
-import { AllColorsContext } from "../../../hooks/AllColorsProvider";
 
-const typesToDisplay = [Categories[0], Categories[1]];
+const typesToDisplay = ["Tops", "Bottoms"];
 const clothes = [
   {
     id: 1,
-    category: Categories[0],
+    category: "Tops",
     type: "type1",
     colors: [],
     rating: 4,
@@ -18,7 +16,7 @@ const clothes = [
   },
   {
     id: 2,
-    category: Categories[1],
+    category: "Bottoms",
     type: "type2",
     colors: [],
     rating: 4,
@@ -26,7 +24,7 @@ const clothes = [
   },
   {
     id: 3,
-    category: Categories[2],
+    category: "Underwear",
     type: "type3",
     colors: [],
     rating: 4,
@@ -34,11 +32,14 @@ const clothes = [
   },
 ];
 
-const colors = [
-  { id: "def_col_1", name: "Red", hash: "#ff1100" },
-  { id: "def_col_2", name: "Green", hash: "#00a80b" },
-  { id: "def_col_3", name: "Blue", hash: "#0019bf" },
-];
+const options = {
+  colors: [
+    { id: "def_col_1", name: "Red", hash: "#ff1100" },
+    { id: "def_col_2", name: "Green", hash: "#00a80b" },
+    { id: "def_col_3", name: "Blue", hash: "#0019bf" },
+  ],
+  categories: ["Tops", "Bottoms", "Underwear", "Shoes", "Accessories"],
+};
 
 function renderClothesList(args) {
   const defaultProps = {
@@ -47,7 +48,7 @@ function renderClothesList(args) {
     onClickGroup: jest.fn(),
     onFilter: jest.fn(),
     onDeleteClothing: jest.fn(),
-    colors,
+    options,
   };
   const props = { ...defaultProps, ...args };
   return render(
