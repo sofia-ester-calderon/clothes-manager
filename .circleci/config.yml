@@ -6,7 +6,7 @@
 defaults: &defaults
   working_directory: ~/repo
 
-version: 2
+version: 2.1
 jobs:
   node-install:
     <<: *defaults
@@ -30,6 +30,17 @@ jobs:
           paths:
             - "**"
 
+  terraform-check:
+    <<: *defaults
+    docker:
+      - image: hashicorp/terraform:0.12.21
+    steps:
+      - checkout
+      - run: cd deploy/
+      - run: terraform init -backend=false
+      - run: terraform validate
+      - run: terraform fmt -check
+
   build:
     <<: *defaults
     docker:
@@ -47,11 +58,8 @@ jobs:
 
   deploy:
     <<: *defaults
-    docker:
-      # specify the version you desire here
-      - image: amazon/aws-cli:2.0.28
+    executor: aws-cli/default
     steps:
-      - run: yum install -y tar
       - attach_workspace:
           at: ~/repo
       # - run:
@@ -60,12 +68,21 @@ jobs:
       - run:
           name: Deploy entire directory
           command: aws s3 cp . s3://${BUCKET_NAME} --recursive
+
+orbs:
+  aws-cli: circleci/aws-cli@1.2.1
+  terraform: devops-workflow/terraform@0.0.1
+
 # Specify workflows
 workflows:
   version: 2
   build-and-deploy:
     jobs:
       - node-install:
+          filters:
+            branches:
+              only: master
+      - terraform-check:
           filters:
             branches:
               only: master
