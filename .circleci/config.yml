@@ -104,12 +104,14 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/repo
+      - run: ls
+      - run: cd build && ls
       # - run:
       #     name: Configure AWS CLI
       #     command: aws configure set default.region ${AWS_DEFAULT_REGION}
-      - run:
-          name: Deploy entire directory
-          command: aws s3 cp . s3://${BUCKET_NAME} --recursive
+      # - run:
+      #     name: Deploy entire directory
+      #     command: aws s3 cp . s3://${BUCKET_NAME} --recursive
 
 orbs:
   aws-cli: circleci/aws-cli@1.2.1
@@ -146,6 +148,12 @@ workflows:
           requires:
             - build
             - terraform-check
+      - deploy:
+          filters:
+            branches:
+              only: master
+          requires:
+            - terraform-plan-and-apply
       - click_here_to_delete:
           type: approval
           requires:
