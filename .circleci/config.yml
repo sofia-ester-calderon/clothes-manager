@@ -36,7 +36,7 @@ jobs:
       - image: hashicorp/terraform:0.12.21
     steps:
       - checkout
-      - run: cd deploy/
+      - run: cd repo/deploy/
       - run: terraform init -backend=false
       - run: terraform validate
       - run: terraform fmt -check
