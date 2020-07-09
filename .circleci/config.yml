@@ -86,6 +86,19 @@ jobs:
           name: terraform apply
           command: cd deploy && terraform apply -auto-approve
 
+  terraform-destroy:
+    type: approval
+    docker:
+      - image: hashicorp/terraform:0.12.21
+    steps:
+      - checkout
+      - run:
+          name: terraform init
+          command: cd deploy && terraform init
+      - run:
+          name: terraform destroy
+          command: cd deploy && terraform destroy -auto-approve
+
   deploy:
     <<: *defaults
     executor: aws-cli/default
@@ -134,6 +147,10 @@ workflows:
           requires:
             - build
             - terraform-check
+      - terraform-destroy:
+          filters:
+            branches:
+              only: master
       # - deploy:
       #     filters:
       #       branches:
