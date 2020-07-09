@@ -71,6 +71,21 @@ jobs:
           paths:
             - "**"
 
+  terraform-plan-and-apply:
+    docker:
+      - image: hashicorp/terraform:0.12.21
+    steps:
+      - checkout
+      - run:
+          name: terraform init
+          command: cd deploy && terraform init
+      - run:
+          name: terraform plan
+          command: cd deploy && terraform plan
+      - run:
+          name: terraform apply
+          command: cd deploy && terraform apply -auto-approve
+
   deploy:
     <<: *defaults
     executor: aws-cli/default
@@ -112,6 +127,13 @@ workflows:
               only: master
           requires:
             - run-tests
+      - terraform-plan-and-apply:
+          filters:
+            branches:
+              only: master
+          requires:
+            - build
+            - terraform-check
       # - deploy:
       #     filters:
       #       branches:
