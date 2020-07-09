@@ -146,8 +146,16 @@ workflows:
           requires:
             - build
             - terraform-check
-      - terraform-destroy:
+      - click_here_to_delete:
           type: approval
+          requires:
+            - terraform-plan-and-apply
+          filters:
+            branches:
+              only: master
+      - terraform-destroy:
+          requires:
+            - click_here_to_delete
           filters:
             branches:
               only: master
