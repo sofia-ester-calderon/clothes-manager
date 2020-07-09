@@ -43,7 +43,7 @@ jobs:
   terraform-check:
     <<: *defaults
     docker:
-      - image: hashicorp/terraform:0.12.21
+      - image: hashicorp/terraform:0.12.26
     steps:
       - checkout
       - run:
@@ -73,7 +73,7 @@ jobs:
 
   terraform-plan-and-apply:
     docker:
-      - image: hashicorp/terraform:0.12.21
+      - image: hashicorp/terraform:0.12.26
     steps:
       - checkout
       - run:
@@ -88,7 +88,7 @@ jobs:
 
   terraform-destroy:
     docker:
-      - image: hashicorp/terraform:0.12.21
+      - image: hashicorp/terraform:0.12.26
     steps:
       - checkout
       - run:
