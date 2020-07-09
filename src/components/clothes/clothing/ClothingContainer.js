@@ -5,13 +5,15 @@ import { connect } from "react-redux";
 
 import clothesApi from "../../../api/clothesApi";
 import styles from "./Clothing.module.css";
-import { Types, emptyClothing } from "../../../data/data";
+import { emptyClothing } from "../../../data/data";
 
 import ClothingForm from "./ClothingForm";
 
 const ClothingContainer = (props) => {
   const [clothing, setClothing] = useState(emptyClothing);
-  const [types, setTypes] = useState(clothing.category === "" ? [] : Types);
+  const [types, setTypes] = useState(
+    clothing.category === "" ? [] : props.options.types
+  );
   const [colors, setColors] = useState([]);
   const [errors, setErrors] = useState({});
   const [saveSuccessful, setSaveSuccessful] = useState(false);
@@ -21,13 +23,16 @@ const ClothingContainer = (props) => {
     async function getClothingFromApi(id) {
       const clothingDisplay = await clothesApi.getClothing(id);
       setClothing(clothingDisplay);
-      determineTypesFromCategory(clothingDisplay.category);
+      const typesByCategory = props.options.types.filter(
+        (type) => type.category === clothingDisplay.category
+      );
+      setTypes(typesByCategory);
     }
     const clothingId = props.match.params.id;
     if (clothingId) {
       getClothingFromApi(clothingId);
     }
-  }, [props.match.params.id]);
+  }, [props.match.params.id, props.options.types]);
 
   useEffect(() => {
     if (props.options.colors.length > 0 && clothing.id) {
@@ -106,7 +111,9 @@ const ClothingContainer = (props) => {
   function determineTypesFromCategory(category) {
     let typesByCategory = [];
     if (category && category !== "") {
-      typesByCategory = Types.filter((type) => type.category === category);
+      typesByCategory = props.options.types.filter(
+        (type) => type.category === category
+      );
     }
     setTypes(typesByCategory);
   }
@@ -172,6 +179,7 @@ const mapStateToProps = (state) => {
       colors: state.colors,
       categories: state.categories,
       occasions: state.occasions,
+      types: state.types,
     },
   };
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 
-import { emptyClothing, Types } from "../../../data/data";
+import { emptyClothing } from "../../../data/data";
 
 import ClothingForm from "../clothing/ClothingForm";
 
@@ -79,7 +79,12 @@ describe("form with clothing and types as param", () => {
     rating: 4,
     occasion: "Sport",
   };
-  const types = Types;
+  const types = [
+    { id: 1, name: "Sweater", category: "Tops" },
+    { id: 2, name: "T-Shirt", category: "Tops" },
+    { id: 3, name: "Jeans", category: "Bottoms" },
+    { id: 4, name: "Leggings", category: "Bottoms" },
+  ];
 
   it("should display category of clothing as selected", () => {
     renderClothingForm({ clothing, types });
