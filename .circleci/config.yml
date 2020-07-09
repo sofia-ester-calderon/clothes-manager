@@ -65,6 +65,7 @@ jobs:
       - attach_workspace:
           at: ~/repo
       - run: npm run build
+      - run: ls
       # Persist entire project directory to the next job
       - persist_to_workspace:
           root: ~/repo/build
