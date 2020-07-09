@@ -90,7 +90,13 @@ const AllClothesContainer = ({ options }) => {
 };
 
 const mapStateToProps = (state) => {
-  return { options: { colors: state.colors, categories: state.categories } };
+  return {
+    options: {
+      colors: state.colors,
+      categories: state.categories,
+      occasions: state.occasions,
+    },
+  };
 };
 
 export default connect(mapStateToProps)(AllClothesContainer);

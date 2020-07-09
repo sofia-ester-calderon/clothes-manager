@@ -30,8 +30,6 @@ export const Types = [
 
 export const emptyColor = { name: "", hash: "" };
 
-export const Occasion = ["Sport", "Formal", "Everyday"];
-
 export const emptyClothing = {
   category: "",
   type: "",

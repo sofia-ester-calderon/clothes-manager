@@ -10,6 +10,7 @@ const initialState = {
     { id: "def_col_6", name: "Black", hash: "#000000" },
   ],
   categories: ["Tops", "Bottoms", "Underwear", "Shoes", "Accessories"],
+  occasions: ["Sport", "Formal", "Everyday"],
 };
 
 const optionsReducer = (state = initialState, action) => {

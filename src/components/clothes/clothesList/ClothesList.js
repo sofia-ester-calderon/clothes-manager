@@ -2,7 +2,6 @@ import React from "react";
 import { PropTypes } from "prop-types";
 
 import styles from "./ClothesList.module.css";
-import { Occasion } from "../../../data/data";
 
 import SelectInput from "../../common/inputs/select/SelectInput";
 import ClothesGroupedList from "./ClothesGroupedList";
@@ -49,7 +48,7 @@ const ClothesList = ({
                   <SelectInput
                     name="occasion-filter"
                     defaultOption="All Occasions"
-                    options={Occasion.map((occasion) => ({
+                    options={options.occasions.map((occasion) => ({
                       value: occasion,
                       text: occasion,
                     }))}

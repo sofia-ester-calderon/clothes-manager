@@ -39,6 +39,7 @@ const options = {
     { id: "def_col_3", name: "Blue", hash: "#0019bf" },
   ],
   categories: ["Tops", "Bottoms", "Underwear", "Shoes", "Accessories"],
+  occasions: ["Sport", "Formal", "Everyday"],
 };
 
 function renderClothesList(args) {

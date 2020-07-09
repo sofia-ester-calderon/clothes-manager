@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 
-import { emptyClothing, Occasion, Types } from "../../../data/data";
+import { emptyClothing, Types } from "../../../data/data";
 
 import ClothingForm from "../clothing/ClothingForm";
 
@@ -10,12 +10,13 @@ const allColors = [
   { id: "def_col_2", name: "Green", hash: "#00a80b" },
   { id: "def_col_3", name: "Blue", hash: "#0019bf" },
 ];
-
+const occasions = ["Sport", "Formal", "Everyday"];
 const categories = ["Tops", "Bottoms", "Underwear", "Shoes", "Accessories"];
 
 const options = {
   colors: allColors,
   categories,
+  occasions,
 };
 
 function renderClothingForm(args) {
@@ -63,7 +64,7 @@ describe("form with empty clothing and types as param", () => {
     renderClothingForm();
     screen.getByText("Occasion");
     screen.getByDisplayValue("Select Occasion");
-    Occasion.forEach((occasion) => {
+    occasions.forEach((occasion) => {
       screen.getByText(occasion);
     });
   });

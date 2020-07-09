@@ -1,8 +1,6 @@
 import React from "react";
 import { PropTypes } from "prop-types";
 
-import { Occasion } from "../../../data/data";
-
 import SelectInput from "../../common/inputs/select/SelectInput";
 import RatingInput from "../../common/inputs/rating/RatingInput";
 import ColorSelector from "./ColorSelector";
@@ -95,7 +93,7 @@ const ClothingForm = ({
         label="Occasion"
         value={clothing.occasion}
         defaultOption="Select Occasion"
-        options={Occasion.map((occasion) => ({
+        options={options.occasions.map((occasion) => ({
           value: occasion,
           text: occasion,
         }))}
