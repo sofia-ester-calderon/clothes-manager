@@ -3,7 +3,7 @@ data "aws_acm_certificate" "ssl_cert" {
   statuses = ["ISSUED"]
 }
 
-resource "aws_s3_555bucket" "s3_bucket" {
+resource "aws_s3_bucket" "s3_bucket" {
   bucket = var.application_subdomain
   acl    = "public-read"
   policy = <<POLICY

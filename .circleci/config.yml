@@ -30,6 +30,16 @@ jobs:
           paths:
             - "**"
 
+  run-tests:
+    <<: *defaults
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:12-browsers
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run: npm run test
+
   terraform-check:
     <<: *defaults
     docker:
@@ -86,6 +96,12 @@ workflows:
           filters:
             branches:
               only: master
+      - run-tests:
+          filters:
+            branches:
+              only: master
+          requires:
+            - node-install
       - terraform-check:
           filters:
             branches:
@@ -95,7 +111,7 @@ workflows:
             branches:
               only: master
           requires:
-            - node-install
+            - run-tests
       # - deploy:
       #     filters:
       #       branches:
