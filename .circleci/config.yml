@@ -108,6 +108,7 @@ jobs:
       # - run:
       #     name: Configure AWS CLI
       #     command: aws configure set default.region ${AWS_DEFAULT_REGION}
+      - aws-cli/setup
       - run:
           name: Deploy build directory
           command: aws s3 cp build/** s3://closet-manager.okeegan.com --recursive
