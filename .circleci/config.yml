@@ -71,7 +71,6 @@ jobs:
 
 orbs:
   aws-cli: circleci/aws-cli@1.2.1
-  terraform: devops-workflow/terraform@0.0.1
 
 # Specify workflows
 workflows:
