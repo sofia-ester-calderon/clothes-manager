@@ -65,8 +65,14 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - node-install
+      - node-install:
+          filters:
+            branches:
+              only: master
       - build:
+          filters:
+            branches:
+              only: master
           requires:
             - node-install
       - deploy:
