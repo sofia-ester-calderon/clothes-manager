@@ -36,7 +36,8 @@ jobs:
       - image: hashicorp/terraform:0.12.21
     steps:
       - checkout
-      - run: cd repo/deploy/
+      - run: cd ~/repo/deploy/
+      - run: ls
       - run: terraform init -backend=false
       - run: terraform validate
       - run: terraform fmt -check
@@ -91,12 +92,12 @@ workflows:
               only: master
           requires:
             - node-install
-      - deploy:
-          filters:
-            branches:
-              only: master
-          requires:
-            - build
+      # - deploy:
+      #     filters:
+      #       branches:
+      #         only: master
+      #     requires:
+      #       - build
       # - test:
       #     requires:
       #       - node-install
