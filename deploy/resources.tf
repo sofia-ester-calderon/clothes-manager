@@ -4,10 +4,10 @@ data "aws_acm_certificate" "ssl_cert" {
 }
 
 resource "aws_s3_bucket" "s3_bucket" {
-  bucket = var.application_subdomain
+  bucket        = var.application_subdomain
   force_destroy = true
-  acl    = "public-read"
-  policy = <<POLICY
+  acl           = "public-read"
+  policy        = <<POLICY
 {
   "Version": "2012-10-17",
   "Id": "REACTCLOTHESMANAGERBUCKETPOLICY",
