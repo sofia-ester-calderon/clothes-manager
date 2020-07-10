@@ -176,10 +176,10 @@ const ClothingContainer = (props) => {
 const mapStateToProps = (state) => {
   return {
     options: {
-      colors: state.colors,
-      categories: state.categories,
-      occasions: state.occasions,
-      types: state.types,
+      colors: state.options.colors,
+      categories: state.options.categories,
+      occasions: state.options.occasions,
+      types: state.options.types,
     },
   };
 };

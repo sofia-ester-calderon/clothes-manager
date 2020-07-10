@@ -28,7 +28,7 @@ const ColorsContainer = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    colors: state.colors,
+    colors: state.options.colors,
   };
 };
 

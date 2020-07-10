@@ -2,20 +2,19 @@ import React from "react";
 import { screen, fireEvent } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import { wait } from "react-testing-library";
-import { renderWithStore } from "../../../test-utils/test-utils";
+
+import { renderWithStore, mockStore } from "../../../test-utils/test-utils";
 
 import ColorDetailContainer from "./ColorDetailContainer";
+import { editColor } from "../../../store/actions/optionsActions";
 
 HTMLCanvasElement.prototype.getContext = jest.fn();
-
-const onUpdateColor = jest.fn();
 
 async function renderDetailContainer(history) {
   const props = {
     match: { params: { id: "def_col_1" } },
     history,
     color: { id: "def_col_1", name: "Red", hash: "#ff1100" },
-    onUpdateColor,
   };
   renderWithStore(<ColorDetailContainer {...props} />);
   await screen.findByDisplayValue("Red");
@@ -48,6 +47,20 @@ describe("given the save button was clicked", () => {
     });
     fireEvent.click(screen.getByText("Save"));
     screen.getByText("Name is required");
+  });
+
+  it("should dispatch an edit color action with the new color information", async () => {
+    const history = createMemoryHistory();
+
+    await renderDetailContainer(history);
+    fireEvent.change(screen.getByDisplayValue("Red"), {
+      target: { value: "Blue" },
+    });
+    fireEvent.click(screen.getByText("Save"));
+
+    expect(mockStore.dispatch).toHaveBeenCalledWith(
+      editColor({ id: "def_col_1", name: "Blue", hash: "#ff1100" })
+    );
   });
 
   it("should route to color list if save was successful", async () => {

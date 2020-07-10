@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 
-import * as actionTypes from "../../../store/actions";
+import * as actionCreators from "../../../store/actions/optionsActions";
 import { emptyColor } from "../../../data/data";
 
 import ColorForm from "./ColorForm";
@@ -60,15 +60,15 @@ const ColorDetailContainer = (props) => {
 function mapStateToProps(state, ownProps) {
   const colorId = ownProps.match.params.id;
   const color =
-    colorId && state.colors.length > 0
-      ? state.colors.find((color) => color.id === colorId)
+    colorId && state.options.colors.length > 0
+      ? state.options.colors.find((color) => color.id === colorId)
       : emptyColor;
   return { color };
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onUpdateColor: (color) => dispatch({ type: actionTypes.EDIT_COLOR, color }),
+    onUpdateColor: (color) => dispatch(actionCreators.editColor(color)),
   };
 };
 
