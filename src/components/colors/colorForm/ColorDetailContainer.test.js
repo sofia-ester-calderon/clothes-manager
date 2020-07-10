@@ -3,10 +3,10 @@ import { screen, fireEvent } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import { wait } from "react-testing-library";
 
-import { renderWithStore, mockStore } from "../../../test-utils/test-utils";
+import { renderWithStore } from "../../../test-utils/test-utils";
 
 import ColorDetailContainer from "./ColorDetailContainer";
-import { editColor } from "../../../store/actions/optionsActions";
+import * as actions from "../../../store/actions/optionsActions";
 
 HTMLCanvasElement.prototype.getContext = jest.fn();
 
@@ -51,6 +51,7 @@ describe("given the save button was clicked", () => {
 
   it("should dispatch an edit color action with the new color information", async () => {
     const history = createMemoryHistory();
+    actions.editColor = jest.fn();
 
     await renderDetailContainer(history);
     fireEvent.change(screen.getByDisplayValue("Red"), {
@@ -58,9 +59,11 @@ describe("given the save button was clicked", () => {
     });
     fireEvent.click(screen.getByText("Save"));
 
-    expect(mockStore.dispatch).toHaveBeenCalledWith(
-      editColor({ id: "def_col_1", name: "Blue", hash: "#ff1100" })
-    );
+    expect(actions.editColor).toHaveBeenCalledWith({
+      id: "def_col_1",
+      name: "Blue",
+      hash: "#ff1100",
+    });
   });
 
   it("should route to color list if save was successful", async () => {

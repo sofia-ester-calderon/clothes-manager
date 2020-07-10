@@ -31,15 +31,12 @@ const initialState = {
   },
 };
 
-export let mockStore = null;
-
 function renderWithStore(
   ui,
   { store = createStore(optionsReducer, initialState), ...renderOptions } = {}
 ) {
   function Wrapper({ children }) {
     store.dispatch = jest.fn();
-    mockStore = store;
     return <Provider store={store}>{children}</Provider>;
   }
   return render(ui, { wrapper: Wrapper, ...renderOptions });

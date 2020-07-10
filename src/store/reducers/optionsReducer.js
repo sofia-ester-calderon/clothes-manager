@@ -1,4 +1,4 @@
-import * as actionTypes from "../actions/optionsActions";
+import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
   colors: [
