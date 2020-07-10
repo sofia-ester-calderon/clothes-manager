@@ -13,10 +13,13 @@ import optionsReducer from "./store/reducers/optionsReducer";
 
 const rootReducer = combineReducers({ options: optionsReducer });
 
-const composeEnhanders = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-// const store = createStore(rootReducer, applyMiddleware(thunk));
-const store = createStore(rootReducer);
+const store = createStore(
+  rootReducer,
+  composeEnhancers(applyMiddleware(thunk))
+);
+// const store = createStore(rootReducer);
 
 ReactDOM.render(
   <Provider store={store}>
