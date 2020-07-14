@@ -80,7 +80,11 @@ const ClothesGroupedList = ({
                   <td className={styles.cellWidth}>
                     {clothing.colors.map((colorId) => (
                       <ColorCircle
-                        color={colors.find((color) => color.id === colorId)}
+                        color={colors.find((color) => {
+                          console.log("colors in find", colors);
+                          console.log("colorId", colorId);
+                          return color.id === colorId;
+                        })}
                         key={colorId}
                       />
                     ))}

@@ -3,6 +3,7 @@ import styles from "./ColorCircle.module.css";
 import { PropTypes } from "prop-types";
 
 const ColorCircle = (props) => {
+  console.log("colorcircle", props.color);
   return (
     <span
       data-testid="circle-color"

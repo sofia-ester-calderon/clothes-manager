@@ -1,20 +1,20 @@
 import axios from "./axios-api";
-import {
-  transformJsonToArray,
-  transformJsonToObject,
-  transformObjectToJson,
-} from "./firebaseHelper";
+import { transformObjectToJson } from "./firebaseHelper";
 
 const COLORS_PREFIX = "/colors";
 
 async function getColors() {
-  const colorData = await axios.get(`${COLORS_PREFIX}.json`);
-  return transformJsonToArray(colorData.data);
+  const colorData = await axios.get(
+    `http://localhost:5000/api${COLORS_PREFIX}`
+  );
+  return colorData.data;
 }
 
 async function getColor(id) {
-  const color = await axios.get(`${COLORS_PREFIX}/${id}.json`);
-  return transformJsonToObject(color.data, id);
+  const color = await axios.get(
+    `http://localhost:5000/api${COLORS_PREFIX}/${id}`
+  );
+  return color.data;
 }
 
 async function editColor(color) {
