@@ -9,7 +9,6 @@ const URL_API =
     : "correctUrl/api";
 
 async function getColors() {
-  console.log(process.env.NODE_ENV);
   const colorData = await axios.get(`${URL_API}${COLORS_PREFIX}`);
   return colorData.data;
 }

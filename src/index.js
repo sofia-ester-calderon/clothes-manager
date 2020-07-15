@@ -10,6 +10,7 @@ import "./index.css";
 import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
 import optionsReducer from "./store/reducers/optionsReducer";
+import ApiErrorProvider from "./hooks/ApiErrorProvider";
 
 const rootReducer = combineReducers({ options: optionsReducer });
 
@@ -22,13 +23,15 @@ const store = createStore(
 // const store = createStore(rootReducer);
 
 ReactDOM.render(
-  <Provider store={store}>
-    <React.StrictMode>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </React.StrictMode>
-  </Provider>,
+  <ApiErrorProvider>
+    <Provider store={store}>
+      <React.StrictMode>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </React.StrictMode>
+    </Provider>
+  </ApiErrorProvider>,
   document.getElementById("root")
 );
 

@@ -1,8 +1,6 @@
 import React from "react";
 import { ToastContainer } from "react-toastify";
 import styles from "./App.module.css";
-import ApiErrorProvider from "../hooks/ApiErrorProvider";
-import AllColorsProvider from "../hooks/AllColorsProvider";
 import RoutingComponent from "./routing/RoutingComponent";
 import Header from "./header/Header";
 
@@ -11,11 +9,7 @@ function App() {
     <>
       <Header />
       <div className={styles.layout}>
-        <ApiErrorProvider>
-          <AllColorsProvider>
-            <RoutingComponent />
-          </AllColorsProvider>
-        </ApiErrorProvider>
+        <RoutingComponent />
       </div>
       <ToastContainer autoClose={2000} />
     </>

@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route } from "react-router-dom";
 import { connect } from "react-redux";
 
 import ColorDetailContainer from "../colorForm/ColorDetailContainer";
 import ColorList from "./ColorList";
+import { initColors } from "../../../store/actions/optionsActions";
 
-const ColorsContainer = (props) => {
+const ColorsContainer = ({ colors, initColors, ...props }) => {
+  useEffect(() => {
+    if (colors.length === 0) {
+      initColors();
+    }
+  }, [colors, initColors]);
+
   function showColorHandler(color) {
     props.history.push(props.match.url + "/" + color.id);
   }
@@ -13,7 +20,7 @@ const ColorsContainer = (props) => {
   return (
     <div className="row">
       <div className="col">
-        <ColorList onClick={showColorHandler} colors={props.colors} />
+        <ColorList onClick={showColorHandler} colors={colors} />
         <button className="btn btn btn-dark mt-3">Add New Color</button>
       </div>
       <div className="col ml-4">
@@ -32,4 +39,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(ColorsContainer);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    initColors: () => dispatch(initColors()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ColorsContainer);

@@ -3,8 +3,9 @@ import { connect } from "react-redux";
 import clothesApi from "../../../api/clothesApi";
 
 import ClothesList from "./ClothesList";
+import { initColors } from "../../../store/actions/optionsActions";
 
-const AllClothesContainer = ({ options }) => {
+const AllClothesContainer = ({ options, initColors }) => {
   const [allClothes, setAllClothes] = useState([]);
   const [filteredClothes, setFilteredClothes] = useState(allClothes);
   const [typesToDisplay, settypesToDisplay] = useState([options.categories[0]]);
@@ -22,6 +23,12 @@ const AllClothesContainer = ({ options }) => {
     }
     getClothesFromApi();
   }, []);
+
+  useEffect(() => {
+    if (options.colors.length === 0) {
+      initColors();
+    }
+  }, [options.colors, initColors]);
 
   useEffect(() => {
     let newFilteredClothes = allClothes;
@@ -99,4 +106,13 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(AllClothesContainer);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    initColors: () => dispatch(initColors()),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AllClothesContainer);

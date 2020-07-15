@@ -1,14 +1,7 @@
 import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
-  colors: [
-    { id: "def_col_1", name: "Red", hash: "#ff1100" },
-    { id: "def_col_2", name: "Green", hash: "#00a80b" },
-    { id: "def_col_3", name: "Blue", hash: "#0019bf" },
-    { id: "def_col_4", name: "Yellow", hash: "#edea13" },
-    { id: "def_col_5", name: "White", hash: "#ffffff" },
-    { id: "def_col_6", name: "Black", hash: "#000000" },
-  ],
+  colors: [],
   categories: ["Tops", "Bottoms", "Underwear", "Shoes", "Accessories"],
   occasions: ["Sport", "Formal", "Everyday"],
   types: [
@@ -32,6 +25,11 @@ const optionsReducer = (state = initialState, action) => {
         color.id === action.color.id ? action.color : color
       );
       return { ...state, colors };
+    case actionTypes.LOAD_COLORS:
+      return {
+        ...state,
+        colors: action.colors,
+      };
     default:
       return state;
   }

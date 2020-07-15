@@ -6,13 +6,14 @@ import { connect } from "react-redux";
 import clothesApi from "../../../api/clothesApi";
 import styles from "./Clothing.module.css";
 import { emptyClothing } from "../../../data/data";
+import { initColors } from "../../../store/actions/optionsActions";
 
 import ClothingForm from "./ClothingForm";
 
-const ClothingContainer = (props) => {
+const ClothingContainer = ({ options, initColors, ...props }) => {
   const [clothing, setClothing] = useState(emptyClothing);
   const [types, setTypes] = useState(
-    clothing.category === "" ? [] : props.options.types
+    clothing.category === "" ? [] : options.types
   );
   const [colors, setColors] = useState([]);
   const [errors, setErrors] = useState({});
@@ -23,7 +24,7 @@ const ClothingContainer = (props) => {
     async function getClothingFromApi(id) {
       const clothingDisplay = await clothesApi.getClothing(id);
       setClothing(clothingDisplay);
-      const typesByCategory = props.options.types.filter(
+      const typesByCategory = options.types.filter(
         (type) => type.category === clothingDisplay.category
       );
       setTypes(typesByCategory);
@@ -31,21 +32,24 @@ const ClothingContainer = (props) => {
     const clothingId = props.match.params.id;
     if (clothingId) {
       getClothingFromApi(clothingId);
+    } else {
+      setClothing(emptyClothing);
     }
-  }, [props.match.params.id, props.options.types]);
+  }, [props.match.params.id, options.types]);
 
   useEffect(() => {
-    if (props.options.colors.length > 0 && clothing.id) {
+    if (options.colors.length === 0) {
+      initColors();
+    }
+    if (options.colors.length > 0 && clothing.id) {
       setColors(
-        props.options.colors.filter(
-          (color) => !clothing.colors.includes(color.id)
-        )
+        options.colors.filter((color) => !clothing.colors.includes(color.id))
       );
     }
-    if (!clothing.id && clothing.colors.length === 0) {
-      setColors(props.options.colors);
+    if (clothing.colors.length === 0) {
+      setColors(options.colors);
     }
-  }, [props.options.colors, clothing]);
+  }, [options.colors, clothing, initColors]);
 
   function saveClothesHandler(event) {
     event.preventDefault();
@@ -111,7 +115,7 @@ const ClothingContainer = (props) => {
   function determineTypesFromCategory(category) {
     let typesByCategory = [];
     if (category && category !== "") {
-      typesByCategory = props.options.types.filter(
+      typesByCategory = options.types.filter(
         (type) => type.category === category
       );
     }
@@ -128,10 +132,7 @@ const ClothingContainer = (props) => {
       colors: prevClothing.colors.filter((color) => color !== deletedColor),
     }));
 
-    setColors([
-      ...colors,
-      props.options.colors.find((c) => c.id === deletedColor),
-    ]);
+    setColors([...colors, options.colors.find((c) => c.id === deletedColor)]);
   }
 
   function changeColorHandler(event, prevColor) {
@@ -145,7 +146,7 @@ const ClothingContainer = (props) => {
 
     const newSelectionColors = colors.map((color) => {
       return color.id === newColor
-        ? props.options.colors.find((c) => c.id === prevColor)
+        ? options.colors.find((c) => c.id === prevColor)
         : color;
     });
     setColors(newSelectionColors);
@@ -155,7 +156,7 @@ const ClothingContainer = (props) => {
     <Redirect to="/clothes" />
   ) : (
     <div className={styles.layout}>
-      {props.options.colors.length > 0 ? (
+      {options.colors.length > 0 ? (
         <ClothingForm
           clothing={clothing}
           onSave={saveClothesHandler}
@@ -166,7 +167,7 @@ const ClothingContainer = (props) => {
           colors={colors}
           errors={errors}
           saving={saving}
-          options={props.options}
+          options={options}
         />
       ) : null}
     </div>
@@ -184,4 +185,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(ClothingContainer);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    initColors: () => dispatch(initColors()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ClothingContainer);
