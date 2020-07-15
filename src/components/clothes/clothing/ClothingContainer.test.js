@@ -5,6 +5,7 @@ import { createMemoryHistory } from "history";
 
 import { renderWithStore } from "../../../test-utils/test-utils";
 import clothesApi from "../../../api/clothesApi";
+import optionsActions from "../../../store/actions/optionsActions";
 
 import ClothingContainer from "../../clothes/clothing/ClothingContainer";
 
@@ -23,7 +24,7 @@ clothesApi.saveClothing = jest.fn().mockResolvedValue({ data: "data" });
 
 clothesApi.editClothing = jest.fn().mockRejectedValue();
 
-function renderClothingContainer(args) {
+function renderClothingContainer(args, emptyState) {
   const defaultProps = {
     match: { params: { id: null } },
   };
@@ -32,9 +33,19 @@ function renderClothingContainer(args) {
   return renderWithStore(
     <Router history={createMemoryHistory()}>
       <ClothingContainer {...props} />
-    </Router>
+    </Router>,
+    emptyState
   );
 }
+
+describe("initial loading", () => {
+  it("should load colors if color list is empty", async () => {
+    optionsActions.initColors = jest.fn();
+    renderClothingContainer(null, true);
+
+    expect(optionsActions.initColors).toHaveBeenCalled();
+  });
+});
 
 describe("add or edit clothing", () => {
   it("should display header 'Add New Clothing' and empty form when no id is passed", () => {

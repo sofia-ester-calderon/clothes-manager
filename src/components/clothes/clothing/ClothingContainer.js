@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import clothesApi from "../../../api/clothesApi";
 import styles from "./Clothing.module.css";
 import { emptyClothing } from "../../../data/data";
-import { initColors } from "../../../store/actions/optionsActions";
+import optionsActions from "../../../store/actions/optionsActions";
 
 import ClothingForm from "./ClothingForm";
 
@@ -187,7 +187,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    initColors: () => dispatch(initColors()),
+    initColors: () => dispatch(optionsActions.initColors()),
   };
 };
 

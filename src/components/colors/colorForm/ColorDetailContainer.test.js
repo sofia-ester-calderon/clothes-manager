@@ -4,9 +4,9 @@ import { createMemoryHistory } from "history";
 import { wait } from "react-testing-library";
 
 import { renderWithStore } from "../../../test-utils/test-utils";
+import optionsActions from "../../../store/actions/optionsActions";
 
 import ColorDetailContainer from "./ColorDetailContainer";
-import * as actions from "../../../store/actions/optionsActions";
 
 HTMLCanvasElement.prototype.getContext = jest.fn();
 
@@ -51,7 +51,7 @@ describe("given the save button was clicked", () => {
 
   it("should dispatch an edit color action with the new color information", async () => {
     const history = createMemoryHistory();
-    actions.editColor = jest.fn();
+    optionsActions.editColor = jest.fn();
 
     await renderDetailContainer(history);
     fireEvent.change(screen.getByDisplayValue("Red"), {
@@ -59,7 +59,7 @@ describe("given the save button was clicked", () => {
     });
     fireEvent.click(screen.getByText("Save"));
 
-    expect(actions.editColor).toHaveBeenCalledWith({
+    expect(optionsActions.editColor).toHaveBeenCalledWith({
       id: "def_col_1",
       name: "Blue",
       hash: "#ff1100",

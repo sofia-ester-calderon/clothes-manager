@@ -5,6 +5,7 @@ import { createMemoryHistory } from "history";
 
 import clothesApi from "../../../api/clothesApi";
 import { renderWithStore } from "../../../test-utils/test-utils";
+import optionsActions from "../../../store/actions/optionsActions";
 
 import AllClothesContainer from "./AllClothesContainer";
 
@@ -54,20 +55,31 @@ jest.mock("../../../api/colorsApi", () => ({
   ]),
 }));
 
-async function renderAllClothesContainer(history) {
+async function renderAllClothesContainer(history, emptyState) {
   const props = {
     history,
   };
   renderWithStore(
     <Router history={createMemoryHistory()}>
       <AllClothesContainer {...props} />
-    </Router>
+    </Router>,
+    emptyState
   );
-  // Await for everything to be rendered accordingly
-  await screen.findByText("Tops (2)");
+  if (!emptyState) {
+    // Await for everything to be rendered accordingly
+    await screen.findByText("Total: 3");
+  } else {
+    await screen.findByText("Total: 0");
+  }
 }
 
 describe("given the page is opened", () => {
+  it("should load colors if color list is empty", async () => {
+    optionsActions.initColors = jest.fn();
+    await renderAllClothesContainer(null, true);
+    expect(optionsActions.initColors).toHaveBeenCalled();
+  });
+
   it("should only display clothes of type 'Tops' - all others are hidden", async () => {
     await renderAllClothesContainer();
     screen.getByText("Sweater");

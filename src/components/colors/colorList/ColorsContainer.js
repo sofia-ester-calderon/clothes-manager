@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 import ColorDetailContainer from "../colorForm/ColorDetailContainer";
 import ColorList from "./ColorList";
-import { initColors } from "../../../store/actions/optionsActions";
+import optionsActions from "../../../store/actions/optionsActions";
 
 const ColorsContainer = ({ colors, initColors, ...props }) => {
   useEffect(() => {
@@ -41,7 +41,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    initColors: () => dispatch(initColors()),
+    initColors: () => dispatch(optionsActions.initColors()),
   };
 };
 

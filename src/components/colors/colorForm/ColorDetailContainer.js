@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 
-import * as actionCreators from "../../../store/actions/optionsActions";
+import optionsActions from "../../../store/actions/optionsActions";
 import { emptyColor } from "../../../data/data";
 
 import ColorForm from "./ColorForm";
@@ -68,7 +68,7 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onUpdateColor: (color) => dispatch(actionCreators.editColor(color)),
+    onUpdateColor: (color) => dispatch(optionsActions.editColor(color)),
   };
 };
 

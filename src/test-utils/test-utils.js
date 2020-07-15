@@ -4,7 +4,7 @@ import { createStore } from "redux";
 import { Provider } from "react-redux";
 import optionsReducer from "../store/reducers/optionsReducer";
 
-const initialState = {
+const initialStateFilled = {
   options: {
     colors: [
       { id: "def_col_1", name: "Red", hash: "#ff1100" },
@@ -31,9 +31,25 @@ const initialState = {
   },
 };
 
+const initialStateEmpty = {
+  options: {
+    colors: [],
+    categories: [],
+    occasions: [],
+    types: [],
+  },
+};
+
 function renderWithStore(
   ui,
-  { store = createStore(optionsReducer, initialState), ...renderOptions } = {}
+  emptyState,
+  {
+    store = createStore(
+      optionsReducer,
+      emptyState ? initialStateEmpty : initialStateFilled
+    ),
+    ...renderOptions
+  } = {}
 ) {
   function Wrapper({ children }) {
     store.dispatch = jest.fn();

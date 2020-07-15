@@ -1,14 +1,14 @@
 import { EDIT_COLOR, LOAD_COLORS } from "./actionTypes";
 import colorApi from "../../api/colorsApi";
 
-export const editColorSuccess = (color) => {
+const editColorSuccess = (color) => {
   return {
     type: EDIT_COLOR,
     color,
   };
 };
 
-export const editColor = (color) => {
+const editColor = (color) => {
   return (dispatch) => {
     setTimeout(() => {
       dispatch(editColorSuccess(color));
@@ -16,14 +16,14 @@ export const editColor = (color) => {
   };
 };
 
-export const setColors = (colors) => {
+const setColors = (colors) => {
   return {
     type: LOAD_COLORS,
     colors,
   };
 };
 
-export const initColors = () => {
+const initColors = () => {
   return async (dispatch) => {
     try {
       const colors = await colorApi.getColors();
@@ -33,3 +33,12 @@ export const initColors = () => {
     }
   };
 };
+
+const optionsActions = {
+  editColorSuccess,
+  editColor,
+  setColors,
+  initColors,
+};
+
+export default optionsActions;

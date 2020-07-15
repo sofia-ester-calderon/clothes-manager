@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import clothesApi from "../../../api/clothesApi";
 
 import ClothesList from "./ClothesList";
-import { initColors } from "../../../store/actions/optionsActions";
+import optionsActions from "../../../store/actions/optionsActions";
 
 const AllClothesContainer = ({ options, initColors }) => {
   const [allClothes, setAllClothes] = useState([]);
@@ -108,7 +108,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    initColors: () => dispatch(initColors()),
+    initColors: () => dispatch(optionsActions.initColors()),
   };
 };
 

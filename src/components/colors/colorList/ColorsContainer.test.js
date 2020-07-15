@@ -4,6 +4,7 @@ import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 
 import { renderWithStore } from "../../../test-utils/test-utils";
+import optionsActions from "../../../store/actions/optionsActions";
 
 import ColorsContainer from "./ColorsContainer";
 
@@ -12,16 +13,25 @@ HTMLCanvasElement.prototype.getContext = jest.fn();
 const history = { push: jest.fn() };
 const url = "/url";
 
-async function renderColorsContainer(args) {
+async function renderColorsContainer(emptyState) {
   const defaultProps = { match: { url }, history };
-  const props = { ...defaultProps, ...args };
   renderWithStore(
     <Router history={createMemoryHistory()}>
-      <ColorsContainer {...props} />
-    </Router>
+      <ColorsContainer {...defaultProps} />
+    </Router>,
+    emptyState
   );
-  await screen.findByText("Red");
+  if (!emptyState) {
+    await screen.findByText("Red");
+  }
 }
+
+it("should load colors if color list is empty", async () => {
+  optionsActions.initColors = jest.fn();
+  await renderColorsContainer(true);
+
+  expect(optionsActions.initColors).toHaveBeenCalled();
+});
 
 it("should display the colors list", async () => {
   await renderColorsContainer();
