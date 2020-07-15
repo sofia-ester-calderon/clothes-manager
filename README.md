@@ -12,3 +12,9 @@ As a backend `firebase` is used
 
 ## Testing
 All tests are written using the `react-testing-library`
+
+## IaC
+In the deploy folder the `terraform` scripts for IaC can be found
+
+## Pipeline
+`circleci.yml` describes the pipeline. Every time a push on the `master` branch is detected, the pipeline runs.
