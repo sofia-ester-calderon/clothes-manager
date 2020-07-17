@@ -8,12 +8,14 @@ export function transformJsonToArray(json) {
   return clothesValues;
 }
 
-export function transformJsonToObject(obj, id) {
+export function transformJsonToObject(json, id) {
+  const obj = { ...json };
   obj.id = id;
   return obj;
 }
 
 export function transformObjectToJson(object) {
-  delete object.id;
-  return object;
+  const jsonObject = { ...object };
+  delete jsonObject.id;
+  return jsonObject;
 }

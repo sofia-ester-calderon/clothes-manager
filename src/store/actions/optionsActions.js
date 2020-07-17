@@ -9,10 +9,13 @@ const editColorSuccess = (color) => {
 };
 
 const editColor = (color) => {
-  return (dispatch) => {
-    setTimeout(() => {
+  return async (dispatch) => {
+    try {
+      await colorApi.editColor(color);
       dispatch(editColorSuccess(color));
-    }, 2000);
+    } catch (error) {
+      // Error is handled by ApiErrorHandler
+    }
   };
 };
 
