@@ -6,35 +6,9 @@ import { createMemoryHistory } from "history";
 import clothesApi from "../../../api/clothesApi";
 import { renderWithStore } from "../../../test-utils/test-utils";
 import optionsActions from "../../../store/actions/optionsActions";
+import clothesActions from "../../../store/actions/clothesActions";
 
 import AllClothesContainer from "./AllClothesContainer";
-
-clothesApi.getClothes = jest.fn().mockResolvedValue([
-  {
-    id: 1,
-    category: "Tops",
-    type: "Sweater",
-    colors: ["def_col_1"],
-    rating: 5,
-    occasion: "Everyday",
-  },
-  {
-    id: 2,
-    category: "Tops",
-    type: "T-Shirt",
-    colors: ["def_col_2"],
-    rating: 4,
-    occasion: "Sport",
-  },
-  {
-    id: 3,
-    category: "Bottoms",
-    type: "Jeans",
-    colors: ["def_col_3"],
-    rating: 2,
-    occasion: "Everyday",
-  },
-]);
 
 clothesApi.getClothing = jest.fn().mockResolvedValue({
   id: 1,
@@ -44,8 +18,6 @@ clothesApi.getClothing = jest.fn().mockResolvedValue({
   rating: 5,
   occasion: "Everyday",
 });
-
-clothesApi.deleteClothing = jest.fn().mockResolvedValue();
 
 jest.mock("../../../api/colorsApi", () => ({
   getColors: jest.fn().mockResolvedValue([
@@ -78,6 +50,12 @@ describe("given the page is opened", () => {
     optionsActions.initColors = jest.fn();
     await renderAllClothesContainer(null, true);
     expect(optionsActions.initColors).toHaveBeenCalled();
+  });
+
+  it("should load clothes if clothes list is empty", async () => {
+    clothesActions.loadClothes = jest.fn();
+    await renderAllClothesContainer(null, true);
+    expect(clothesActions.loadClothes).toHaveBeenCalled();
   });
 
   it("should only display clothes of type 'Tops' - all others are hidden", async () => {
@@ -142,11 +120,12 @@ describe("given a filter is selected", () => {
 });
 
 describe("given the delete button of a clothing item is clicked", () => {
-  it("should not display that item", async () => {
+  it("should dispatch a deleteClothing action", async () => {
+    clothesActions.deleteClothing = jest.fn();
     await renderAllClothesContainer();
     screen.getByText("Sweater");
     fireEvent.click(screen.getAllByAltText("Delete")[0]);
-    expect(screen.queryByText("Sweater")).not.toBeInTheDocument();
+    expect(clothesActions.deleteClothing).toHaveBeenCalledWith(1);
   });
 });
 

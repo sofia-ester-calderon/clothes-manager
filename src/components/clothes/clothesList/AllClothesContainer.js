@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import clothesApi from "../../../api/clothesApi";
 
 import ClothesList from "./ClothesList";
 import optionsActions from "../../../store/actions/optionsActions";
+import clothesActions from "../../../store/actions/clothesActions";
 
-const AllClothesContainer = ({ options, initColors }) => {
-  const [allClothes, setAllClothes] = useState([]);
+const AllClothesContainer = ({
+  options,
+  allClothes,
+  initColors,
+  initClothes,
+  deleteClothing,
+}) => {
   const [filteredClothes, setFilteredClothes] = useState(allClothes);
   const [typesToDisplay, settypesToDisplay] = useState([options.categories[0]]);
   const [filters, setFilter] = useState({
@@ -16,13 +21,10 @@ const AllClothesContainer = ({ options, initColors }) => {
   });
 
   useEffect(() => {
-    async function getClothesFromApi() {
-      const clothes = await clothesApi.getClothes();
-      setAllClothes(clothes);
-      setFilteredClothes(clothes);
+    if (allClothes.length === 0) {
+      initClothes();
     }
-    getClothesFromApi();
-  }, []);
+  }, [allClothes, initClothes]);
 
   useEffect(() => {
     if (options.colors.length === 0) {
@@ -78,10 +80,7 @@ const AllClothesContainer = ({ options, initColors }) => {
   }
 
   function deleteClothingHandler(deleteId) {
-    clothesApi.deleteClothing(deleteId);
-    setAllClothes((prevClothes) =>
-      prevClothes.filter((clothing) => clothing.id !== deleteId)
-    );
+    deleteClothing(deleteId);
   }
 
   return (
@@ -103,12 +102,15 @@ const mapStateToProps = (state) => {
       categories: state.options.categories,
       occasions: state.options.occasions,
     },
+    allClothes: state.clothes,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     initColors: () => dispatch(optionsActions.initColors()),
+    initClothes: () => dispatch(clothesActions.loadClothes()),
+    deleteClothing: (id) => dispatch(clothesActions.deleteClothing(id)),
   };
 };
 

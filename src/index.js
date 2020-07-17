@@ -10,9 +10,13 @@ import "./index.css";
 import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
 import optionsReducer from "./store/reducers/optionsReducer";
+import clothesReducer from "./store/reducers/clothesReducer";
 import ApiErrorProvider from "./hooks/ApiErrorProvider";
 
-const rootReducer = combineReducers({ options: optionsReducer });
+const rootReducer = combineReducers({
+  options: optionsReducer,
+  clothes: clothesReducer,
+});
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

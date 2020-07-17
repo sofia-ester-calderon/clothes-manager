@@ -29,6 +29,32 @@ const initialStateFilled = {
       { id: 10, name: "Scarf", category: "Accessories" },
     ],
   },
+  clothes: [
+    {
+      id: 1,
+      category: "Tops",
+      type: "Sweater",
+      colors: ["def_col_1"],
+      rating: 5,
+      occasion: "Everyday",
+    },
+    {
+      id: 2,
+      category: "Tops",
+      type: "T-Shirt",
+      colors: ["def_col_2"],
+      rating: 4,
+      occasion: "Sport",
+    },
+    {
+      id: 3,
+      category: "Bottoms",
+      type: "Jeans",
+      colors: ["def_col_3"],
+      rating: 2,
+      occasion: "Everyday",
+    },
+  ],
 };
 
 const initialStateEmpty = {
@@ -38,6 +64,7 @@ const initialStateEmpty = {
     occasions: [],
     types: [],
   },
+  clothes: [],
 };
 
 function renderWithStore(
