@@ -2,12 +2,22 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 
-const colors = require("./colors.json");
-
 const app = express();
 
+if (process.env.NODE_ENV === "development") {
+  app.use(cors());
+}
+
+const colors = [
+  { id: "def_col_1", name: "Red", hash: "#ff1100" },
+  { id: "def_col_2", name: "Green", hash: "#00a80b" },
+  { id: "def_col_3", name: "Blue", hash: "#0019bf" },
+  { id: "def_col_4", name: "Yellow", hash: "#edea13" },
+  { id: "def_col_5", name: "White", hash: "#ffffff" },
+  { id: "def_col_6", name: "Black", hash: "#000000" },
+];
+
 // Serve the static files from the React app
-app.use(cors());
 app.use(express.static(path.join(__dirname, "build")));
 
 // An api endpoint that returns a short list of items
