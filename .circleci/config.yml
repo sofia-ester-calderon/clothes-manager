@@ -85,7 +85,7 @@ jobs:
       - persist_to_workspace:
           root: ./
           paths:
-            - /backend/backend.zip
+            - /repo/backend/backend.zip
 
   terraform-plan-and-apply:
     docker:
