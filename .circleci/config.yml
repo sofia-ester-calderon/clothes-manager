@@ -56,7 +56,7 @@ jobs:
           name: terraform format check
           command: cd deploy && terraform fmt -check
 
-  build:
+  build-frontend:
     <<: *defaults
     docker:
       # specify the version you desire here
@@ -65,12 +65,25 @@ jobs:
       - attach_workspace:
           at: ~/repo
       - run: npm run build
-      - run: ls
       # Persist entire project directory to the next job
       - persist_to_workspace:
           root: ./
           paths:
             - "**"
+
+  build-backend:
+    <<: *defaults
+    docker:
+      - image: alpine:latest
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run: apk add --update zip
+      - run: cd backend && zip backend.zip index.js
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - backend.zip
 
   terraform-plan-and-apply:
     docker:
@@ -99,7 +112,7 @@ jobs:
           name: terraform destroy
           command: cd deploy && terraform destroy -auto-approve
 
-  deploy:
+  deploy-frontend:
     <<: *defaults
     executor: aws-cli/default
     steps:
@@ -108,10 +121,15 @@ jobs:
       # - run:
       #     name: Configure AWS CLI
       #     command: aws configure set default.region ${AWS_DEFAULT_REGION}
+      - run: ls
+      - run: cd backend && ls
       - aws-cli/setup
       - run:
           name: Deploy build directory
           command: aws s3 cp build/ s3://closet-manager.okeegan.com --recursive
+
+  # deploy-backend:
+  #   <<: *defaults
 
 orbs:
   aws-cli: circleci/aws-cli@1.2.1
@@ -135,20 +153,27 @@ workflows:
           filters:
             branches:
               only: master
-      - build:
+      - build-frontend:
           filters:
             branches:
               only: master
           requires:
             - run-tests
+      - build-backend:
+          filters:
+            branches:
+              only: master
+          requires:
+            - node-install
       - terraform-plan-and-apply:
           filters:
             branches:
               only: master
           requires:
-            - build
+            - build-frontend
+            - build-backend
             - terraform-check
-      - deploy:
+      - deploy-frontend:
           filters:
             branches:
               only: master
@@ -167,12 +192,3 @@ workflows:
           filters:
             branches:
               only: master
-      # - deploy:
-      #     filters:
-      #       branches:
-      #         only: master
-      #     requires:
-      #       - build
-      # - test:
-      #     requires:
-      #       - node-install
