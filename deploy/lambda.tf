@@ -22,7 +22,7 @@ resource "aws_iam_role" "lambda_exec" {
       {
          "Action":"sts:AssumeRole",
          "Principal":{
-            "Service":"lambda.amazonaws.com"
+            "AWS":"arn:aws:iam::487651022905:policy/closet-manager-access-policy"
          },
          "Effect":"Allow",
          "Sid":""
