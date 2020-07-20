@@ -1,5 +1,5 @@
 resource "aws_lambda_function" "closet-manager-api" {
-  function_name = "colors_api"
+  function_name = "colorsApi"
 
   s3_bucket = var.application_subdomain
   s3_key    = "lambas/backend.zip"
