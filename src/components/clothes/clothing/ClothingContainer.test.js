@@ -11,15 +11,6 @@ import ClothingContainer from "../../clothes/clothing/ClothingContainer";
 
 jest.mock("axios");
 
-clothesApi.getClothing = jest.fn().mockResolvedValue({
-  id: 1,
-  category: "Tops",
-  type: "Sweater",
-  colors: ["def_col_1"],
-  rating: 5,
-  occasion: "Everyday",
-});
-
 clothesApi.saveClothing = jest.fn().mockResolvedValue({ data: "data" });
 
 clothesApi.editClothing = jest.fn().mockRejectedValue();
@@ -38,7 +29,7 @@ function renderClothingContainer(args, emptyState) {
   );
 }
 
-describe("initial loading", () => {
+describe("given the page is initially loaded", () => {
   it("should load colors if color list is empty", async () => {
     optionsActions.initColors = jest.fn();
     renderClothingContainer(null, true);
@@ -47,19 +38,29 @@ describe("initial loading", () => {
   });
 });
 
-describe("add or edit clothing", () => {
-  it("should display header 'Add New Clothing' and empty form when no id is passed", () => {
+describe('given no clothing id is passed as a param', () => {
+  it("should display header 'Add New Clothing'", () => {
     renderClothingContainer();
     screen.getByText("Add New Piece of Clothing");
+  })
+
+  it('should display an empty form', () => {
+    renderClothingContainer();
     screen.getByDisplayValue("Select Category");
     screen.getByDisplayValue("Select Type");
     screen.getByDisplayValue("Select Color");
     screen.getByDisplayValue("Select Occasion");
-  });
+  })
+})
 
-  it("should display header 'Edit Clothing' and filled form when id is passed", async () => {
+describe("given no clothing id is passed as a param", () => {
+  it("should display header 'Edit Clothing'", async () => {
     renderClothingContainer({ match: { params: { id: 1 } } });
     await screen.findByText("Edit Clothing");
+  });
+
+  it("should a filled form with clothing details", async () => {
+    renderClothingContainer({ match: { params: { id: 1 } } });
     await screen.findByDisplayValue("Tops");
     await screen.findByDisplayValue("Sweater");
     await screen.findByDisplayValue("Red");
@@ -182,18 +183,6 @@ describe("saving clothing", () => {
   it("should disable button and set btn text to saving when post request is processed", async () => {
     renderClothingContainer({ match: { params: { id: 1 } } });
 
-    fireEvent.change(screen.getByDisplayValue("Select Category"), {
-      target: { value: "Tops" },
-    });
-    fireEvent.change(screen.getByDisplayValue("Select Type"), {
-      target: { value: "Sweater" },
-    });
-    fireEvent.change(screen.getByDisplayValue("Select Color"), {
-      target: { value: "def_col_1" },
-    });
-    fireEvent.change(screen.getByDisplayValue("Select Occasion"), {
-      target: { value: "Formal" },
-    });
     fireEvent.click(screen.getByText("Save"));
 
     screen.getByText("Saving...");

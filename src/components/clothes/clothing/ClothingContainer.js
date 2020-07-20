@@ -9,38 +9,38 @@ import { emptyClothing } from "../../../data/data";
 import optionsActions from "../../../store/actions/optionsActions";
 
 import ClothingForm from "./ClothingForm";
+import clothesActions from "../../../store/actions/clothesActions";
 
-const ClothingContainer = ({ options, initColors, ...props }) => {
-  const [clothing, setClothing] = useState(emptyClothing);
-  const [types, setTypes] = useState(
-    clothing.category === "" ? [] : options.types
-  );
+const ClothingContainer = ({options, initColors, initClothes, ...props }) => {
+  const [clothing, setClothing] = useState(props.clothing);
+  const [types, setTypes] = useState([]);
   const [colors, setColors] = useState([]);
   const [errors, setErrors] = useState({});
   const [saveSuccessful, setSaveSuccessful] = useState(false);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    async function getClothingFromApi(id) {
-      const clothingDisplay = await clothesApi.getClothing(id);
-      setClothing(clothingDisplay);
-      const typesByCategory = options.types.filter(
-        (type) => type.category === clothingDisplay.category
-      );
-      setTypes(typesByCategory);
+    if(props.clothes.length === 0) {
+      initClothes()
     }
-    const clothingId = props.match.params.id;
-    if (clothingId) {
-      getClothingFromApi(clothingId);
-    } else {
-      setClothing(emptyClothing);
-    }
-  }, [props.match.params.id, options.types]);
-
-  useEffect(() => {
     if (options.colors.length === 0) {
       initColors();
     }
+  }, [props.clothes, initClothes, options.colors, initColors])
+
+  useEffect(() => {
+    setClothing(props.clothing)
+  }, [props.clothing])
+
+  useEffect(() => {
+      const typesByCategory = options.types.filter(
+        (type) => type.category === clothing.category
+      );
+      setTypes(typesByCategory);
+    
+  }, [clothing, options.types]);
+
+  useEffect(() => {
     if (options.colors.length > 0 && clothing.id) {
       setColors(
         options.colors.filter((color) => !clothing.colors.includes(color.id))
@@ -49,7 +49,7 @@ const ClothingContainer = ({ options, initColors, ...props }) => {
     if (clothing.colors.length === 0) {
       setColors(options.colors);
     }
-  }, [options.colors, clothing, initColors]);
+  }, [options.colors, clothing]);
 
   function saveClothesHandler(event) {
     event.preventDefault();
@@ -174,7 +174,11 @@ const ClothingContainer = ({ options, initColors, ...props }) => {
   );
 };
 
-const mapStateToProps = (state) => {
+function mapStateToProps (state, ownProps) {
+  console.log(ownProps.match.params.id)
+  const clothingId = ownProps.match.params.id
+  const clothing = clothingId && state.clothes.length > 0 ?
+  state.clothes.find(clothing => clothing.id = clothingId) : emptyClothing
   return {
     options: {
       colors: state.options.colors,
@@ -182,12 +186,15 @@ const mapStateToProps = (state) => {
       occasions: state.options.occasions,
       types: state.options.types,
     },
+    clothing,
+    clothes: state.clothes
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     initColors: () => dispatch(optionsActions.initColors()),
+    initClothes: () => dispatch(clothesActions.loadClothes())
   };
 };
 
