@@ -78,14 +78,15 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/repo
+      - run: pwd
       - run: apk add --update zip
       - run: cd backend && zip backend.zip index.js
       - run: ls
       - run: cd backend && ls
-      - persist_to_workspace:
-          root: ./
-          paths:
-            - ~/repo/backend/backend.zip
+      # - persist_to_workspace:
+      #     root: ./
+      #     paths:
+      #       - /repo/backend/backend.zip
 
   terraform-plan-and-apply:
     docker:
