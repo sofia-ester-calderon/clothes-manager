@@ -121,18 +121,21 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/repo
-      # - run:
-      #     name: Configure AWS CLI
-      #     command: aws configure set default.region ${AWS_DEFAULT_REGION}
-      - run: ls
-      - run: cd backend && ls
       - aws-cli/setup
       - run:
           name: Deploy build directory
           command: aws s3 cp build/ s3://closet-manager.okeegan.com --recursive
 
-  # deploy-backend:
-  #   <<: *defaults
+  deploy-backend:
+    <<: *defaults
+    executor: aws-cli/default
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - aws-cli/setup
+      - run:
+          name: Deploy zip to s3
+          command: aws s3 cp backend/backend.zip s3://closet-manager.okeegan.com
 
 orbs:
   aws-cli: circleci/aws-cli@1.2.1
