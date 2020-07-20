@@ -135,7 +135,7 @@ jobs:
       - aws-cli/setup
       - run:
           name: Deploy zip to s3
-          command: aws s3 cp backend/backend.zip s3://closet-manager.okeegan.com
+          command: aws s3 cp backend/backend.zip s3://closet-manager.okeegan.com/lambdas
 
 orbs:
   aws-cli: circleci/aws-cli@1.2.1
@@ -184,6 +184,14 @@ workflows:
             branches:
               only: master
           requires:
+            - build-frontend
+            - terraform-plan-and-apply
+      - deploy-backend:
+          filters:
+            branches:
+              only: master
+          requires:
+            - build-backend
             - terraform-plan-and-apply
       - click_here_to_delete:
           type: approval

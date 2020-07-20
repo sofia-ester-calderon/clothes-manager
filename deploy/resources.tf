@@ -17,7 +17,7 @@ resource "aws_s3_bucket" "s3_bucket" {
       "Effect": "Allow",
       "Principal": "*",
       "Action": ["s3:GetObject"],
-      "Resource": ["arn:aws:s3:::${var.application_subdomain}/build/*"]
+      "Resource": ["arn:aws:s3:::${var.application_subdomain}/*"]
     }
   ]
 }
