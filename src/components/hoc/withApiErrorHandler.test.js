@@ -56,8 +56,8 @@ it("should render modal with error message when api response error was thrown", 
 it("should not render modal when no api response error was thrown", () => {
   axios.interceptors.response.use = jest.fn((successCb, failCb) => {
     successCb({
-      response: {
-        status: 200,
+      config: {
+        method: "get",
       },
     });
   });

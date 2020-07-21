@@ -1,7 +1,6 @@
 import React from "react";
 import { screen, fireEvent } from "@testing-library/react";
 import { createMemoryHistory } from "history";
-import { wait } from "react-testing-library";
 
 import { renderWithStore } from "../../../test-utils/test-utils";
 import optionsActions from "../../../store/actions/optionsActions";
@@ -67,11 +66,12 @@ describe("given the save button was clicked", () => {
   });
 
   it("should route to color list if save was successful", async () => {
-    const history = createMemoryHistory();
+    const history = { push: jest.fn() };
 
     await renderDetailContainer(history);
     fireEvent.click(screen.getByText("Save"));
 
-    wait(() => expect(history.push).toHaveBeenCalledWith("/colors"));
+    expect(history.push).toHaveBeenCalledWith("/colors")
+
   });
 });

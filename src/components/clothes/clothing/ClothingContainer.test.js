@@ -1,5 +1,5 @@
 import React from "react";
-import { screen, fireEvent, waitForDomChange } from "@testing-library/react";
+import { screen, fireEvent } from "@testing-library/react";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 
@@ -8,12 +8,11 @@ import clothesApi from "../../../api/clothesApi";
 import optionsActions from "../../../store/actions/optionsActions";
 
 import ClothingContainer from "../../clothes/clothing/ClothingContainer";
-
-jest.mock("axios");
+import clothesActions from "../../../store/actions/clothesActions";
+import axios from "../../../api/axios-api";
+import ApiErrorProvider from "../../../hooks/ApiErrorProvider";
 
 clothesApi.saveClothing = jest.fn().mockResolvedValue({ data: "data" });
-
-clothesApi.editClothing = jest.fn().mockRejectedValue();
 
 function renderClothingContainer(args, emptyState) {
   const defaultProps = {
@@ -22,9 +21,11 @@ function renderClothingContainer(args, emptyState) {
   const props = { ...defaultProps, ...args };
 
   return renderWithStore(
-    <Router history={createMemoryHistory()}>
-      <ClothingContainer {...props} />
-    </Router>,
+    <ApiErrorProvider>
+      <Router history={createMemoryHistory()}>
+        <ClothingContainer {...props} />
+      </Router>
+    </ApiErrorProvider>,
     emptyState
   );
 }
@@ -38,20 +39,20 @@ describe("given the page is initially loaded", () => {
   });
 });
 
-describe('given no clothing id is passed as a param', () => {
+describe("given no clothing id is passed as a param", () => {
   it("should display header 'Add New Clothing'", () => {
     renderClothingContainer();
     screen.getByText("Add New Piece of Clothing");
-  })
+  });
 
-  it('should display an empty form', () => {
+  it("should display an empty form", () => {
     renderClothingContainer();
     screen.getByDisplayValue("Select Category");
     screen.getByDisplayValue("Select Type");
     screen.getByDisplayValue("Select Color");
     screen.getByDisplayValue("Select Occasion");
-  })
-})
+  });
+});
 
 describe("given no clothing id is passed as a param", () => {
   it("should display header 'Edit Clothing'", async () => {
@@ -169,7 +170,7 @@ describe("change colors", () => {
   });
 });
 
-describe("saving clothing", () => {
+describe("given the save button is clicked", () => {
   it("should display error messages when saving and nothing selected", () => {
     renderClothingContainer();
 
@@ -180,52 +181,41 @@ describe("saving clothing", () => {
     screen.getByText("Occasion is required");
   });
 
-  it("should disable button and set btn text to saving when post request is processed", async () => {
+  it("should disable button and set btn text to saving", async () => {
     renderClothingContainer({ match: { params: { id: 1 } } });
 
     fireEvent.click(screen.getByText("Save"));
 
     screen.getByText("Saving...");
     expect(screen.getByText("Saving...")).toBeDisabled();
-
-    await waitForDomChange();
   });
 
-  it("should redirect to clothes list if save successful", async () => {
-    renderClothingContainer();
-    await screen.findByText("Select Color");
+  it("should dispatch an editClothing action if clothing is updated", async () => {
+    clothesActions.editClothing = jest.fn();
 
-    // Title of the form should be displayed
-    screen.getByText("Add New Piece of Clothing");
-
-    // set all necessary params for clothing
-    fireEvent.change(screen.getByDisplayValue("Select Category"), {
-      target: { value: "Tops" },
-    });
-    fireEvent.change(screen.getByDisplayValue("Select Type"), {
-      target: { value: "Sweater" },
-    });
-    fireEvent.change(screen.getByDisplayValue("Select Color"), {
-      target: { value: "def_col_1" },
-    });
-    fireEvent.change(screen.getByDisplayValue("Select Occasion"), {
-      target: { value: "Formal" },
-    });
-    fireEvent.click(screen.getByText("Save"));
-
-    await waitForDomChange();
-
-    // After redirect title should not be displayed anymore
-    expect(
-      screen.queryByText("Add New Piece of Clothing")
-    ).not.toBeInTheDocument();
-  });
-
-  it("should not redirect if saving-post was unsuccessful", async () => {
     renderClothingContainer({ match: { params: { id: 1 } } });
 
     fireEvent.click(screen.getByText("Save"));
 
-    await screen.findByText("Edit Clothing");
+    expect(clothesActions.editClothing).toHaveBeenCalled();
+  });
+});
+
+describe("given a put request was called", () => {
+  it("should redirect to clothes list if call was successful", () => {
+    axios.interceptors.response.use = jest.fn((successCb) => {
+      successCb({
+        config: {
+          method: "put",
+        },
+      });
+    });
+
+    const history = { push: jest.fn() };
+    renderClothingContainer({ match: { params: { id: 1 } }, history });
+
+    fireEvent.click(screen.getByText("Save"));
+
+    expect(history.push).toHaveBeenCalledWith("/clothes");
   });
 });

@@ -1,43 +1,59 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
-import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 import clothesApi from "../../../api/clothesApi";
 import styles from "./Clothing.module.css";
 import { emptyClothing } from "../../../data/data";
 import optionsActions from "../../../store/actions/optionsActions";
-
-import ClothingForm from "./ClothingForm";
 import clothesActions from "../../../store/actions/clothesActions";
 
-const ClothingContainer = ({options, initColors, initClothes, ...props }) => {
+import ClothingForm from "./ClothingForm";
+import { ApiErrorContext } from "../../../hooks/ApiErrorProvider";
+
+const ClothingContainer = ({
+  options,
+  initColors,
+  initClothes,
+  updateClothing,
+  ...props
+}) => {
   const [clothing, setClothing] = useState(props.clothing);
   const [types, setTypes] = useState([]);
   const [colors, setColors] = useState([]);
   const [errors, setErrors] = useState({});
-  const [saveSuccessful, setSaveSuccessful] = useState(false);
   const [saving, setSaving] = useState(false);
 
+  const { apiStatus } = useContext(ApiErrorContext);
+
   useEffect(() => {
-    if(props.clothes.length === 0) {
-      initClothes()
+    if (saving && apiStatus.apiCallMethod === "put") {
+      props.history.push("/clothes");
+      toast.success("Clothing saved!");
+    }
+    if (saving && apiStatus.errorMessage) {
+      setSaving(false);
+    }
+  }, [apiStatus, saving, props.history]);
+
+  useEffect(() => {
+    if (props.clothes.length === 0) {
+      initClothes();
     }
     if (options.colors.length === 0) {
       initColors();
     }
-  }, [props.clothes, initClothes, options.colors, initColors])
+  }, [props.clothes, initClothes, options.colors, initColors]);
 
   useEffect(() => {
-    setClothing(props.clothing)
-  }, [props.clothing])
+    setClothing(props.clothing);
+  }, [props.clothing]);
 
   useEffect(() => {
-      const typesByCategory = options.types.filter(
-        (type) => type.category === clothing.category
-      );
-      setTypes(typesByCategory);
-    
+    const typesByCategory = options.types.filter(
+      (type) => type.category === clothing.category
+    );
+    setTypes(typesByCategory);
   }, [clothing, options.types]);
 
   useEffect(() => {
@@ -57,10 +73,7 @@ const ClothingContainer = ({options, initColors, initClothes, ...props }) => {
     if (isFormValid()) {
       setSaving(true);
       if (clothing.id) {
-        clothesApi
-          .editClothing(clothing)
-          .then(() => savingSuccessful())
-          .catch(() => savingUnsucessful());
+        updateClothing(clothing);
       } else {
         clothesApi
           .saveClothing(clothing)
@@ -71,7 +84,8 @@ const ClothingContainer = ({options, initColors, initClothes, ...props }) => {
   }
 
   function savingSuccessful() {
-    setSaveSuccessful(true);
+    props.history.push("/clothes");
+
     toast.success("Clothing saved!");
   }
 
@@ -152,9 +166,7 @@ const ClothingContainer = ({options, initColors, initClothes, ...props }) => {
     setColors(newSelectionColors);
   }
 
-  return saveSuccessful ? (
-    <Redirect to="/clothes" />
-  ) : (
+  return (
     <div className={styles.layout}>
       {options.colors.length > 0 ? (
         <ClothingForm
@@ -174,11 +186,12 @@ const ClothingContainer = ({options, initColors, initClothes, ...props }) => {
   );
 };
 
-function mapStateToProps (state, ownProps) {
-  console.log(ownProps.match.params.id)
-  const clothingId = ownProps.match.params.id
-  const clothing = clothingId && state.clothes.length > 0 ?
-  state.clothes.find(clothing => clothing.id = clothingId) : emptyClothing
+function mapStateToProps(state, ownProps) {
+  const clothingId = ownProps.match.params.id;
+  const clothing =
+    clothingId && state.clothes.length > 0
+      ? state.clothes.find((clothing) => (clothing.id = clothingId))
+      : emptyClothing;
   return {
     options: {
       colors: state.options.colors,
@@ -187,14 +200,16 @@ function mapStateToProps (state, ownProps) {
       types: state.options.types,
     },
     clothing,
-    clothes: state.clothes
+    clothes: state.clothes,
   };
-};
+}
 
 const mapDispatchToProps = (dispatch) => {
   return {
     initColors: () => dispatch(optionsActions.initColors()),
-    initClothes: () => dispatch(clothesActions.loadClothes())
+    initClothes: () => dispatch(clothesActions.loadClothes()),
+    updateClothing: (clothing) =>
+      dispatch(clothesActions.editClothing(clothing)),
   };
 };
 

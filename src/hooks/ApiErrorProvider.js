@@ -10,6 +10,7 @@ function ApiErrorProvider({ children }) {
   const [apiStatus, setApiStatus] = useState({
     errorMessage: null,
     loading: false,
+    apiCallMethod: null,
   });
 
   if (reqInterceptor < 0) {
@@ -25,7 +26,11 @@ function ApiErrorProvider({ children }) {
   if (respInterceptor < 0) {
     const interceptor = axiosInstance.interceptors.response.use(
       (res) => {
-        setApiStatus({ loading: false, errorMessage: null });
+        setApiStatus({
+          loading: false,
+          errorMessage: null,
+          apiCallMethod: res.config.method,
+        });
         return res;
       },
       (error) => {
