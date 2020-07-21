@@ -181,15 +181,6 @@ describe("given the save button is clicked", () => {
     screen.getByText("Occasion is required");
   });
 
-  it("should disable button and set btn text to saving", async () => {
-    renderClothingContainer({ match: { params: { id: 1 } } });
-
-    fireEvent.click(screen.getByText("Save"));
-
-    screen.getByText("Saving...");
-    expect(screen.getByText("Saving...")).toBeDisabled();
-  });
-
   it("should dispatch an editClothing action if clothing is updated", async () => {
     clothesActions.editClothing = jest.fn();
 

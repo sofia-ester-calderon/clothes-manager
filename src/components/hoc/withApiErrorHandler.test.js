@@ -21,47 +21,66 @@ function renderWithApiErrorHandler() {
   );
 }
 
-it("should not render any modal on initial load", () => {
-  renderWithApiErrorHandler();
-  expect(screen.queryByText("Please try again later!")).not.toBeInTheDocument();
+describe("given no request was fired or response received", () => {
+  it("should not render any modal", () => {
+    renderWithApiErrorHandler();
+    expect(
+      screen.queryByText("Please try again later!")
+    ).not.toBeInTheDocument();
+  });
 });
 
-it("should render modal with spinner when get request was fired", () => {
-  axios.interceptors.request.use = jest.fn((successCb, failCb) => {
-    successCb({ method: "get" });
+describe("given a request was fired", () => {
+  it("should render modal with spinner for get requests", () => {
+    axios.interceptors.request.use = jest.fn((successCb, failCb) => {
+      successCb({ method: "get" });
+    });
+
+    renderWithApiErrorHandler();
+    screen.getByText("Loading...");
   });
 
-  renderWithApiErrorHandler();
-  screen.getByText("Loading...");
+  it("should render modal with spinner for put requests", () => {
+    axios.interceptors.request.use = jest.fn((successCb, failCb) => {
+      successCb({ method: "put" });
+    });
+
+    renderWithApiErrorHandler();
+    screen.getByText("Loading...");
+  });
 });
 
-it("should render modal with error message when api response error was thrown", () => {
-  const errorMessage = "error message";
-  axios.interceptors.response.use = jest.fn((successCb, failCb) => {
-    failCb({
-      response: {
-        status: 401,
-      },
-      message: errorMessage,
+describe("given a response was received", () => {
+  it("should render modal with error message if response throws an error", () => {
+    const errorMessage = "error message";
+    axios.interceptors.response.use = jest.fn((successCb, failCb) => {
+      failCb({
+        response: {
+          status: 401,
+        },
+        message: errorMessage,
+      });
+    });
+
+    expect(() => {
+      renderWithApiErrorHandler().toThrow();
+      screen.getByText("Please try again later!");
+      screen.getByText(`Ooooops, there was an error: ${errorMessage}`);
     });
   });
 
-  expect(() => {
-    renderWithApiErrorHandler().toThrow();
-    screen.getByText("Please try again later!");
-    screen.getByText(`Ooooops, there was an error: ${errorMessage}`);
-  });
-});
-
-it("should not render modal when no api response error was thrown", () => {
-  axios.interceptors.response.use = jest.fn((successCb, failCb) => {
-    successCb({
-      config: {
-        method: "get",
-      },
+  it("should not render any modal if response was no errors", () => {
+    axios.interceptors.response.use = jest.fn((successCb, failCb) => {
+      successCb({
+        config: {
+          method: "get",
+        },
+      });
     });
-  });
-  renderWithApiErrorHandler();
+    renderWithApiErrorHandler();
 
-  expect(screen.queryByText("Please try again later!")).not.toBeInTheDocument();
+    expect(
+      screen.queryByText("Please try again later!")
+    ).not.toBeInTheDocument();
+  });
 });

@@ -2,7 +2,6 @@ import React from "react";
 import TextInput from "../../common/inputs/text/TextInput";
 import { PropTypes } from "prop-types";
 import { ChromePicker } from "react-color";
-import SaveButton from "../../common/buttons/SaveButton";
 
 const ColorForm = ({ color, onChangeColor, onSave, onCancel, errors = {} }) => {
   return (
@@ -19,7 +18,9 @@ const ColorForm = ({ color, onChangeColor, onSave, onCancel, errors = {} }) => {
         <label className="font-weight-bold">Color</label>
         <ChromePicker color={color.hash} onChangeComplete={onChangeColor} />
 
-        <SaveButton />
+        <button type="submit" className="btn btn btn-dark mt-3">
+          Save
+        </button>
         <button className="btn btn btn-secondary mt-3 ml-3" onClick={onCancel}>
           Cancel
         </button>
