@@ -57,6 +57,20 @@ const ClothesList = ({
                 </div>
               </th>
               <th className={styles.cellWidth}>
+                Season
+                <div className={styles.filterBox}>
+                  <SelectInput
+                    name="season-filter"
+                    defaultOption="All Seasons"
+                    options={options.seasons.map((season) => ({
+                      value: season,
+                      text: season,
+                    }))}
+                    onChange={(e) => onFilter(e, "season")}
+                  />
+                </div>
+              </th>
+              <th className={styles.cellWidth}>
                 Rating
                 <div className={styles.filterBox}>
                   <SelectInput

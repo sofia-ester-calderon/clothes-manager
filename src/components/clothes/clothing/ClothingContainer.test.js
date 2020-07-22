@@ -58,10 +58,11 @@ describe("given no clothing id is passed as a param", () => {
     screen.getByDisplayValue("Select Type");
     screen.getByDisplayValue("Select Color");
     screen.getByDisplayValue("Select Occasion");
+    screen.getByDisplayValue("Select Season");
   });
 });
 
-describe("given no clothing id is passed as a param", () => {
+describe("given clothing id is passed as a param", () => {
   it("should display header 'Edit Clothing'", async () => {
     renderClothingContainer({ match: { params: { id: 1 } } });
     await screen.findByText("Edit Clothing");
@@ -73,6 +74,7 @@ describe("given no clothing id is passed as a param", () => {
     await screen.findByDisplayValue("T-Shirt");
     await screen.findByDisplayValue("Green");
     await screen.findByDisplayValue("Sport");
+    await screen.findByDisplayValue("Spring");
   });
 });
 
@@ -186,6 +188,7 @@ describe("given the save button is clicked", () => {
     screen.getByText("Type is required");
     screen.getByText("Min. one color is required");
     screen.getByText("Occasion is required");
+    screen.getByText("Season is required");
   });
 
   it("should dispatch an updateClothing action if clothing is updated", async () => {
@@ -207,6 +210,7 @@ describe("given the save button is clicked", () => {
       colors: ["def_col_1"],
       rating: 5,
       occasion: "Formal",
+      season: "Winter",
     });
   });
 
@@ -227,6 +231,9 @@ describe("given the save button is clicked", () => {
     fireEvent.change(screen.getByDisplayValue("Select Occasion"), {
       target: { value: "Sport" },
     });
+    fireEvent.change(screen.getByDisplayValue("Select Season"), {
+      target: { value: "Summer" },
+    });
 
     fireEvent.click(screen.getByText("Save"));
 
@@ -236,6 +243,7 @@ describe("given the save button is clicked", () => {
       colors: ["def_col_1"],
       rating: 1,
       occasion: "Sport",
+      season: "Summer",
     });
   });
 });

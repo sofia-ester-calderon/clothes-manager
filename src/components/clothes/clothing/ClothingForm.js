@@ -100,6 +100,19 @@ const ClothingForm = ({
         error={errors.occasion}
       />
 
+      <SelectInput
+        name="season"
+        label="Season"
+        value={clothing.season}
+        defaultOption="Select Season"
+        options={options.seasons.map((season) => ({
+          value: season,
+          text: season,
+        }))}
+        onChange={onChange}
+        error={errors.season}
+      />
+
       <RatingInput onChange={onChange} rating={clothing.rating} />
 
       <button type="submit" className="btn btn btn-dark mt-3">

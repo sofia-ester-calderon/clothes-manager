@@ -117,6 +117,17 @@ describe("given a filter is selected", () => {
     screen.getByText("Sweater");
     expect(screen.queryByText("T-Shirt")).not.toBeInTheDocument();
   });
+
+  it("should only display clothes of the selected season", async () => {
+    await renderAllClothesContainer();
+    screen.getByText("Sweater");
+    screen.getByText("T-Shirt");
+    fireEvent.change(screen.getByDisplayValue("All Seasons"), {
+      target: { value: "Spring" },
+    });
+    screen.getByText("T-Shirt");
+    expect(screen.queryByText("Sweater")).not.toBeInTheDocument();
+  });
 });
 
 describe("given the delete button of a clothing item is clicked", () => {

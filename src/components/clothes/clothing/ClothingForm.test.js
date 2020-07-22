@@ -12,11 +12,13 @@ const allColors = [
 ];
 const occasions = ["Sport", "Formal", "Everyday"];
 const categories = ["Tops", "Bottoms", "Underwear", "Shoes", "Accessories"];
+const seasons = ["Spring", "Summer", "Autumn", "Winter"];
 
 const options = {
   colors: allColors,
   categories,
   occasions,
+  seasons,
 };
 
 function renderClothingForm(args) {
@@ -35,7 +37,7 @@ function renderClothingForm(args) {
   return render(<ClothingForm {...props} />);
 }
 
-describe("form with empty clothing and types as param", () => {
+describe("given empty clothing is passed as param", () => {
   it("should display category select box with all categories as option and have default value selected", () => {
     renderClothingForm();
     screen.getByText("Category");
@@ -68,9 +70,18 @@ describe("form with empty clothing and types as param", () => {
       screen.getByText(occasion);
     });
   });
+
+  it("should display season select box with all seasons as option and have default value selected", () => {
+    renderClothingForm();
+    screen.getByText("Season");
+    screen.getByDisplayValue("Select Season");
+    seasons.forEach((season) => {
+      screen.getByText(season);
+    });
+  });
 });
 
-describe("form with clothing and types as param", () => {
+describe("given a clothing item is passed as param", () => {
   const clothing = {
     id: 2,
     category: "Tops",
@@ -78,6 +89,7 @@ describe("form with clothing and types as param", () => {
     colors: ["def_col_1", "def_col_2"],
     rating: 4,
     occasion: "Sport",
+    season: "Winter",
   };
   const types = [
     { id: 1, name: "Sweater", category: "Tops" },
@@ -112,6 +124,11 @@ describe("form with clothing and types as param", () => {
   it("should display occasion of clothing as selected", () => {
     renderClothingForm({ clothing, types });
     screen.getByDisplayValue(clothing.occasion);
+  });
+
+  it("should display season of clothing as selected", () => {
+    renderClothingForm({ clothing, types });
+    screen.getByDisplayValue(clothing.season);
   });
 });
 

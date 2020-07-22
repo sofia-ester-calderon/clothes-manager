@@ -62,7 +62,7 @@ const ClothesGroupedList = ({
         <table className="table">
           <thead className={getHeaderStyle()} onClick={onClickHeader}>
             <tr>
-              <th colSpan="5">{getHeaderTitle()}</th>
+              <th colSpan="6">{getHeaderTitle()}</th>
               <th className={styles.arrow}>
                 {clothes.length > 0 && (
                   <img
@@ -91,6 +91,9 @@ const ClothesGroupedList = ({
                   </td>
                   <td className={styles.cellWidth} style={itemCellStyle}>
                     {clothing.occasion}
+                  </td>
+                  <td className={styles.cellWidth} style={itemCellStyle}>
+                    {clothing.season}
                   </td>
                   <td className={styles.cellWidth} style={itemCellStyle}>
                     <Rating rating={clothing.rating} size="small" />

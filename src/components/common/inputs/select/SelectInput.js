@@ -22,6 +22,7 @@ const SelectInput = ({
       )}
       <div className="field">
         <select
+          id={name}
           name={name}
           value={value}
           onChange={onChange}

@@ -40,6 +40,7 @@ const options = {
   ],
   categories: ["Tops", "Bottoms", "Underwear", "Shoes", "Accessories"],
   occasions: ["Sport", "Formal", "Everyday"],
+  seasons: ["Winter", "Summer", "Autumn"],
 };
 
 function renderClothesList(args) {
@@ -85,4 +86,31 @@ it("should only have arrow up for groups which belong to the typesToDisplay", ()
 it("should display clothes length", () => {
   renderClothesList();
   screen.getByText("Total: 3");
+});
+
+it("should display all colors as option", () => {
+  renderClothesList();
+
+  screen.getByText("All Colors");
+  screen.getByText("Red");
+  screen.getByText("Green");
+  screen.getByText("Blue");
+});
+
+it("should display all occasions as option", () => {
+  renderClothesList();
+
+  screen.getByText("All Occasions");
+  screen.getByText("Sport");
+  screen.getByText("Formal");
+  screen.getByText("Everyday");
+});
+
+it("should display all seasons as option", () => {
+  renderClothesList();
+
+  screen.getByText("All Seasons");
+  screen.getByText("Winter");
+  screen.getByText("Summer");
+  screen.getByText("Autumn");
 });

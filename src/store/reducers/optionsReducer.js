@@ -16,6 +16,7 @@ const initialState = {
     { id: 9, name: "Earrings", category: "Accessories" },
     { id: 10, name: "Scarf", category: "Accessories" },
   ],
+  seasons: ["Spring", "Summer", "Autumn", "Winter"],
 };
 
 const optionsReducer = (state = initialState, action) => {

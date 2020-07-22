@@ -101,6 +101,7 @@ const mapStateToProps = (state) => {
       colors: state.options.colors,
       categories: state.options.categories,
       occasions: state.options.occasions,
+      seasons: state.options.seasons,
     },
     allClothes: state.clothes,
   };

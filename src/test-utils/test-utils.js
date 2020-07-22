@@ -28,6 +28,7 @@ const initialStateFilled = {
       { id: 9, name: "Earrings", category: "Accessories" },
       { id: 10, name: "Scarf", category: "Accessories" },
     ],
+    seasons: ["Spring", "Summer", "Autumn", "Winter"],
   },
   clothes: [
     {
@@ -37,6 +38,7 @@ const initialStateFilled = {
       colors: ["def_col_1"],
       rating: 5,
       occasion: "Everyday",
+      season: "Winter",
     },
     {
       id: 2,
@@ -45,6 +47,7 @@ const initialStateFilled = {
       colors: ["def_col_2"],
       rating: 4,
       occasion: "Sport",
+      season: "Spring",
     },
     {
       id: 3,
@@ -53,6 +56,7 @@ const initialStateFilled = {
       colors: ["def_col_3"],
       rating: 2,
       occasion: "Everyday",
+      season: "Summer",
     },
   ],
 };
@@ -63,6 +67,7 @@ const initialStateEmpty = {
     categories: [],
     occasions: [],
     types: [],
+    seasons: [],
   },
   clothes: [],
 };

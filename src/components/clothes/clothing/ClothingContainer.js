@@ -84,12 +84,13 @@ const ClothingContainer = ({
   }
 
   function isFormValid() {
-    const { category, type, colors, occasion } = clothing;
+    const { category, type, colors, occasion, season } = clothing;
     const errors = {};
     if (!category || category === "") errors.category = "Category is required";
     if (!type || type === "") errors.type = "Type is required";
     if (colors.length < 1) errors.colors = "Min. one color is required";
     if (!occasion || occasion === "") errors.occasion = "Occasion is required";
+    if (!season || season === "") errors.season = "Season is required";
     setErrors(errors);
     return Object.keys(errors).length === 0;
   }
@@ -188,6 +189,7 @@ function mapStateToProps(state, ownProps) {
       categories: state.options.categories,
       occasions: state.options.occasions,
       types: state.options.types,
+      seasons: state.options.seasons,
     },
     clothing,
     clothes: state.clothes,
