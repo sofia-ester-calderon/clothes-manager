@@ -3,7 +3,7 @@ import { PropTypes } from "prop-types";
 
 import SelectInput from "../../common/inputs/select/SelectInput";
 import RatingInput from "../../common/inputs/rating/RatingInput";
-import ColorSelector from "./ColorSelector";
+import MultiOptionsSelector from "./MultiOptionsSelector";
 
 const ClothingForm = ({
   clothing,
@@ -14,7 +14,6 @@ const ClothingForm = ({
   colors,
   onRemoveColor,
   onChangeColor,
-  saving = false,
   options,
 }) => {
   return (
@@ -58,14 +57,15 @@ const ClothingForm = ({
 
       {clothing.colors.map((colorId, idx) => {
         return (
-          <ColorSelector
+          <MultiOptionsSelector
             key={idx}
             label={idx === 0 ? "Color" : null}
-            selectedColor={options.colors.find((color) => color.id === colorId)}
-            onColorChanged={(e) => onChangeColor(e, colorId)}
-            onColorDeleted={() => onRemoveColor(colorId)}
-            clothingColors={clothing.colors}
-            colors={options.colors}
+            selectedValue={options.colors.find((color) => color.id === colorId)}
+            onSelectionChanged={(e) => onChangeColor(e, colorId)}
+            onSelectionDeleted={() => onRemoveColor(colorId)}
+            clothingValues={clothing.colors}
+            possibleOptions={options.colors}
+            colorSelector={true}
           />
         );
       })}
@@ -131,7 +131,6 @@ ClothingForm.propTypes = {
   colors: PropTypes.array.isRequired,
   onRemoveColor: PropTypes.func.isRequired,
   onChangeColor: PropTypes.func.isRequired,
-  saving: PropTypes.bool,
   options: PropTypes.object,
 };
 
