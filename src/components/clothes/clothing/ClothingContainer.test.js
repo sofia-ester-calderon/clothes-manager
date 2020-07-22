@@ -37,6 +37,13 @@ describe("given the page is initially loaded", () => {
 
     expect(optionsActions.loadColors).toHaveBeenCalled();
   });
+
+  it("should load clothes if clothes list is empty", async () => {
+    clothesActions.loadClothes = jest.fn();
+    renderClothingContainer(null, true);
+
+    expect(clothesActions.loadClothes).toHaveBeenCalled();
+  });
 });
 
 describe("given no clothing id is passed as a param", () => {
@@ -186,9 +193,50 @@ describe("given the save button is clicked", () => {
 
     renderClothingContainer({ match: { params: { id: 1 } } });
 
+    // Change one item on the form
+    fireEvent.change(screen.getByDisplayValue("Everyday"), {
+      target: { value: "Formal" },
+    });
+
     fireEvent.click(screen.getByText("Save"));
 
-    expect(clothesActions.updateClothing).toHaveBeenCalled();
+    expect(clothesActions.updateClothing).toHaveBeenCalledWith({
+      id: 1,
+      category: "Tops",
+      type: "Sweater",
+      colors: ["def_col_1"],
+      rating: 5,
+      occasion: "Formal",
+    });
+  });
+
+  it("should dispatch a saveClothing action if clothing is saved", async () => {
+    clothesActions.saveClothing = jest.fn();
+
+    renderClothingContainer();
+    // Form has to be filled out in order to be able to save item
+    fireEvent.change(screen.getByDisplayValue("Select Category"), {
+      target: { value: "Tops" },
+    });
+    fireEvent.change(screen.getByDisplayValue("Select Type"), {
+      target: { value: "Sweater" },
+    });
+    fireEvent.change(screen.getByDisplayValue("Select Color"), {
+      target: { value: "def_col_1" },
+    });
+    fireEvent.change(screen.getByDisplayValue("Select Occasion"), {
+      target: { value: "Sport" },
+    });
+
+    fireEvent.click(screen.getByText("Save"));
+
+    expect(clothesActions.saveClothing).toHaveBeenCalledWith({
+      category: "Tops",
+      type: "Sweater",
+      colors: ["def_col_1"],
+      rating: 1,
+      occasion: "Sport",
+    });
   });
 });
 
@@ -198,6 +246,25 @@ describe("given a put request was called", () => {
       successCb({
         config: {
           method: "put",
+        },
+      });
+    });
+
+    const history = { push: jest.fn() };
+    renderClothingContainer({ match: { params: { id: 1 } }, history });
+
+    fireEvent.click(screen.getByText("Save"));
+
+    expect(history.push).toHaveBeenCalledWith("/clothes");
+  });
+});
+
+describe("given a post request was called", () => {
+  it("should redirect to clothes list if call was successful", () => {
+    axios.interceptors.response.use = jest.fn((successCb) => {
+      successCb({
+        config: {
+          method: "post",
         },
       });
     });

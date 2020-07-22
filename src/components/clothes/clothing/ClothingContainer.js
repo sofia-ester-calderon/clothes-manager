@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
 import { connect } from "react-redux";
 
-import clothesApi from "../../../api/clothesApi";
 import styles from "./Clothing.module.css";
 import { emptyClothing } from "../../../data/data";
 import optionsActions from "../../../store/actions/optionsActions";
@@ -16,6 +15,7 @@ const ClothingContainer = ({
   loadColors,
   loadClothes,
   updateClothing,
+  saveClothing,
   ...props
 }) => {
   const [clothing, setClothing] = useState(props.clothing);
@@ -27,7 +27,10 @@ const ClothingContainer = ({
   const { apiStatus } = useContext(ApiErrorContext);
 
   useEffect(() => {
-    if (saving && apiStatus.apiCallMethod === "put") {
+    if (
+      saving &&
+      (apiStatus.apiCallMethod === "put" || apiStatus.apiCallMethod === "post")
+    ) {
       props.history.push("/clothes");
       toast.success("Clothing saved!");
     }
@@ -75,22 +78,9 @@ const ClothingContainer = ({
       if (clothing.id) {
         updateClothing(clothing);
       } else {
-        clothesApi
-          .saveClothing(clothing)
-          .then(() => savingSuccessful())
-          .catch(() => savingUnsucessful());
+        saveClothing(clothing);
       }
     }
-  }
-
-  function savingSuccessful() {
-    props.history.push("/clothes");
-
-    toast.success("Clothing saved!");
-  }
-
-  function savingUnsucessful() {
-    setSaving(false);
   }
 
   function isFormValid() {
@@ -210,6 +200,7 @@ const mapDispatchToProps = (dispatch) => {
     loadClothes: () => dispatch(clothesActions.loadClothes()),
     updateClothing: (clothing) =>
       dispatch(clothesActions.updateClothing(clothing)),
+    saveClothing: (clothing) => dispatch(clothesActions.saveClothing(clothing)),
   };
 };
 

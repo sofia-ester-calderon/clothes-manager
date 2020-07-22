@@ -11,8 +11,8 @@ const updateColorSuccess = (color) => {
 const updateColor = (color) => {
   return async (dispatch) => {
     try {
-      await colorApi.updateColor(color);
-      dispatch(updateColorSuccess(color));
+      const updatedColor = await colorApi.updateColor(color);
+      dispatch(updateColorSuccess(updatedColor));
     } catch (error) {
       // Error is handled by ApiErrorHandler
     }

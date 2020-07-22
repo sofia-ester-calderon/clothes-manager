@@ -2,6 +2,7 @@ import {
   LOAD_CLOTHES,
   DELETE_CLOTHING,
   UPDATE_CLOTHING,
+  SAVE_CLOTHING,
 } from "../actions/actionTypes";
 import clothesReducer from "./clothesReducer";
 
@@ -70,16 +71,16 @@ describe("given a delete clothing action was dispatched", () => {
   });
 });
 
-describe("given a edit clothing action was dispatched", () => {
-  it("should return the state  with the edited clothing item", () => {
+describe("given a update clothing action was dispatched", () => {
+  it("should return the state  with the updated clothing item", () => {
     const initialState = clothes;
     const clothing = {
       id: 1,
-      category: "NEW",
-      type: "NEW",
-      colors: ["NEW1", "NEW2"],
+      category: "CHANGED",
+      type: "CHANGED",
+      colors: ["CHANGED", "CHANGED1", "CHANGED2"],
       rating: 1,
-      occasion: "NEW",
+      occasion: "CHANGED",
     };
     const action = { type: UPDATE_CLOTHING, clothing };
 
@@ -87,5 +88,24 @@ describe("given a edit clothing action was dispatched", () => {
 
     expect(newState).toHaveLength(3);
     expect(newState[0]).toEqual(clothing);
+  });
+});
+
+describe("given a save clothing action was dispatched", () => {
+  it("should return the state with the new clothing item added", () => {
+    const initialState = clothes;
+    const clothing = {
+      category: "NEW",
+      type: "NEW",
+      colors: ["NEW1", "NEW2"],
+      rating: 5,
+      occasion: "NEW",
+    };
+    const action = { type: SAVE_CLOTHING, clothing };
+
+    const newState = clothesReducer(initialState, action);
+
+    expect(newState).toHaveLength(4);
+    expect(newState).toEqual(expect.arrayContaining([clothing]));
   });
 });

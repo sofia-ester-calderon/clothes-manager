@@ -2,23 +2,28 @@ import thunk from "redux-thunk";
 import configureMockStore from "redux-mock-store";
 import clothesActions from "./clothesActions";
 import clothesApi from "../../api/clothesApi";
-import { LOAD_CLOTHES, DELETE_CLOTHING, UPDATE_CLOTHING } from "./actionTypes";
+import {
+  LOAD_CLOTHES,
+  DELETE_CLOTHING,
+  UPDATE_CLOTHING,
+  SAVE_CLOTHING,
+} from "./actionTypes";
 
 const middleware = [thunk];
 const mockStore = configureMockStore(middleware);
 
+const clothing = {
+  id: 1,
+  category: "Tops",
+  type: "type",
+  colors: ["1", "2"],
+  rating: 1,
+  occasion: "occasion",
+};
+
 describe("given clothes are loaded", () => {
-  it("dispatches setClothes action if api call was successful", () => {
-    const clothes = [
-      {
-        id: 1,
-        category: "Tops",
-        type: "type",
-        colors: ["1", "2"],
-        rating: 1,
-        occasion: "occasion",
-      },
-    ];
+  it("should dispatch setClothes action if api call was successful", () => {
+    const clothes = [clothing];
 
     clothesApi.getClothes = jest.fn().mockResolvedValue(clothes);
 
@@ -29,7 +34,7 @@ describe("given clothes are loaded", () => {
     });
   });
 
-  it("does not dispatch any action if api call was unsuccessful", () => {
+  it("should not dispatch any action if api call was unsuccessful", () => {
     clothesApi.getClothes = jest.fn().mockRejectedValue();
 
     const store = mockStore({});
@@ -41,7 +46,7 @@ describe("given clothes are loaded", () => {
 });
 
 describe("given clothing is deleted", () => {
-  it("dispatches a deleteClothingSuccess action if api call was successful", () => {
+  it("should dispatch a deleteClothingSuccess action if api call was successful", () => {
     clothesApi.deleteClothing = jest.fn().mockResolvedValue();
 
     const clothingId = "1";
@@ -57,7 +62,7 @@ describe("given clothing is deleted", () => {
       });
   });
 
-  it("does not dispatch any action if api call was unsuccessful", () => {
+  it("should not dispatch any action if api call was unsuccessful", () => {
     clothesApi.deleteClothing = jest.fn().mockRejectedValue();
 
     const store = mockStore({});
@@ -68,18 +73,24 @@ describe("given clothing is deleted", () => {
   });
 });
 
-describe("given clothing item is edited", () => {
-  const clothing = {
-    id: 1,
-    category: "Tops",
-  };
-  it("dispatched a updateClothingSuccess action if api call was successful", () => {
-    clothesApi.updateClothing = jest.fn().mockResolvedValue(clothing);
+describe("given clothing item is updated", () => {
+  it("should dispatch a updateClothingSuccess action if api call was successful", () => {
+    const clothingFromApi = {
+      category: "Other",
+      type: "type",
+      colors: ["1", "2"],
+      rating: 1,
+      occasion: "occasion",
+    };
+
+    clothesApi.updateClothing = jest.fn().mockResolvedValue(clothingFromApi);
 
     const store = mockStore({});
     return store.dispatch(clothesActions.updateClothing(clothing)).then(() => {
       expect(clothesApi.updateClothing).toHaveBeenCalledWith(clothing);
-      expect(store.getActions()).toEqual([{ type: UPDATE_CLOTHING, clothing }]);
+      expect(store.getActions()).toEqual([
+        { type: UPDATE_CLOTHING, clothing: clothingFromApi },
+      ]);
     });
   });
 
@@ -88,6 +99,38 @@ describe("given clothing item is edited", () => {
     const store = mockStore({});
 
     return store.dispatch(clothesActions.updateClothing(clothing)).then(() => {
+      expect(clothesApi.updateClothing).toHaveBeenCalled();
+      expect(store.getActions()).toEqual([]);
+    });
+  });
+});
+
+describe("given clothing item is saved", () => {
+  it("should dispatch a saveClothingSuccess action if api call was successful", () => {
+    const clothingFromApi = {
+      category: "Other",
+      type: "type",
+      colors: ["1", "2"],
+      rating: 1,
+      occasion: "occasion",
+    };
+
+    clothesApi.saveClothing = jest.fn().mockResolvedValue(clothingFromApi);
+
+    const store = mockStore({});
+    return store.dispatch(clothesActions.saveClothing(clothing)).then(() => {
+      expect(clothesApi.saveClothing).toHaveBeenCalledWith(clothing);
+      expect(store.getActions()).toEqual([
+        { type: SAVE_CLOTHING, clothing: clothingFromApi },
+      ]);
+    });
+  });
+
+  it("should not dispatch any action if api call was unsuccessful", () => {
+    clothesApi.saveClothing = jest.fn().mockRejectedValue();
+    const store = mockStore({});
+
+    return store.dispatch(clothesActions.saveClothing(clothing)).then(() => {
       expect(clothesApi.updateClothing).toHaveBeenCalled();
       expect(store.getActions()).toEqual([]);
     });

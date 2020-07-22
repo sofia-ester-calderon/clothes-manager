@@ -15,7 +15,11 @@ function ApiErrorProvider({ children }) {
 
   if (reqInterceptor < 0) {
     const interceptor = axiosInstance.interceptors.request.use((req) => {
-      if (req.method === "get" || req.method === "put") {
+      if (
+        req.method === "get" ||
+        req.method === "put" ||
+        req.method === "post"
+      ) {
         setApiStatus({ loading: true, errorMessage: null });
       }
       return req;

@@ -48,6 +48,15 @@ describe("given a request was fired", () => {
     renderWithApiErrorHandler();
     screen.getByText("Loading...");
   });
+
+  it("should render modal with spinner for post requests", () => {
+    axios.interceptors.request.use = jest.fn((successCb, failCb) => {
+      successCb({ method: "post" });
+    });
+
+    renderWithApiErrorHandler();
+    screen.getByText("Loading...");
+  });
 });
 
 describe("given a response was received", () => {

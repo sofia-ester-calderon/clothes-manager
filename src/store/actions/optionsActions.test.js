@@ -7,16 +7,19 @@ import colorApi from "../../api/colorsApi";
 const middleware = [thunk];
 const mockStore = configureMockStore(middleware);
 
-describe("given a color is edited", () => {
+describe("given a color is updated", () => {
   it("dispatches updateColorSuccess action if api call was successful", () => {
-    colorApi.updateColor = jest.fn().mockResolvedValue();
-
     const color = { id: "def_col_1", name: "Red", hash: "#ff1100" };
+    const colorFromApi = { id: "idapi", name: "Red", hash: "#ff1100" };
+
+    colorApi.updateColor = jest.fn().mockResolvedValue(colorFromApi);
 
     const store = mockStore({});
     return store.dispatch(optionsActions.updateColor(color)).then(() => {
       expect(colorApi.updateColor).toHaveBeenCalledWith(color);
-      expect(store.getActions()).toEqual([{ type: UPDATE_COLOR, color }]);
+      expect(store.getActions()).toEqual([
+        { type: UPDATE_COLOR, color: colorFromApi },
+      ]);
     });
   });
 

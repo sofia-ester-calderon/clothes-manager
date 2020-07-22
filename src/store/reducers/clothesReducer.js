@@ -12,6 +12,8 @@ const clothesReducer = (state = initialState, action) => {
       return state.map((clothing) =>
         clothing.id === action.clothing.id ? action.clothing : clothing
       );
+    case actionTypes.SAVE_CLOTHING:
+      return [...state, { ...action.clothing }];
     default:
       return state;
   }
