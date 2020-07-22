@@ -20,13 +20,23 @@ async function getColor(id) {
 async function updateColor(color) {
   const id = color.id;
   const jsonClothing = transformObjectToJson(color);
-  return axios.put(`${COLORS_PREFIX}/${id}.json`, jsonClothing);
+  const updatedColor = await axios.put(
+    `${COLORS_PREFIX}/${id}.json`,
+    jsonClothing
+  );
+  return transformJsonToObject(updatedColor.data, id);
+}
+
+async function saveColor(color) {
+  const id = await axios.post(`${COLORS_PREFIX}.json`, color);
+  return transformJsonToObject(color, id.data.name);
 }
 
 const colorApi = {
   getColors,
   getColor,
   updateColor,
+  saveColor,
 };
 
 export default colorApi;

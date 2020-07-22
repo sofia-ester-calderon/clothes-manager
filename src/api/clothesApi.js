@@ -18,13 +18,18 @@ async function getClothing(id) {
 }
 
 async function saveClothing(clothing) {
-  return axios.post(`${CLOTHES_PREFIX}.json`, clothing);
+  const id = await axios.post(`${CLOTHES_PREFIX}.json`, clothing);
+  return transformJsonToObject(clothing, id.data.name);
 }
 
 async function updateClothing(clothing) {
   const id = clothing.id;
   const jsonClothing = transformObjectToJson(clothing);
-  return axios.put(`${CLOTHES_PREFIX}/${id}.json`, jsonClothing);
+  const updatedClothing = await axios.put(
+    `${CLOTHES_PREFIX}/${id}.json`,
+    jsonClothing
+  );
+  return transformJsonToObject(updatedClothing.data, id);
 }
 
 function deleteClothing(id) {
