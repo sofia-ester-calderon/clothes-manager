@@ -68,11 +68,11 @@ describe("given no clothing id is passed as a param", () => {
   });
 
   it("should a filled form with clothing details", async () => {
-    renderClothingContainer({ match: { params: { id: 1 } } });
+    renderClothingContainer({ match: { params: { id: 2 } } });
     await screen.findByDisplayValue("Tops");
-    await screen.findByDisplayValue("Sweater");
-    await screen.findByDisplayValue("Red");
-    await screen.findByDisplayValue("Everyday");
+    await screen.findByDisplayValue("T-Shirt");
+    await screen.findByDisplayValue("Green");
+    await screen.findByDisplayValue("Sport");
   });
 });
 

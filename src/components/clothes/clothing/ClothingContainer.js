@@ -180,7 +180,7 @@ function mapStateToProps(state, ownProps) {
   const clothingId = ownProps.match.params.id;
   const clothing =
     clothingId && state.clothes.length > 0
-      ? state.clothes.find((clothing) => (clothing.id = clothingId))
+      ? state.clothes.find((clothing) => clothing.id === clothingId)
       : emptyClothing;
   return {
     options: {
