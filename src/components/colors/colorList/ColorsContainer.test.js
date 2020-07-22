@@ -27,10 +27,10 @@ async function renderColorsContainer(emptyState) {
 }
 
 it("should load colors if color list is empty", async () => {
-  optionsActions.initColors = jest.fn();
+  optionsActions.loadColors = jest.fn();
   await renderColorsContainer(true);
 
-  expect(optionsActions.initColors).toHaveBeenCalled();
+  expect(optionsActions.loadColors).toHaveBeenCalled();
 });
 
 it("should display the colors list", async () => {

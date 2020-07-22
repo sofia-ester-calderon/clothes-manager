@@ -32,10 +32,10 @@ function renderClothingContainer(args, emptyState) {
 
 describe("given the page is initially loaded", () => {
   it("should load colors if color list is empty", async () => {
-    optionsActions.initColors = jest.fn();
+    optionsActions.loadColors = jest.fn();
     renderClothingContainer(null, true);
 
-    expect(optionsActions.initColors).toHaveBeenCalled();
+    expect(optionsActions.loadColors).toHaveBeenCalled();
   });
 });
 

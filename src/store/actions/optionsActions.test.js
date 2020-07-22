@@ -39,7 +39,7 @@ describe("given colors are loaded", () => {
     colorApi.getColors = jest.fn().mockResolvedValue(colors);
 
     const store = mockStore({});
-    return store.dispatch(optionsActions.initColors()).then(() => {
+    return store.dispatch(optionsActions.loadColors()).then(() => {
       expect(colorApi.getColors).toHaveBeenCalled();
       expect(store.getActions()).toEqual([{ type: LOAD_COLORS, colors }]);
     });
@@ -49,7 +49,7 @@ describe("given colors are loaded", () => {
     colorApi.getColors = jest.fn().mockRejectedValue();
 
     const store = mockStore({});
-    return store.dispatch(optionsActions.initColors()).then(() => {
+    return store.dispatch(optionsActions.loadColors()).then(() => {
       expect(colorApi.getColors).toHaveBeenCalled();
       expect(store.getActions()).toEqual([]);
     });

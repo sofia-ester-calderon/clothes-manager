@@ -26,7 +26,7 @@ const setColors = (colors) => {
   };
 };
 
-const initColors = () => {
+const loadColors = () => {
   return async (dispatch) => {
     try {
       const colors = await colorApi.getColors();
@@ -41,7 +41,7 @@ const optionsActions = {
   editColorSuccess,
   editColor,
   setColors,
-  initColors,
+  loadColors,
 };
 
 export default optionsActions;

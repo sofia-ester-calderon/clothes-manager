@@ -6,12 +6,12 @@ import ColorDetailContainer from "../colorForm/ColorDetailContainer";
 import ColorList from "./ColorList";
 import optionsActions from "../../../store/actions/optionsActions";
 
-const ColorsContainer = ({ colors, initColors, ...props }) => {
+const ColorsContainer = ({ colors, loadColors, ...props }) => {
   useEffect(() => {
     if (colors.length === 0) {
-      initColors();
+      loadColors();
     }
-  }, [colors, initColors]);
+  }, [colors, loadColors]);
 
   function showColorHandler(color) {
     props.history.push(props.match.url + "/" + color.id);
@@ -41,7 +41,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    initColors: () => dispatch(optionsActions.initColors()),
+    loadColors: () => dispatch(optionsActions.loadColors()),
   };
 };
 

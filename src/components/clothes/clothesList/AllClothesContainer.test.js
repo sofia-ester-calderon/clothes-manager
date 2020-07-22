@@ -47,9 +47,9 @@ async function renderAllClothesContainer(history, emptyState) {
 
 describe("given the page is opened", () => {
   it("should load colors if color list is empty", async () => {
-    optionsActions.initColors = jest.fn();
+    optionsActions.loadColors = jest.fn();
     await renderAllClothesContainer(null, true);
-    expect(optionsActions.initColors).toHaveBeenCalled();
+    expect(optionsActions.loadColors).toHaveBeenCalled();
   });
 
   it("should load clothes if clothes list is empty", async () => {

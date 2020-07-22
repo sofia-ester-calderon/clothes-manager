@@ -8,8 +8,8 @@ import clothesActions from "../../../store/actions/clothesActions";
 const AllClothesContainer = ({
   options,
   allClothes,
-  initColors,
-  initClothes,
+  loadColors,
+  loadClothes,
   deleteClothing,
 }) => {
   const [filteredClothes, setFilteredClothes] = useState(allClothes);
@@ -22,15 +22,15 @@ const AllClothesContainer = ({
 
   useEffect(() => {
     if (allClothes.length === 0) {
-      initClothes();
+      loadClothes();
     }
-  }, [allClothes, initClothes]);
+  }, [allClothes, loadClothes]);
 
   useEffect(() => {
     if (options.colors.length === 0) {
-      initColors();
+      loadColors();
     }
-  }, [options.colors, initColors]);
+  }, [options.colors, loadColors]);
 
   useEffect(() => {
     let newFilteredClothes = allClothes;
@@ -108,8 +108,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    initColors: () => dispatch(optionsActions.initColors()),
-    initClothes: () => dispatch(clothesActions.loadClothes()),
+    loadColors: () => dispatch(optionsActions.loadColors()),
+    loadClothes: () => dispatch(clothesActions.loadClothes()),
     deleteClothing: (id) => dispatch(clothesActions.deleteClothing(id)),
   };
 };

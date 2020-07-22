@@ -13,8 +13,8 @@ import { ApiErrorContext } from "../../../hooks/ApiErrorProvider";
 
 const ClothingContainer = ({
   options,
-  initColors,
-  initClothes,
+  loadColors,
+  loadClothes,
   updateClothing,
   ...props
 }) => {
@@ -38,12 +38,12 @@ const ClothingContainer = ({
 
   useEffect(() => {
     if (props.clothes.length === 0) {
-      initClothes();
+      loadClothes();
     }
     if (options.colors.length === 0) {
-      initColors();
+      loadColors();
     }
-  }, [props.clothes, initClothes, options.colors, initColors]);
+  }, [props.clothes, loadClothes, options.colors, loadColors]);
 
   useEffect(() => {
     setClothing(props.clothing);
@@ -206,8 +206,8 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    initColors: () => dispatch(optionsActions.initColors()),
-    initClothes: () => dispatch(clothesActions.loadClothes()),
+    loadColors: () => dispatch(optionsActions.loadColors()),
+    loadClothes: () => dispatch(clothesActions.loadClothes()),
     updateClothing: (clothing) =>
       dispatch(clothesActions.editClothing(clothing)),
   };
