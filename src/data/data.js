@@ -1,4 +1,4 @@
-export const emptyColor = { name: "", hash: "" };
+export const emptyColor = { name: "", hash: "#000000" };
 
 export const emptyClothing = {
   category: "",

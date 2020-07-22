@@ -1,4 +1,4 @@
-import { UPDATE_COLOR, LOAD_COLORS } from "../actions/actionTypes";
+import { UPDATE_COLOR, LOAD_COLORS, SAVE_COLOR } from "../actions/actionTypes";
 import optionsReducer from "./optionsReducer";
 
 const initialState = {
@@ -10,7 +10,7 @@ const initialState = {
   categories: ["Tops", "Bottoms"],
 };
 
-describe("given an edit color action was dispatched", () => {
+describe("given an update color action was dispatched", () => {
   it("should return the state with the updated color and all the original values of the other options", () => {
     const updatedColor = { id: "1", name: "newName", hash: "newHash" };
     const action = {
@@ -47,6 +47,22 @@ describe("given an init color action was dispatched", () => {
     const newState = optionsReducer(initialState, action);
     expect(newState.colors).toHaveLength(2);
     expect(newState.colors).toEqual(colors);
+    expect(newState.categories).toEqual(initialState.categories);
+  });
+});
+
+describe("given a save color action was dispatched", () => {
+  it("should return the state with the new color added and all the original values of the other options", () => {
+    const newColor = { id: "4", name: "NEW", hash: "#new" };
+
+    const action = {
+      type: SAVE_COLOR,
+      color: newColor,
+    };
+
+    const newState = optionsReducer(initialState, action);
+    expect(newState.colors).toHaveLength(4);
+    expect(newState.colors).toEqual(expect.arrayContaining([newColor]));
     expect(newState.categories).toEqual(initialState.categories);
   });
 });

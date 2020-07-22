@@ -21,15 +21,19 @@ const initialState = {
 const optionsReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.UPDATE_COLOR:
-      const colors = state.colors.map((color) =>
+      const updatedColors = state.colors.map((color) =>
         color.id === action.color.id ? action.color : color
       );
-      return { ...state, colors };
+      return { ...state, colors: updatedColors };
     case actionTypes.LOAD_COLORS:
       return {
         ...state,
         colors: action.colors,
       };
+    case actionTypes.SAVE_COLOR:
+      const newColors = [...state.colors, { ...action.color }];
+      return { ...state, colors: newColors };
+
     default:
       return state;
   }

@@ -17,7 +17,11 @@ const ColorDetailContainer = (props) => {
   function saveColorHandler(event) {
     event.preventDefault();
     if (isFormValid()) {
-      props.onUpdateColor(color);
+      if (color.id) {
+        props.onUpdateColor(color);
+      } else {
+        props.onSaveColor(color);
+      }
       props.history.push("/colors");
     }
   }
@@ -71,6 +75,7 @@ function mapStateToProps(state, ownProps) {
 const mapDispatchToProps = (dispatch) => {
   return {
     onUpdateColor: (color) => dispatch(optionsActions.updateColor(color)),
+    onSaveColor: (color) => dispatch(optionsActions.saveColor(color)),
   };
 };
 

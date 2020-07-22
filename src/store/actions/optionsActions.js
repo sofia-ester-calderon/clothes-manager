@@ -1,4 +1,4 @@
-import { UPDATE_COLOR, LOAD_COLORS } from "./actionTypes";
+import { UPDATE_COLOR, LOAD_COLORS, SAVE_COLOR } from "./actionTypes";
 import colorApi from "../../api/colorsApi";
 
 const updateColorSuccess = (color) => {
@@ -37,11 +37,30 @@ const loadColors = () => {
   };
 };
 
+const saveColorSuccess = (color) => {
+  return {
+    type: SAVE_COLOR,
+    color,
+  };
+};
+
+const saveColor = (color) => {
+  return async (dispatch) => {
+    try {
+      const savedColor = await colorApi.saveColor(color);
+      dispatch(saveColorSuccess(savedColor));
+    } catch (error) {
+      // Error is handled by ApiErrorHandler
+    }
+  };
+};
+
 const optionsActions = {
   updateColorSuccess,
   updateColor,
   setColors,
   loadColors,
+  saveColor,
 };
 
 export default optionsActions;

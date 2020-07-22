@@ -92,6 +92,22 @@ describe("given the save button was clicked", () => {
     });
   });
 
+  it("should dispatch a saveColor action if new color is saved", async () => {
+    const history = createMemoryHistory();
+    optionsActions.saveColor = jest.fn();
+
+    await renderDetailContainer("new", history);
+    fireEvent.change(screen.getByLabelText("Name"), {
+      target: { value: "Blue" },
+    });
+    fireEvent.click(screen.getByText("Save"));
+
+    expect(optionsActions.saveColor).toHaveBeenCalledWith({
+      name: "Blue",
+      hash: "#000000",
+    });
+  });
+
   it("should route to color list if save was successful", async () => {
     const history = { push: jest.fn() };
 
