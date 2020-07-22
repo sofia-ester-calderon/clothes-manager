@@ -1,18 +1,18 @@
-import { EDIT_COLOR, LOAD_COLORS } from "./actionTypes";
+import { UPDATE_COLOR, LOAD_COLORS } from "./actionTypes";
 import colorApi from "../../api/colorsApi";
 
-const editColorSuccess = (color) => {
+const updateColorSuccess = (color) => {
   return {
-    type: EDIT_COLOR,
+    type: UPDATE_COLOR,
     color,
   };
 };
 
-const editColor = (color) => {
+const updateColor = (color) => {
   return async (dispatch) => {
     try {
-      await colorApi.editColor(color);
-      dispatch(editColorSuccess(color));
+      await colorApi.updateColor(color);
+      dispatch(updateColorSuccess(color));
     } catch (error) {
       // Error is handled by ApiErrorHandler
     }
@@ -38,8 +38,8 @@ const loadColors = () => {
 };
 
 const optionsActions = {
-  editColorSuccess,
-  editColor,
+  updateColorSuccess,
+  updateColor,
   setColors,
   loadColors,
 };

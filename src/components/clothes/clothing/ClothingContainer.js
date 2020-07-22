@@ -209,7 +209,7 @@ const mapDispatchToProps = (dispatch) => {
     loadColors: () => dispatch(optionsActions.loadColors()),
     loadClothes: () => dispatch(clothesActions.loadClothes()),
     updateClothing: (clothing) =>
-      dispatch(clothesActions.editClothing(clothing)),
+      dispatch(clothesActions.updateClothing(clothing)),
   };
 };
 

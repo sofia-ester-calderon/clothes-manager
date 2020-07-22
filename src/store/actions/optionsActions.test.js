@@ -1,33 +1,33 @@
 import thunk from "redux-thunk";
 import configureMockStore from "redux-mock-store";
 import optionsActions from "./optionsActions";
-import { EDIT_COLOR, LOAD_COLORS } from "./actionTypes";
+import { UPDATE_COLOR, LOAD_COLORS } from "./actionTypes";
 import colorApi from "../../api/colorsApi";
 
 const middleware = [thunk];
 const mockStore = configureMockStore(middleware);
 
 describe("given a color is edited", () => {
-  it("dispatches editColorSuccess action if api call was successful", () => {
-    colorApi.editColor = jest.fn().mockResolvedValue();
+  it("dispatches updateColorSuccess action if api call was successful", () => {
+    colorApi.updateColor = jest.fn().mockResolvedValue();
 
     const color = { id: "def_col_1", name: "Red", hash: "#ff1100" };
 
     const store = mockStore({});
-    return store.dispatch(optionsActions.editColor(color)).then(() => {
-      expect(colorApi.editColor).toHaveBeenCalledWith(color);
-      expect(store.getActions()).toEqual([{ type: EDIT_COLOR, color }]);
+    return store.dispatch(optionsActions.updateColor(color)).then(() => {
+      expect(colorApi.updateColor).toHaveBeenCalledWith(color);
+      expect(store.getActions()).toEqual([{ type: UPDATE_COLOR, color }]);
     });
   });
 
   it("does not dispatch anything if api call was unsuccessful", () => {
-    colorApi.editColor = jest.fn().mockRejectedValue();
+    colorApi.updateColor = jest.fn().mockRejectedValue();
 
     const color = { id: "def_col_1", name: "Red", hash: "#ff1100" };
 
     const store = mockStore({});
-    return store.dispatch(optionsActions.editColor(color)).then(() => {
-      expect(colorApi.editColor).toHaveBeenCalledWith(color);
+    return store.dispatch(optionsActions.updateColor(color)).then(() => {
+      expect(colorApi.updateColor).toHaveBeenCalledWith(color);
       expect(store.getActions()).toEqual([]);
     });
   });

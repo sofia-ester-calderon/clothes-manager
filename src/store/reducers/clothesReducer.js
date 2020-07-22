@@ -8,7 +8,7 @@ const clothesReducer = (state = initialState, action) => {
       return [...action.clothes];
     case actionTypes.DELETE_CLOTHING:
       return state.filter((clothing) => clothing.id !== action.clothingId);
-    case actionTypes.EDIT_CLOTHING:
+    case actionTypes.UPDATE_CLOTHING:
       return state.map((clothing) =>
         clothing.id === action.clothing.id ? action.clothing : clothing
       );

@@ -1,4 +1,4 @@
-import { EDIT_COLOR, LOAD_COLORS } from "../actions/actionTypes";
+import { UPDATE_COLOR, LOAD_COLORS } from "../actions/actionTypes";
 import optionsReducer from "./optionsReducer";
 
 const initialState = {
@@ -14,7 +14,7 @@ describe("given an edit color action was dispatched", () => {
   it("should return the state with the updated color and all the original values of the other options", () => {
     const updatedColor = { id: "1", name: "newName", hash: "newHash" };
     const action = {
-      type: EDIT_COLOR,
+      type: UPDATE_COLOR,
       color: updatedColor,
     };
     const newState = optionsReducer(initialState, action);
@@ -26,7 +26,7 @@ describe("given an edit color action was dispatched", () => {
   it("should return initial state if the color id does not exist", () => {
     const updatedColor = { id: "wrong id", name: "newName", hash: "newHash" };
     const action = {
-      type: EDIT_COLOR,
+      type: UPDATE_COLOR,
       color: updatedColor,
     };
     const newState = optionsReducer(initialState, action);

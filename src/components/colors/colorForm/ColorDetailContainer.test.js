@@ -50,7 +50,7 @@ describe("given the save button was clicked", () => {
 
   it("should dispatch an edit color action with the new color information", async () => {
     const history = createMemoryHistory();
-    optionsActions.editColor = jest.fn();
+    optionsActions.updateColor = jest.fn();
 
     await renderDetailContainer(history);
     fireEvent.change(screen.getByDisplayValue("Red"), {
@@ -58,7 +58,7 @@ describe("given the save button was clicked", () => {
     });
     fireEvent.click(screen.getByText("Save"));
 
-    expect(optionsActions.editColor).toHaveBeenCalledWith({
+    expect(optionsActions.updateColor).toHaveBeenCalledWith({
       id: "def_col_1",
       name: "Blue",
       hash: "#ff1100",
@@ -71,7 +71,6 @@ describe("given the save button was clicked", () => {
     await renderDetailContainer(history);
     fireEvent.click(screen.getByText("Save"));
 
-    expect(history.push).toHaveBeenCalledWith("/colors")
-
+    expect(history.push).toHaveBeenCalledWith("/colors");
   });
 });

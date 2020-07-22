@@ -17,7 +17,7 @@ async function getColor(id) {
   return transformJsonToObject(color.data, id);
 }
 
-async function editColor(color) {
+async function updateColor(color) {
   const id = color.id;
   const jsonClothing = transformObjectToJson(color);
   return axios.put(`${COLORS_PREFIX}/${id}.json`, jsonClothing);
@@ -26,7 +26,7 @@ async function editColor(color) {
 const colorApi = {
   getColors,
   getColor,
-  editColor,
+  updateColor,
 };
 
 export default colorApi;

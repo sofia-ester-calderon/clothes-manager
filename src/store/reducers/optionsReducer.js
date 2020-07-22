@@ -20,7 +20,7 @@ const initialState = {
 
 const optionsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.EDIT_COLOR:
+    case actionTypes.UPDATE_COLOR:
       const colors = state.colors.map((color) =>
         color.id === action.color.id ? action.color : color
       );

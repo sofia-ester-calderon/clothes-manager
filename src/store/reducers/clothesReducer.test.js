@@ -1,7 +1,7 @@
 import {
   LOAD_CLOTHES,
   DELETE_CLOTHING,
-  EDIT_CLOTHING,
+  UPDATE_CLOTHING,
 } from "../actions/actionTypes";
 import clothesReducer from "./clothesReducer";
 
@@ -81,7 +81,7 @@ describe("given a edit clothing action was dispatched", () => {
       rating: 1,
       occasion: "NEW",
     };
-    const action = { type: EDIT_CLOTHING, clothing };
+    const action = { type: UPDATE_CLOTHING, clothing };
 
     const newState = clothesReducer(initialState, action);
 

@@ -68,7 +68,7 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onUpdateColor: (color) => dispatch(optionsActions.editColor(color)),
+    onUpdateColor: (color) => dispatch(optionsActions.updateColor(color)),
   };
 };
 

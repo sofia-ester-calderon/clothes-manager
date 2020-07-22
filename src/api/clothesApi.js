@@ -21,7 +21,7 @@ async function saveClothing(clothing) {
   return axios.post(`${CLOTHES_PREFIX}.json`, clothing);
 }
 
-async function editClothing(clothing) {
+async function updateClothing(clothing) {
   const id = clothing.id;
   const jsonClothing = transformObjectToJson(clothing);
   return axios.put(`${CLOTHES_PREFIX}/${id}.json`, jsonClothing);
@@ -35,7 +35,7 @@ const clothesApi = {
   getClothes,
   getClothing,
   saveClothing,
-  editClothing,
+  updateClothing,
   deleteClothing,
 };
 

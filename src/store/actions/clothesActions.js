@@ -1,5 +1,5 @@
 import clothesApi from "../../api/clothesApi";
-import { LOAD_CLOTHES, DELETE_CLOTHING, EDIT_CLOTHING } from "./actionTypes";
+import { LOAD_CLOTHES, DELETE_CLOTHING, UPDATE_CLOTHING } from "./actionTypes";
 
 const setClothes = (clothes) => {
   return {
@@ -37,24 +37,24 @@ const deleteClothing = (id) => {
   };
 };
 
-const editClothingSuccess = (clothing) => {
+const updateClothingSuccess = (clothing) => {
   return {
-    type: EDIT_CLOTHING,
+    type: UPDATE_CLOTHING,
     clothing,
   };
 };
 
-const editClothing = (clothing) => {
+const updateClothing = (clothing) => {
   return async (dispatch) => {
     try {
-      await clothesApi.editClothing(clothing);
-      dispatch(editClothingSuccess(clothing));
+      await clothesApi.updateClothing(clothing);
+      dispatch(updateClothingSuccess(clothing));
     } catch (error) {
       // Error is handled by ApiErrorHandler
     }
   };
 };
 
-const clothesActions = { loadClothes, deleteClothing, editClothing };
+const clothesActions = { loadClothes, deleteClothing, updateClothing };
 
 export default clothesActions;

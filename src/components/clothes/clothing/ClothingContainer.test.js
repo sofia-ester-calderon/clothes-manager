@@ -181,14 +181,14 @@ describe("given the save button is clicked", () => {
     screen.getByText("Occasion is required");
   });
 
-  it("should dispatch an editClothing action if clothing is updated", async () => {
-    clothesActions.editClothing = jest.fn();
+  it("should dispatch an updateClothing action if clothing is updated", async () => {
+    clothesActions.updateClothing = jest.fn();
 
     renderClothingContainer({ match: { params: { id: 1 } } });
 
     fireEvent.click(screen.getByText("Save"));
 
-    expect(clothesActions.editClothing).toHaveBeenCalled();
+    expect(clothesActions.updateClothing).toHaveBeenCalled();
   });
 });
 
