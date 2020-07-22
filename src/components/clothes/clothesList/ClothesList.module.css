@@ -2,6 +2,10 @@
   width: 22.5%;
 }
 
+.itemCell {
+  padding-left: 20px;
+}
+
 .iconCellWidth {
   width: 5%;
 }
@@ -16,9 +20,10 @@
 }
 
 .arrowImg {
-  margin-right: 3%;
+  margin-right: 5px;
 }
 
 .filterBox {
   margin: 10px 10px -15px 0;
+  width: 80%;
 }

@@ -25,6 +25,8 @@ const ClothesGroupedList = ({
     headerStyle.push(styles.groupHeader);
   }
 
+  const itemCellStyle = { paddingLeft: "20px" };
+
   function getHeaderStyle() {
     const headerStyle = ["thead-light"];
     if (clothes.length > 0) {
@@ -76,8 +78,10 @@ const ClothesGroupedList = ({
             <tbody>
               {sortClothes().map((clothing) => (
                 <tr key={clothing.id}>
-                  <td className={styles.cellWidth}>{clothing.type}</td>
-                  <td className={styles.cellWidth}>
+                  <td className={styles.cellWidth} style={itemCellStyle}>
+                    {clothing.type}
+                  </td>
+                  <td className={styles.cellWidth} style={itemCellStyle}>
                     {clothing.colors.map((colorId) => (
                       <ColorCircle
                         color={colors.find((color) => color.id === colorId)}
@@ -85,8 +89,10 @@ const ClothesGroupedList = ({
                       />
                     ))}
                   </td>
-                  <td className={styles.cellWidth}>{clothing.occasion}</td>
-                  <td className={styles.cellWidth}>
+                  <td className={styles.cellWidth} style={itemCellStyle}>
+                    {clothing.occasion}
+                  </td>
+                  <td className={styles.cellWidth} style={itemCellStyle}>
                     <Rating rating={clothing.rating} size="small" />
                   </td>
                   <td className={styles.iconCellWidth}>
