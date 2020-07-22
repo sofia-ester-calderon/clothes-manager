@@ -18,6 +18,20 @@ function renderColorForm(args) {
   return render(<ColorForm {...props} />);
 }
 
+it("should render Edit as title if color has an id", () => {
+  renderColorForm();
+
+  screen.getByText("Edit");
+});
+
+it("should render New Color as title if color has an id", () => {
+  const color = { name: "Red", hash: "#FF1100" };
+
+  renderColorForm({ color });
+
+  screen.getByText("New Color");
+});
+
 it("should render the color name and hex", () => {
   renderColorForm();
 

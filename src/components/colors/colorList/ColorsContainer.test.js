@@ -10,10 +10,9 @@ import ColorsContainer from "./ColorsContainer";
 
 HTMLCanvasElement.prototype.getContext = jest.fn();
 
-const history = { push: jest.fn() };
 const url = "/url";
 
-async function renderColorsContainer(emptyState) {
+async function renderColorsContainer(emptyState, history) {
   const defaultProps = { match: { url }, history };
   renderWithStore(
     <Router history={createMemoryHistory()}>
@@ -26,23 +25,39 @@ async function renderColorsContainer(emptyState) {
   }
 }
 
-it("should load colors if color list is empty", async () => {
-  optionsActions.loadColors = jest.fn();
-  await renderColorsContainer(true);
+describe("given the page is loaded", () => {
+  it("should load colors if color list is empty", async () => {
+    optionsActions.loadColors = jest.fn();
+    await renderColorsContainer(true);
 
-  expect(optionsActions.loadColors).toHaveBeenCalled();
+    expect(optionsActions.loadColors).toHaveBeenCalled();
+  });
+
+  it("should display the colors list", async () => {
+    await renderColorsContainer();
+
+    screen.getByText("Red");
+    screen.getByText("Green");
+  });
 });
 
-it("should display the colors list", async () => {
-  await renderColorsContainer();
+describe("given a color is clicked", () => {
+  it("should route to the color details form", async () => {
+    const history = { push: jest.fn() };
+    await renderColorsContainer(false, history);
 
-  screen.getByText("Red");
-  screen.getByText("Green");
+    fireEvent.click(screen.getByText("Red"));
+    expect(history.push).toHaveBeenCalledWith(url + "/def_col_1");
+  });
 });
 
-it("should route to the color details when color is clicked", async () => {
-  await renderColorsContainer();
+describe("given the Add New Color btn is clicked", () => {
+  it("should route to the new color form", async () => {
+    const history = { push: jest.fn() };
 
-  fireEvent.click(screen.getByText("Red"));
-  expect(history.push).toHaveBeenCalledWith(url + "/def_col_1");
+    await renderColorsContainer(false, history);
+
+    fireEvent.click(screen.getByText("Add New Color"));
+    expect(history.push).toHaveBeenCalledWith(url + "/new");
+  });
 });

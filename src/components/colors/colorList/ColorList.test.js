@@ -12,6 +12,7 @@ function renderColorList(args) {
   const defaultProps = {
     colors: mockColors,
     onClick: jest.fn(),
+    onAddColor: jest.fn(),
   };
   const props = { ...defaultProps, ...args };
   return render(<ColorList {...props} />);

@@ -59,10 +59,12 @@ const ColorDetailContainer = (props) => {
 
 function mapStateToProps(state, ownProps) {
   const colorId = ownProps.match.params.id;
-  const color =
-    colorId && state.options.colors.length > 0
-      ? state.options.colors.find((color) => color.id === colorId)
-      : emptyColor;
+  let color = null;
+  if (!colorId || colorId === "new" || state.options.colors.length === 0) {
+    color = emptyColor;
+  } else {
+    color = state.options.colors.find((color) => color.id === colorId);
+  }
   return { color };
 }
 

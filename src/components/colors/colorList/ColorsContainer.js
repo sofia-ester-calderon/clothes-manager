@@ -17,11 +17,18 @@ const ColorsContainer = ({ colors, loadColors, ...props }) => {
     props.history.push(props.match.url + "/" + color.id);
   }
 
+  function addNewColorHandler() {
+    props.history.push(props.match.url + "/new");
+  }
+
   return (
     <div className="row">
       <div className="col">
-        <ColorList onClick={showColorHandler} colors={colors} />
-        <button className="btn btn btn-dark mt-3">Add New Color</button>
+        <ColorList
+          onClick={showColorHandler}
+          colors={colors}
+          onAddColor={addNewColorHandler}
+        />
       </div>
       <div className="col ml-4">
         <Route
