@@ -72,13 +72,12 @@ const ClothingContainer = ({
   }
 
   function isFormValid() {
-    const { category, type, colors, occasion, seasons } = clothing;
+    const { category, type, colors, occasion } = clothing;
     const errors = {};
     if (!category || category === "") errors.category = "Category is required";
     if (!type || type === "") errors.type = "Type is required";
     if (colors.length < 1) errors.colors = "Min. one color is required";
     if (!occasion || occasion === "") errors.occasion = "Occasion is required";
-    if (seasons.length < 1) errors.seasons = "Season is required";
     setErrors(errors);
     return Object.keys(errors).length === 0;
   }

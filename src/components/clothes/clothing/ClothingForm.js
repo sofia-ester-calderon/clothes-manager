@@ -139,9 +139,7 @@ const ClothingForm = ({
           name="seasons"
           label={clothing.seasons.length === 0 ? "Season" : null}
           value={""}
-          defaultOption={
-            clothing.seasons.length === 0 ? "Select Season" : "Add Season"
-          }
+          defaultOption={clothing.seasons.length === 0 ? "None" : "Add Season"}
           options={remainingSeasonOptions}
           onChange={onChange}
           error={errors.seasons}

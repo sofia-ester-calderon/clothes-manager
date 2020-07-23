@@ -73,7 +73,7 @@ describe("given empty clothing is passed as param", () => {
   it("should display season select box with all seasons as option and have default value selected", () => {
     renderClothingForm();
     screen.getByText("Season");
-    screen.getByDisplayValue("Select Season");
+    screen.getByDisplayValue("None");
     seasons.forEach((season) => {
       screen.getByText(season);
     });

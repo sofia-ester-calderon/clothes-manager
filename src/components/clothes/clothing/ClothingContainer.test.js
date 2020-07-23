@@ -58,7 +58,7 @@ describe("given no clothing id is passed as a param", () => {
     screen.getByDisplayValue("Select Type");
     screen.getByDisplayValue("Select Color");
     screen.getByDisplayValue("Select Occasion");
-    screen.getByDisplayValue("Select Season");
+    screen.getByDisplayValue("None");
   });
 });
 
@@ -184,7 +184,7 @@ describe("change seasons", () => {
     function seasonSelectedForFirstTime() {
       renderClothingContainer();
 
-      fireEvent.change(screen.getByDisplayValue("Select Season"), {
+      fireEvent.change(screen.getByDisplayValue("None"), {
         target: { value: "Summer" },
       });
     }
@@ -225,7 +225,7 @@ describe("change seasons", () => {
     function twoSeasonsSelected() {
       renderClothingContainer();
 
-      fireEvent.change(screen.getByDisplayValue("Select Season"), {
+      fireEvent.change(screen.getByDisplayValue("None"), {
         target: { value: "Summer" },
       });
       fireEvent.change(screen.getByDisplayValue("Add Season"), {
@@ -269,7 +269,7 @@ describe("change seasons", () => {
     function twoSeasonsSelectedOneChanged() {
       renderClothingContainer();
 
-      fireEvent.change(screen.getByDisplayValue("Select Season"), {
+      fireEvent.change(screen.getByDisplayValue("None"), {
         target: { value: "Summer" },
       });
       fireEvent.change(screen.getByDisplayValue("Add Season"), {
@@ -315,7 +315,7 @@ describe("change seasons", () => {
     function allSeasonsSelected() {
       renderClothingContainer();
 
-      fireEvent.change(screen.getByDisplayValue("Select Season"), {
+      fireEvent.change(screen.getByDisplayValue("None"), {
         target: { value: "Summer" },
       });
       fireEvent.change(screen.getByDisplayValue("Add Season"), {
@@ -353,7 +353,7 @@ describe("change seasons", () => {
     function seasonRemoved() {
       renderClothingContainer();
 
-      fireEvent.change(screen.getByDisplayValue("Select Season"), {
+      fireEvent.change(screen.getByDisplayValue("None"), {
         target: { value: "Summer" },
       });
       fireEvent.click(screen.getByAltText("Delete"));
@@ -366,7 +366,7 @@ describe("change seasons", () => {
 
     it("should display select box to add another season", () => {
       seasonRemoved();
-      screen.getByDisplayValue("Select Season");
+      screen.getByDisplayValue("None");
     });
 
     it("should display all seasons as options of select box", () => {
@@ -393,7 +393,6 @@ describe("given the save button is clicked", () => {
     screen.getByText("Type is required");
     screen.getByText("Min. one color is required");
     screen.getByText("Occasion is required");
-    screen.getByText("Season is required");
   });
 
   it("should dispatch an updateClothing action if clothing is updated", async () => {
@@ -436,9 +435,6 @@ describe("given the save button is clicked", () => {
     fireEvent.change(screen.getByDisplayValue("Select Occasion"), {
       target: { value: "Sport" },
     });
-    fireEvent.change(screen.getByDisplayValue("Select Season"), {
-      target: { value: "Summer" },
-    });
 
     fireEvent.click(screen.getByText("Save"));
 
@@ -448,7 +444,7 @@ describe("given the save button is clicked", () => {
       colors: ["def_col_1"],
       rating: 1,
       occasion: "Sport",
-      seasons: ["Summer"],
+      seasons: [],
     });
   });
 });
