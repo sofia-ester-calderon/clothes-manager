@@ -28,10 +28,8 @@ function renderClothingForm(args) {
     errors: {},
     onChange: jest.fn(),
     types: [],
-    colors: allColors,
-    onRemoveColor: jest.fn(),
-    onChangeColor: jest.fn(),
-    onChangeSeason: jest.fn(),
+    onRemoveArrayValue: jest.fn(),
+    onChangeArrayValue: jest.fn(),
     options,
   };
   const props = { ...defaultProps, ...args };
@@ -137,6 +135,18 @@ describe("given a clothing item is passed as param", () => {
   it("should display single select box with 'Add Season' as selected value", () => {
     renderClothingForm({ clothing, types });
     screen.getByDisplayValue("Add Season");
+  });
+
+  it("should only have the clothing seasons as options for their select box and all other seasons as options for all select boxes", () => {
+    renderClothingForm({ clothing, types });
+    const winterOption = screen.queryAllByText("Winter");
+    expect(winterOption).toHaveLength(1);
+    const summerOption = screen.queryAllByText("Summer");
+    expect(summerOption).toHaveLength(1);
+    const autumnOption = screen.queryAllByText("Autumn");
+    expect(autumnOption).toHaveLength(3);
+    const springOption = screen.queryAllByText("Spring");
+    expect(springOption).toHaveLength(3);
   });
 });
 

@@ -11,12 +11,33 @@ const ClothingForm = ({
   errors = {},
   onChange,
   types,
-  colors,
-  onRemoveColor,
-  onChangeColor,
-  onChangeSeason,
+  onRemoveArrayValue,
+  onChangeArrayValue,
   options,
 }) => {
+  function getRemainingSeasonOptions() {
+    const remainingSeasons = options.seasons.filter((season) => {
+      return !clothing.seasons.includes(season);
+    });
+    return remainingSeasons.map((season) => ({
+      value: season,
+      text: season,
+    }));
+  }
+
+  function getRemainingColorOptions() {
+    const remainingColors = options.colors.filter((optionColor) => {
+      return !clothing.colors.includes(optionColor.id);
+    });
+    return remainingColors.map((color) => ({
+      value: color.id,
+      text: color.name,
+    }));
+  }
+
+  const remainingSeasonOptions = getRemainingSeasonOptions();
+  const remainingColorOptions = getRemainingColorOptions();
+
   return (
     <form onSubmit={onSave}>
       <h2 className="mb-4">
@@ -62,8 +83,8 @@ const ClothingForm = ({
             key={idx}
             label={idx === 0 ? "Color" : null}
             selectedValue={options.colors.find((color) => color.id === colorId)}
-            onSelectionChanged={(e) => onChangeColor(e, colorId)}
-            onSelectionDeleted={() => onRemoveColor(colorId)}
+            onSelectionChanged={(e) => onChangeArrayValue(e, colorId, "colors")}
+            onSelectionDeleted={() => onRemoveArrayValue(colorId, "colors")}
             clothingValues={clothing.colors}
             possibleOptions={options.colors}
             colorSelector={true}
@@ -71,7 +92,7 @@ const ClothingForm = ({
         );
       })}
 
-      {colors.length > 0 && (
+      {remainingColorOptions.length > 0 && (
         <SelectInput
           name="colors"
           label={clothing.colors.length === 0 ? "Color" : null}
@@ -79,10 +100,7 @@ const ClothingForm = ({
           defaultOption={
             clothing.colors.length === 0 ? "Select Color" : "Add New Color"
           }
-          options={colors.map((color) => ({
-            value: color.id,
-            text: color.name,
-          }))}
+          options={remainingColorOptions}
           onChange={onChange}
           error={errors.colors}
         />
@@ -107,8 +125,8 @@ const ClothingForm = ({
             key={idx}
             label={idx === 0 ? "Season" : null}
             selectedValue={season}
-            onSelectionChanged={(e) => onChangeSeason(e, season)}
-            onSelectionDeleted={() => onRemoveColor(season)}
+            onSelectionChanged={(e) => onChangeArrayValue(e, season, "seasons")}
+            onSelectionDeleted={() => onRemoveArrayValue(season, "seasons")}
             clothingValues={clothing.seasons}
             possibleOptions={options.seasons}
             colorSelector={false}
@@ -116,7 +134,7 @@ const ClothingForm = ({
         );
       })}
 
-      {options.seasons.length > 0 && (
+      {remainingSeasonOptions.length > 0 && (
         <SelectInput
           name="seasons"
           label={clothing.seasons.length === 0 ? "Season" : null}
@@ -124,10 +142,7 @@ const ClothingForm = ({
           defaultOption={
             clothing.seasons.length === 0 ? "Select Season" : "Add Season"
           }
-          options={options.seasons.map((season) => ({
-            value: season,
-            text: season,
-          }))}
+          options={remainingSeasonOptions}
           onChange={onChange}
           error={errors.seasons}
         />
@@ -148,10 +163,8 @@ ClothingForm.propTypes = {
   errors: PropTypes.object,
   onChange: PropTypes.func.isRequired,
   types: PropTypes.array.isRequired,
-  colors: PropTypes.array.isRequired,
-  onRemoveColor: PropTypes.func.isRequired,
-  onChangeColor: PropTypes.func.isRequired,
-  onChangeSeason: PropTypes.func.isRequired,
+  onRemoveArrayValue: PropTypes.func.isRequired,
+  onChangeArrayValue: PropTypes.func.isRequired,
   options: PropTypes.object,
 };
 

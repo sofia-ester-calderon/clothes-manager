@@ -107,9 +107,6 @@ const ClothingContainer = ({
     if (name === "category") {
       determineTypesFromCategory(value);
     }
-    if (name === "colors") {
-      removeColorFromColorSelection(value);
-    }
 
     setClothing((prevClothing) => ({
       ...prevClothing,
@@ -131,42 +128,19 @@ const ClothingContainer = ({
     setTypes(typesByCategory);
   }
 
-  function removeColorFromColorSelection(chosenColor) {
-    setColors(colors.filter((color) => color.id !== chosenColor));
-  }
-
-  function removeColorHandler(deletedColor) {
+  function removeArrayValueHandler(deletedValue, key) {
     setClothing((prevClothing) => ({
       ...prevClothing,
-      colors: prevClothing.colors.filter((color) => color !== deletedColor),
+      [key]: prevClothing[key].filter((value) => value !== deletedValue),
     }));
-
-    setColors([...colors, options.colors.find((c) => c.id === deletedColor)]);
   }
 
-  function changeColorHandler(event, prevColor) {
-    const newColor = event.target.value;
+  function changeArrayValueHandler(event, prevValue, key) {
+    const newValue = event.target.value;
     setClothing((prevClothing) => ({
       ...prevClothing,
-      colors: prevClothing.colors.map((color) =>
-        color === prevColor ? newColor : color
-      ),
-    }));
-
-    const newSelectionColors = colors.map((color) => {
-      return color.id === newColor
-        ? options.colors.find((c) => c.id === prevColor)
-        : color;
-    });
-    setColors(newSelectionColors);
-  }
-
-  function changeSeasonHandler(event, prevSeason) {
-    const newSeason = event.target.value;
-    setClothing((prevClothing) => ({
-      ...prevClothing,
-      seasons: prevClothing.seasons.map((season) =>
-        season === prevSeason ? newSeason : season
+      [key]: prevClothing[key].map((value) =>
+        value === prevValue ? newValue : value
       ),
     }));
   }
@@ -178,11 +152,9 @@ const ClothingContainer = ({
           clothing={clothing}
           onSave={saveClothesHandler}
           onChange={changeClothingHandler}
-          onRemoveColor={removeColorHandler}
-          onChangeColor={changeColorHandler}
-          onChangeSeason={changeSeasonHandler}
+          onRemoveArrayValue={removeArrayValueHandler}
+          onChangeArrayValue={changeArrayValueHandler}
           types={types}
-          colors={colors}
           errors={errors}
           saving={saving}
           options={options}

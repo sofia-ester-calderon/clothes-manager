@@ -181,19 +181,48 @@ describe("change colors", () => {
 
 describe("change seasons", () => {
   describe("given a season is selected for the first time", () => {
-    it("should display a select box with the selected season and a new select box to add another season", () => {
+    function seasonSelectedForFirstTime() {
       renderClothingContainer();
 
       fireEvent.change(screen.getByDisplayValue("Select Season"), {
         target: { value: "Summer" },
       });
+    }
 
+    it("should display a select box with the selected season", () => {
+      seasonSelectedForFirstTime();
       screen.getByDisplayValue("Summer");
+    });
+
+    it("should display new select box to add another season", () => {
+      seasonSelectedForFirstTime();
+
       screen.getByDisplayValue("Add Season");
     });
+
+    it("should display the new season only as an option of the select box where it is selected", () => {
+      seasonSelectedForFirstTime();
+
+      // Summer should only be present as option in the select box where it is the display value
+      const optionsOfSummer = screen.queryAllByText("Summer");
+      expect(optionsOfSummer).toHaveLength(1);
+    });
+
+    it("should display all other seasons as option in both select boxes", () => {
+      seasonSelectedForFirstTime();
+
+      // All other seasons should be present as option in both select boxes
+      const optionsOfWinter = screen.queryAllByText("Winter");
+      expect(optionsOfWinter).toHaveLength(2);
+      const optionsOfAutumn = screen.queryAllByText("Autumn");
+      expect(optionsOfAutumn).toHaveLength(2);
+      const optionsOfSpring = screen.queryAllByText("Spring");
+      expect(optionsOfSpring).toHaveLength(2);
+    });
   });
-  describe("given a season is already present and another is added", () => {
-    it("should display a select box with both seasons and a new select box to add another season", () => {
+
+  describe("given two seasons are selected", () => {
+    function twoSeasonsSelected() {
       renderClothingContainer();
 
       fireEvent.change(screen.getByDisplayValue("Select Season"), {
@@ -202,14 +231,42 @@ describe("change seasons", () => {
       fireEvent.change(screen.getByDisplayValue("Add Season"), {
         target: { value: "Winter" },
       });
+    }
+
+    it("should display a select box with both seasons", () => {
+      twoSeasonsSelected();
 
       screen.getByDisplayValue("Summer");
       screen.getByDisplayValue("Winter");
+    });
+
+    it("should display a new select box to add another season", () => {
+      twoSeasonsSelected();
+
       screen.getByDisplayValue("Add Season");
     });
+
+    it("should display the two selected seasons only as options of their select boxes", () => {
+      twoSeasonsSelected();
+
+      const optionsOfSummer = screen.queryAllByText("Summer");
+      expect(optionsOfSummer).toHaveLength(1);
+      const optionsOfWinter = screen.queryAllByText("Winter");
+      expect(optionsOfWinter).toHaveLength(1);
+    });
+
+    it("should display all other seasons as option in all three select boxes", () => {
+      twoSeasonsSelected();
+
+      const optionsOfAutumn = screen.queryAllByText("Autumn");
+      expect(optionsOfAutumn).toHaveLength(3);
+      const optionsOfSpring = screen.queryAllByText("Spring");
+      expect(optionsOfSpring).toHaveLength(3);
+    });
   });
+
   describe("given two seasons are present and one season is changed", () => {
-    it("should display a select box with the changed season, the unchanged season and the select box to add another season", () => {
+    function twoSeasonsSelectedOneChanged() {
       renderClothingContainer();
 
       fireEvent.change(screen.getByDisplayValue("Select Season"), {
@@ -221,10 +278,108 @@ describe("change seasons", () => {
       fireEvent.change(screen.getByDisplayValue("Summer"), {
         target: { value: "Spring" },
       });
+    }
+    it("should display a select box with both seasons", () => {
+      twoSeasonsSelectedOneChanged();
 
       screen.getByDisplayValue("Winter");
       screen.getByDisplayValue("Spring");
+    });
+
+    it("should display a new select box to add another season", () => {
+      twoSeasonsSelectedOneChanged();
+
       screen.getByDisplayValue("Add Season");
+    });
+
+    it("should display the two selected seasons only as options of their select boxes", () => {
+      twoSeasonsSelectedOneChanged();
+
+      const optionsOfSpring = screen.queryAllByText("Spring");
+      expect(optionsOfSpring).toHaveLength(1);
+      const optionsOfWinter = screen.queryAllByText("Winter");
+      expect(optionsOfWinter).toHaveLength(1);
+    });
+
+    it("should display all other seasons as option in all three select boxes", () => {
+      twoSeasonsSelectedOneChanged();
+
+      const optionsOfAutumn = screen.queryAllByText("Autumn");
+      expect(optionsOfAutumn).toHaveLength(3);
+      const optionsOfSummer = screen.queryAllByText("Summer");
+      expect(optionsOfSummer).toHaveLength(3);
+    });
+  });
+
+  describe("given all seasons are selected", () => {
+    function allSeasonsSelected() {
+      renderClothingContainer();
+
+      fireEvent.change(screen.getByDisplayValue("Select Season"), {
+        target: { value: "Summer" },
+      });
+      fireEvent.change(screen.getByDisplayValue("Add Season"), {
+        target: { value: "Winter" },
+      });
+      fireEvent.change(screen.getByDisplayValue("Add Season"), {
+        target: { value: "Autumn" },
+      });
+      fireEvent.change(screen.getByDisplayValue("Add Season"), {
+        target: { value: "Spring" },
+      });
+    }
+
+    it("should not display a select box to add another season", () => {
+      allSeasonsSelected();
+
+      expect(screen.queryByText("Add Season")).not.toBeInTheDocument();
+    });
+
+    it("should only display each season once as an option", () => {
+      allSeasonsSelected();
+
+      const optionsOfSpring = screen.queryAllByText("Spring");
+      expect(optionsOfSpring).toHaveLength(1);
+      const optionsOfWinter = screen.queryAllByText("Winter");
+      expect(optionsOfWinter).toHaveLength(1);
+      const optionsOfAutumn = screen.queryAllByText("Autumn");
+      expect(optionsOfAutumn).toHaveLength(1);
+      const optionsOfSummer = screen.queryAllByText("Summer");
+      expect(optionsOfSummer).toHaveLength(1);
+    });
+  });
+
+  describe("given a season is removed", () => {
+    function seasonRemoved() {
+      renderClothingContainer();
+
+      fireEvent.change(screen.getByDisplayValue("Select Season"), {
+        target: { value: "Summer" },
+      });
+      fireEvent.click(screen.getByAltText("Delete"));
+    }
+
+    it("should not display the removed season in a select box as display value", () => {
+      seasonRemoved();
+      expect(screen.queryByDisplayValue("Summer")).not.toBeInTheDocument();
+    });
+
+    it("should display select box to add another season", () => {
+      seasonRemoved();
+      screen.getByDisplayValue("Select Season");
+    });
+
+    it("should display all seasons as options of select box", () => {
+      seasonRemoved();
+
+      const optionsOfSpring = screen.queryAllByText("Spring");
+      expect(optionsOfSpring).toHaveLength(1);
+      const optionsOfWinter = screen.queryAllByText("Winter");
+      expect(optionsOfWinter).toHaveLength(1);
+      const optionsOfAutumn = screen.queryAllByText("Autumn");
+      expect(optionsOfAutumn).toHaveLength(1);
+      const optionsOfSummer = screen.queryAllByText("Summer");
+      expect(optionsOfSummer).toHaveLength(1);
     });
   });
 });
