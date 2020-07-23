@@ -161,6 +161,16 @@ const ClothingContainer = ({
     setColors(newSelectionColors);
   }
 
+  function changeSeasonHandler(event, prevSeason) {
+    const newSeason = event.target.value;
+    setClothing((prevClothing) => ({
+      ...prevClothing,
+      seasons: prevClothing.seasons.map((season) =>
+        season === prevSeason ? newSeason : season
+      ),
+    }));
+  }
+
   return (
     <div className={styles.layout}>
       {options.colors.length > 0 ? (
@@ -170,6 +180,7 @@ const ClothingContainer = ({
           onChange={changeClothingHandler}
           onRemoveColor={removeColorHandler}
           onChangeColor={changeColorHandler}
+          onChangeSeason={changeSeasonHandler}
           types={types}
           colors={colors}
           errors={errors}

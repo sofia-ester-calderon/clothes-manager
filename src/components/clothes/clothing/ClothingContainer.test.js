@@ -179,6 +179,56 @@ describe("change colors", () => {
   });
 });
 
+describe("change seasons", () => {
+  describe("given a season is selected for the first time", () => {
+    it("should display a select box with the selected season and a new select box to add another season", () => {
+      renderClothingContainer();
+
+      fireEvent.change(screen.getByDisplayValue("Select Season"), {
+        target: { value: "Summer" },
+      });
+
+      screen.getByDisplayValue("Summer");
+      screen.getByDisplayValue("Add Season");
+    });
+  });
+  describe("given a season is already present and another is added", () => {
+    it("should display a select box with both seasons and a new select box to add another season", () => {
+      renderClothingContainer();
+
+      fireEvent.change(screen.getByDisplayValue("Select Season"), {
+        target: { value: "Summer" },
+      });
+      fireEvent.change(screen.getByDisplayValue("Add Season"), {
+        target: { value: "Winter" },
+      });
+
+      screen.getByDisplayValue("Summer");
+      screen.getByDisplayValue("Winter");
+      screen.getByDisplayValue("Add Season");
+    });
+  });
+  describe("given two seasons are present and one season is changed", () => {
+    it("should display a select box with the changed season, the unchanged season and the select box to add another season", () => {
+      renderClothingContainer();
+
+      fireEvent.change(screen.getByDisplayValue("Select Season"), {
+        target: { value: "Summer" },
+      });
+      fireEvent.change(screen.getByDisplayValue("Add Season"), {
+        target: { value: "Winter" },
+      });
+      fireEvent.change(screen.getByDisplayValue("Summer"), {
+        target: { value: "Spring" },
+      });
+
+      screen.getByDisplayValue("Winter");
+      screen.getByDisplayValue("Spring");
+      screen.getByDisplayValue("Add Season");
+    });
+  });
+});
+
 describe("given the save button is clicked", () => {
   it("should display error messages when saving and nothing selected", () => {
     renderClothingContainer();

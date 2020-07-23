@@ -14,6 +14,7 @@ const ClothingForm = ({
   colors,
   onRemoveColor,
   onChangeColor,
+  onChangeSeason,
   options,
 }) => {
   return (
@@ -106,7 +107,7 @@ const ClothingForm = ({
             key={idx}
             label={idx === 0 ? "Season" : null}
             selectedValue={season}
-            onSelectionChanged={(e) => onChangeColor(e, season)}
+            onSelectionChanged={(e) => onChangeSeason(e, season)}
             onSelectionDeleted={() => onRemoveColor(season)}
             clothingValues={clothing.seasons}
             possibleOptions={options.seasons}
@@ -150,6 +151,7 @@ ClothingForm.propTypes = {
   colors: PropTypes.array.isRequired,
   onRemoveColor: PropTypes.func.isRequired,
   onChangeColor: PropTypes.func.isRequired,
+  onChangeSeason: PropTypes.func.isRequired,
   options: PropTypes.object,
 };
 

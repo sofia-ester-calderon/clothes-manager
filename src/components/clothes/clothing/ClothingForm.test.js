@@ -31,6 +31,7 @@ function renderClothingForm(args) {
     colors: allColors,
     onRemoveColor: jest.fn(),
     onChangeColor: jest.fn(),
+    onChangeSeason: jest.fn(),
     options,
   };
   const props = { ...defaultProps, ...args };
