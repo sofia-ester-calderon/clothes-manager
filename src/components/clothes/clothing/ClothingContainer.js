@@ -20,7 +20,6 @@ const ClothingContainer = ({
 }) => {
   const [clothing, setClothing] = useState(props.clothing);
   const [types, setTypes] = useState([]);
-  const [colors, setColors] = useState([]);
   const [errors, setErrors] = useState({});
   const [saving, setSaving] = useState(false);
 
@@ -58,17 +57,6 @@ const ClothingContainer = ({
     );
     setTypes(typesByCategory);
   }, [clothing, options.types]);
-
-  useEffect(() => {
-    if (options.colors.length > 0 && clothing.id) {
-      setColors(
-        options.colors.filter((color) => !clothing.colors.includes(color.id))
-      );
-    }
-    if (clothing.colors.length === 0) {
-      setColors(options.colors);
-    }
-  }, [options.colors, clothing]);
 
   function saveClothesHandler(event) {
     event.preventDefault();
