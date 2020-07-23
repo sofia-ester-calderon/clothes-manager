@@ -18,13 +18,20 @@ const MultiOptionsSelector = ({
   colorSelector = false,
 }) => {
   function getSelectionOptions() {
-    const colorsToDisplay = possibleOptions.filter(
-      (color) =>
-        !clothingValues.includes(color.id) || color.id === selectedValue.id
-    );
-    return colorsToDisplay.map((color) => ({
-      value: color.id,
-      text: color.name,
+    // console.log("selected value", selectedValue);
+    // console.log("possible options", possibleOptions);
+    const optionsToDisplay = possibleOptions.filter((option) => {
+      if (option.id) {
+        return (
+          !clothingValues.includes(option.id) || option.id === selectedValue.id
+        );
+      }
+      return !clothingValues.includes(option) || option === selectedValue;
+    });
+    // console.log(optionsToDIsplay);
+    return optionsToDisplay.map((option) => ({
+      value: option.id ? option.id : option,
+      text: option.name ? option.name : option,
     }));
   }
 
@@ -64,7 +71,10 @@ const MultiOptionsSelector = ({
 
 MultiOptionsSelector.propTypes = {
   label: PropTypes.string,
-  selectedValue: PropTypes.object.isRequired,
+  selectedValue: PropTypes.oneOfType([
+    PropTypes.string.isRequired,
+    PropTypes.object.isRequired,
+  ]),
   onSelectionChanged: PropTypes.func.isRequired,
   onSelectionDeleted: PropTypes.func.isRequired,
   clothingValues: PropTypes.array,
