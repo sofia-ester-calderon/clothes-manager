@@ -100,18 +100,37 @@ const ClothingForm = ({
         error={errors.occasion}
       />
 
-      <SelectInput
-        name="season"
-        label="Season"
-        value={clothing.season}
-        defaultOption="Select Season"
-        options={options.seasons.map((season) => ({
-          value: season,
-          text: season,
-        }))}
-        onChange={onChange}
-        error={errors.season}
-      />
+      {clothing.seasons.map((season, idx) => {
+        return (
+          <MultiOptionsSelector
+            key={idx}
+            label={idx === 0 ? "Season" : null}
+            selectedValue={season}
+            onSelectionChanged={(e) => onChangeColor(e, season)}
+            onSelectionDeleted={() => onRemoveColor(season)}
+            clothingValues={clothing.seasons}
+            possibleOptions={options.seasons}
+            colorSelector={false}
+          />
+        );
+      })}
+
+      {options.seasons.length > 0 && (
+        <SelectInput
+          name="seasons"
+          label={clothing.seasons.length === 0 ? "Season" : null}
+          value={""}
+          defaultOption={
+            clothing.seasons.length === 0 ? "Select Season" : "Add Season"
+          }
+          options={options.seasons.map((season) => ({
+            value: season,
+            text: season,
+          }))}
+          onChange={onChange}
+          error={errors.seasons}
+        />
+      )}
 
       <RatingInput onChange={onChange} rating={clothing.rating} />
 

@@ -18,8 +18,6 @@ const MultiOptionsSelector = ({
   colorSelector = false,
 }) => {
   function getSelectionOptions() {
-    // console.log("selected value", selectedValue);
-    // console.log("possible options", possibleOptions);
     const optionsToDisplay = possibleOptions.filter((option) => {
       if (option.id) {
         return (
@@ -28,7 +26,6 @@ const MultiOptionsSelector = ({
       }
       return !clothingValues.includes(option) || option === selectedValue;
     });
-    // console.log(optionsToDIsplay);
     return optionsToDisplay.map((option) => ({
       value: option.id ? option.id : option,
       text: option.name ? option.name : option,
@@ -43,7 +40,7 @@ const MultiOptionsSelector = ({
         <SelectInput
           name="colors"
           label={label}
-          value={selectedValue.id}
+          value={selectedValue.id ? selectedValue.id : selectedValue}
           options={getSelectionOptions()}
           onChange={onSelectionChanged}
         />

@@ -20,7 +20,7 @@ const clothes = [
     colors: [colors[0].id, colors[1].id, colors[2].id],
     rating: 1,
     occasion: "occasion1",
-    season: "season1",
+    seasons: ["season1"],
   },
   {
     id: 2,
@@ -29,7 +29,7 @@ const clothes = [
     colors: [colors[0].id],
     rating: 1,
     occasion: "occasion2",
-    season: "season2",
+    seasons: ["season2", "season3"],
   },
 ];
 
@@ -69,7 +69,7 @@ describe("given there are clothes", () => {
 
     screen.getByText("type2");
     screen.getByText("occasion2");
-    screen.getByText("season2");
+    screen.getByText("season2, season3");
     expect(screen.queryAllByTestId("circle-color")).toHaveLength(4);
   });
 });

@@ -74,7 +74,7 @@ describe("given clothingValues are passed as param", () => {
 
       expect(screen.queryByText("Green")).not.toBeInTheDocument();
       expect(screen.queryByText("Blue")).not.toBeInTheDocument();
-      screen.getByText("Red");
+      screen.getByDisplayValue("Red");
       screen.getByText("Yellow");
       screen.getByText("White");
       screen.getByText("Black");
@@ -100,7 +100,7 @@ describe("given clothingValues are passed as param", () => {
 
       expect(screen.queryByText("Option1")).not.toBeInTheDocument();
       expect(screen.queryByText("Option3")).not.toBeInTheDocument();
-      screen.getByText("Option2");
+      screen.getByDisplayValue("Option2");
       screen.getByText("Option4");
       screen.getByText("Option5");
       screen.getByText("Option6");

@@ -41,6 +41,16 @@ const ClothesGroupedList = ({
     return headerTitle;
   }
 
+  function getSeasonDisplay(seasons) {
+    if (!seasons || seasons.length === 0) {
+      return "";
+    }
+    if (seasons.length === 1) {
+      return seasons[0];
+    }
+    return seasons.join(", ");
+  }
+
   function sortClothes() {
     function compare(a, b) {
       const typeA = a.type.toUpperCase();
@@ -93,7 +103,7 @@ const ClothesGroupedList = ({
                     {clothing.occasion}
                   </td>
                   <td className={styles.cellWidth} style={itemCellStyle}>
-                    {clothing.season}
+                    {getSeasonDisplay(clothing.seasons)}
                   </td>
                   <td className={styles.cellWidth} style={itemCellStyle}>
                     <Rating rating={clothing.rating} size="small" />

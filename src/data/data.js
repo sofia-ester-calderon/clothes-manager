@@ -6,4 +6,5 @@ export const emptyClothing = {
   colors: [],
   rating: 1,
   occasion: "",
+  seasons: []
 };

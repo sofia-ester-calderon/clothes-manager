@@ -210,7 +210,7 @@ describe("given the save button is clicked", () => {
       colors: ["def_col_1"],
       rating: 5,
       occasion: "Formal",
-      season: "Winter",
+      seasons: ["Winter"],
     });
   });
 
@@ -243,7 +243,7 @@ describe("given the save button is clicked", () => {
       colors: ["def_col_1"],
       rating: 1,
       occasion: "Sport",
-      season: "Summer",
+      seasons: ["Summer"],
     });
   });
 });

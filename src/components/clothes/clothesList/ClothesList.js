@@ -66,7 +66,7 @@ const ClothesList = ({
                       value: season,
                       text: season,
                     }))}
-                    onChange={(e) => onFilter(e, "season")}
+                    onChange={(e) => onFilter(e, "seasons")}
                   />
                 </div>
               </th>

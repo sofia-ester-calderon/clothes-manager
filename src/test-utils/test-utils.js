@@ -38,7 +38,7 @@ const initialStateFilled = {
       colors: ["def_col_1"],
       rating: 5,
       occasion: "Everyday",
-      season: "Winter",
+      seasons: ["Winter"],
     },
     {
       id: 2,
@@ -47,7 +47,7 @@ const initialStateFilled = {
       colors: ["def_col_2"],
       rating: 4,
       occasion: "Sport",
-      season: "Spring",
+      seasons: ["Spring"],
     },
     {
       id: 3,
@@ -56,7 +56,7 @@ const initialStateFilled = {
       colors: ["def_col_3"],
       rating: 2,
       occasion: "Everyday",
-      season: "Summer",
+      seasons: ["Summer"],
     },
   ],
 };

@@ -89,7 +89,7 @@ describe("given a clothing item is passed as param", () => {
     colors: ["def_col_1", "def_col_2"],
     rating: 4,
     occasion: "Sport",
-    season: "Winter",
+    seasons: ["Winter", "Summer"],
   };
   const types = [
     { id: 1, name: "Sweater", category: "Tops" },
@@ -126,9 +126,16 @@ describe("given a clothing item is passed as param", () => {
     screen.getByDisplayValue(clothing.occasion);
   });
 
-  it("should display season of clothing as selected", () => {
+  it("should display select boxes of all clothing seasons with each season as selected", () => {
     renderClothingForm({ clothing, types });
-    screen.getByDisplayValue(clothing.season);
+    screen.getByText("Season");
+    screen.getByDisplayValue("Winter");
+    screen.getByDisplayValue("Summer");
+  });
+
+  it("should display single select box with 'Add Season' as selected value", () => {
+    renderClothingForm({ clothing, types });
+    screen.getByDisplayValue("Add Season");
   });
 });
 

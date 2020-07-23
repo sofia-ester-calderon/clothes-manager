@@ -84,13 +84,13 @@ const ClothingContainer = ({
   }
 
   function isFormValid() {
-    const { category, type, colors, occasion, season } = clothing;
+    const { category, type, colors, occasion, seasons } = clothing;
     const errors = {};
     if (!category || category === "") errors.category = "Category is required";
     if (!type || type === "") errors.type = "Type is required";
     if (colors.length < 1) errors.colors = "Min. one color is required";
     if (!occasion || occasion === "") errors.occasion = "Occasion is required";
-    if (!season || season === "") errors.season = "Season is required";
+    if (seasons.length < 1) errors.seasons = "Season is required";
     setErrors(errors);
     return Object.keys(errors).length === 0;
   }
@@ -110,9 +110,13 @@ const ClothingContainer = ({
     if (name === "colors") {
       removeColorFromColorSelection(value);
     }
+
     setClothing((prevClothing) => ({
       ...prevClothing,
-      [name]: name === "colors" ? [...prevClothing.colors, value] : value,
+      [name]:
+        name === "colors" || name === "seasons"
+          ? [...prevClothing[name], value]
+          : value,
     }));
     setErrors((prevErrors) => ({ ...prevErrors, [name]: null }));
   }

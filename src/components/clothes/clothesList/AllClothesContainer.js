@@ -35,12 +35,12 @@ const AllClothesContainer = ({
   useEffect(() => {
     let newFilteredClothes = allClothes;
     Object.keys(filters).forEach((key) => {
-      if (key === "colors") {
+      if (key === "colors" || key === "seasons") {
         newFilteredClothes =
-          filters.colors === ""
+          filters[key] === ""
             ? newFilteredClothes
             : newFilteredClothes.filter((clothing) =>
-                clothing.colors.includes(filters.colors)
+                clothing[key].includes(filters[key])
               );
       } else if (key === "rating") {
         newFilteredClothes = isNaN(filters.rating)
