@@ -41,7 +41,7 @@ const ClothingForm = ({
   return (
     <form onSubmit={onSave}>
       <h2 className="mb-4">
-        {clothing.id ? "Edit" : "Add New Piece of"} Clothing
+        {clothing.id ? "Edit" : "Add New "} Clothing Item
       </h2>
 
       {errors.onSave && (

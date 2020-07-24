@@ -49,7 +49,7 @@ describe("given the page is initially loaded", () => {
 describe("given no clothing id is passed as a param", () => {
   it("should display header 'Add New Clothing'", () => {
     renderClothingContainer();
-    screen.getByText("Add New Piece of Clothing");
+    screen.getByText("Add New Clothing Item");
   });
 
   it("should display an empty form", () => {
@@ -65,7 +65,7 @@ describe("given no clothing id is passed as a param", () => {
 describe("given clothing id is passed as a param", () => {
   it("should display header 'Edit Clothing'", async () => {
     renderClothingContainer({ match: { params: { id: 1 } } });
-    await screen.findByText("Edit Clothing");
+    await screen.findByText("Edit Clothing Item");
   });
 
   it("should a filled form with clothing details", async () => {
