@@ -16,16 +16,41 @@ function renderTextInput(args) {
   return render(<TextInput {...props} />);
 }
 
-it("should render select with label, value and no error message", () => {
-  renderTextInput();
+describe("given a value and label is passed", () => {
+  it("should render input field with the label, and value", () => {
+    renderTextInput();
 
-  screen.getByText(label);
-  screen.getByDisplayValue(value);
+    screen.getByText(label);
+    screen.getByDisplayValue(value);
+  });
 });
 
-it("should render error message", () => {
-  const error = "error message";
-  renderTextInput({ error });
+describe("given an error message is passed", () => {
+  it("should render the message", () => {
+    const error = "error message";
+    renderTextInput({ error });
 
-  screen.getByText(error);
+    screen.getByText(error);
+  });
+});
+
+describe("given type password is passed", () => {
+  it("should render the value as password", () => {
+    const type = "password";
+    renderTextInput({ type });
+
+    const inputField = screen.getByDisplayValue(value);
+
+    expect(inputField.getAttribute("type")).toBe("password");
+  });
+});
+
+describe("given no type is passed", () => {
+  it("should render the value as text", () => {
+    renderTextInput();
+
+    const inputField = screen.getByDisplayValue(value);
+
+    expect(inputField.getAttribute("type")).toBe("text");
+  });
 });

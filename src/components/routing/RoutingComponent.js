@@ -6,6 +6,8 @@ import AllClothesContainer from "../clothes/clothesList/AllClothesContainer";
 import withApiErrorHandler from "../hoc/withApiErrorHandler";
 import ColorsContainer from "../colors/colorList/ColorsContainer";
 import NotFound from "../notFound/NotFound";
+import LoginContainer from "../authentication/login/LoginContainer";
+import SignUpContainer from "../authentication/signup/SignUpContainer";
 
 function RoutingComponent() {
   return (
@@ -15,6 +17,8 @@ function RoutingComponent() {
       <Route path="/clothing" component={ClothingContainer} />
       <Route path="/clothes" component={AllClothesContainer} />
       <Route path="/colors" component={ColorsContainer} />
+      <Route path="/login" component={LoginContainer} />
+      <Route path="/signup" component={SignUpContainer} />
       <Route component={NotFound}></Route>
     </Switch>
   );

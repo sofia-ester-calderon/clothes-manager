@@ -44,6 +44,22 @@ describe("given a new url is passed", () => {
     await screen.findByText("All My Clothes");
   });
 
+  it("should render Login if path is /login", async () => {
+    const history = createMemoryHistory();
+    const route = "/login";
+    history.push(route);
+    renderRoutingComponent(history);
+    await screen.findByText("Login Details");
+  });
+
+  it("should render SignUp if path is /signup", async () => {
+    const history = createMemoryHistory();
+    const route = "/signup";
+    history.push(route);
+    renderRoutingComponent(history);
+    await screen.findByText("Create an Account");
+  });
+
   it("should render NotFoundPage if path is wrong", () => {
     const history = createMemoryHistory();
     const route = "/bad-route";

@@ -6,7 +6,7 @@ import ColorCircle from "../../common/specialForms/ColorCircle";
 const ColorList = ({ onClick, colors, onAddColor }) => {
   return (
     <>
-      <h2 className="mb-4">Colors</h2>
+      <h2 className="mb-4">Manage Colors</h2>
       {colors.length > 0 && (
         <table className="table">
           <thead>

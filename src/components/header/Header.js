@@ -13,6 +13,7 @@ const Header = () => {
         </NavItem>
         <NavItem link="/clothes">All Clothes</NavItem>
         <NavItem link="/colors">Colors</NavItem>
+        <NavItem link="/login">Login</NavItem>
       </ul>
     </nav>
   );
