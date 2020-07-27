@@ -1,18 +1,18 @@
 data "archive_file" "dummy" {
-   type = "zip"
-   output_path = "lambdas/backend.zip"
+  type        = "zip"
+  output_path = "lambdas/backend.zip"
 
-   source {
-      content = "dummy-content"
-      filename = "dummy.txt"
-   }
+  source {
+    content  = "dummy-content"
+    filename = "dummy.txt"
+  }
 }
 
 resource "aws_lambda_function" "closet-manager-api" {
   function_name = "colorsApi"
 
   s3_bucket = var.application_subdomain
-  filename    = data.archive_file.dummy.output_path
+  filename  = data.archive_file.dummy.output_path
 
   handler = "module.exports"
   runtime = "nodejs10.x"
