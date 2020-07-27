@@ -2,7 +2,7 @@ resource "aws_lambda_function" "closet-manager-api" {
   function_name = "colorsApi"
 
   s3_bucket = var.application_subdomain
-  s3_key    = "lambas/backend.zip"
+  s3_key    = "lambdas/backend.zip"
 
   handler = "module.exports"
   runtime = "nodejs10.x"
