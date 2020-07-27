@@ -4,6 +4,7 @@ import { renderWithStore } from "../../../test-utils/test-utils";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 import SignUpContainer from "./SignUpContainer";
+import authActions from "../../../store/actions/authActions";
 
 function renderSignUpContainer(history) {
   return renderWithStore(
@@ -107,5 +108,27 @@ describe("given the Sign Up button is clicked", () => {
     fireEvent.click(screen.getByText("Sign Up"));
 
     screen.getByText("Passwords not identical");
+  });
+
+  it("should dispatch a signUp action if form is valid", () => {
+    renderSignUpContainer();
+    authActions.signUp = jest.fn();
+
+    fireEvent.change(screen.getByLabelText("E-Mail"), {
+      target: { value: "email@email.com" },
+    });
+    fireEvent.change(screen.getByLabelText("Password"), {
+      target: { value: "password" },
+    });
+    fireEvent.change(screen.getByLabelText("Repeat Password"), {
+      target: { value: "password" },
+    });
+
+    fireEvent.click(screen.getByText("Sign Up"));
+
+    expect(authActions.signUp).toHaveBeenCalledWith({
+      email: "email@email.com",
+      password: "password",
+    });
   });
 });

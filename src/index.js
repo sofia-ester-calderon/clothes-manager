@@ -12,10 +12,12 @@ import * as serviceWorker from "./serviceWorker";
 import optionsReducer from "./store/reducers/optionsReducer";
 import clothesReducer from "./store/reducers/clothesReducer";
 import ApiErrorProvider from "./hooks/ApiErrorProvider";
+import authReducer from "./store/reducers/authReducer";
 
 const rootReducer = combineReducers({
   options: optionsReducer,
   clothes: clothesReducer,
+  auth: authReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -24,7 +26,6 @@ const store = createStore(
   rootReducer,
   composeEnhancers(applyMiddleware(thunk))
 );
-// const store = createStore(rootReducer);
 
 ReactDOM.render(
   <ApiErrorProvider>

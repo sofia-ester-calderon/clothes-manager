@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import AuthenticationForm from "../AuthenticationForm";
+import { connect } from "react-redux";
+import authActions from "../../../store/actions/authActions";
 
-const SignUpContainer = () => {
+const SignUpContainer = ({ createAccount }) => {
   const [signUpDetails, setSignUpDetails] = useState({
     email: "",
     password: "",
@@ -19,7 +21,12 @@ const SignUpContainer = () => {
 
   function signUpHandler(event) {
     event.preventDefault();
-    isFormValid();
+    if (isFormValid()) {
+      createAccount({
+        email: signUpDetails.email,
+        password: signUpDetails.password,
+      });
+    }
   }
 
   function isFormValid() {
@@ -56,4 +63,11 @@ const SignUpContainer = () => {
   );
 };
 
-export default SignUpContainer;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createAccount: (signUpDetails) =>
+      dispatch(authActions.signUp(signUpDetails)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(SignUpContainer);
