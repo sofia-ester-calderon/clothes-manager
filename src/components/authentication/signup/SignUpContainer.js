@@ -56,8 +56,9 @@ const SignUpContainer = ({ createAccount }) => {
       <AuthenticationForm
         authDetails={signUpDetails}
         onChange={changeDetailsHandler}
-        onSignUp={signUpHandler}
+        onAuthenticate={signUpHandler}
         errors={errors}
+        authType="SIGN_UP"
       />
     </>
   );

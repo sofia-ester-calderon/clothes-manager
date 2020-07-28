@@ -6,7 +6,8 @@ const AuthenticationForm = ({
   authDetails,
   onChange,
   errors = {},
-  onSignUp,
+  onAuthenticate,
+  authType,
 }) => {
   return (
     <div className="col-4 mt-4">
@@ -26,16 +27,22 @@ const AuthenticationForm = ({
           type="password"
           error={errors.password}
         />
-        <TextInput
-          label="Repeat Password"
-          name="repeatPassword"
-          value={authDetails.repeatPassword}
-          onChange={onChange}
-          type="password"
-          error={errors.repeatPassword}
-        />
-        <button type="submit" className="btn btn btn-dark" onClick={onSignUp}>
-          Sign Up
+        {authType === "SIGN_UP" && (
+          <TextInput
+            label="Repeat Password"
+            name="repeatPassword"
+            value={authDetails.repeatPassword}
+            onChange={onChange}
+            type="password"
+            error={errors.repeatPassword}
+          />
+        )}
+        <button
+          type="submit"
+          className="btn btn btn-dark"
+          onClick={onAuthenticate}
+        >
+          {authType === "SIGN_UP" ? "Sign Up" : "Login"}
         </button>
       </form>
     </div>
@@ -46,7 +53,8 @@ AuthenticationForm.propTypes = {
   authDetails: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   errors: PropTypes.object,
-  onSignUp: PropTypes.func.isRequired,
+  onAuthenticate: PropTypes.func.isRequired,
+  authType: PropTypes.string.isRequired,
 };
 
 export default AuthenticationForm;

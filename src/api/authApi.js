@@ -9,6 +9,14 @@ async function signUp(authDetails) {
   return authToken.data;
 }
 
+async function login(authDetails) {
+  const authToken = await axios.post(
+    `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey.key}`,
+    authDetails
+  );
+  return authToken.data;
+}
+
 async function getToken() {
   const expirationDate = new Date(localStorage.getItem("expirationDate"));
   if (expirationDate < new Date()) {
@@ -40,6 +48,7 @@ const setLocalStorageItems = (token) => {
 
 const authApi = {
   signUp,
+  login,
   getToken,
   setLocalStorageItems,
 };

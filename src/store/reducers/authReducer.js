@@ -9,7 +9,7 @@ const initialState = {
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.SIGN_UP:
+    case actionTypes.AUTHENTICATE:
       return {
         username: action.email,
         userId: action.userId,

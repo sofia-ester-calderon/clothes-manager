@@ -1,14 +1,14 @@
 import authReducer from "./authReducer";
-import { SIGN_UP } from "../actions/actionTypes";
+import { AUTHENTICATE } from "../actions/actionTypes";
 
 describe("given a sign up action was dispatched", () => {
   it("should return the state with new user id", () => {
     const initialState = { userId: null, username: null };
 
     const action = {
-      type: SIGN_UP,
-      email: 'email',
-      userId: 'userId',
+      type: AUTHENTICATE,
+      email: "email",
+      userId: "userId",
     };
 
     const newState = authReducer(initialState, action);

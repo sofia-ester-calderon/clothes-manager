@@ -1,10 +1,10 @@
 import authApi from "../../api/authApi";
-import { SIGN_UP } from "./actionTypes";
+import { AUTHENTICATE } from "./actionTypes";
 
-const signUpSuccess = (token) => {
+const authenticateSuccess = (token) => {
   authApi.setLocalStorageItems(token);
   return {
-    type: SIGN_UP,
+    type: AUTHENTICATE,
     email: token.email,
     userId: token.localId,
   };
@@ -19,13 +19,28 @@ const signUp = (authDetails) => {
       });
       console.log(token);
 
-      dispatch(signUpSuccess(token));
+      dispatch(authenticateSuccess(token));
     } catch (error) {
       // Error is handled by ApiErrorHandler
     }
   };
 };
 
-const authActions = { signUp };
+const login = (authDetails) => {
+  return async (dispatch) => {
+    try {
+      const token = await authApi.login({
+        ...authDetails,
+        returnSecureToken: true,
+      });
+      console.log(token);
+      dispatch(authenticateSuccess(token));
+    } catch (error) {
+      // Error is handled by ApiErrorHandler
+    }
+  };
+};
+
+const authActions = { signUp, login };
 
 export default authActions;
