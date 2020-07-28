@@ -2,9 +2,11 @@ import authApi from "../../api/authApi";
 import { SIGN_UP } from "./actionTypes";
 
 const signUpSuccess = (token) => {
+  authApi.setLocalStorageItems(token);
   return {
     type: SIGN_UP,
-    token,
+    email: token.email,
+    userId: token.localId,
   };
 };
 
@@ -15,6 +17,8 @@ const signUp = (authDetails) => {
         ...authDetails,
         returnSecureToken: true,
       });
+      console.log(token);
+
       dispatch(signUpSuccess(token));
     } catch (error) {
       // Error is handled by ApiErrorHandler
