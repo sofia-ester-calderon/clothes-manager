@@ -9,25 +9,25 @@ import {
 const CLOTHES_PREFIX = "/clothes";
 
 async function getClothes() {
-  const token = authApi.getToken()
+  const token = await authApi.getToken()
   const clothesData = await axios.get(`${CLOTHES_PREFIX}.json?auth=${token}`);
   return transformJsonToArray(clothesData.data);
 }
 
 async function getClothing(id) {
-  const token = authApi.getToken()
+  const token = await authApi.getToken()
   const clothing = await axios.get(`${CLOTHES_PREFIX}/${id}.json?auth=${token}`);
   return transformJsonToObject(clothing.data, id);
 }
 
 async function saveClothing(clothing) {
-  const token = authApi.getToken()
+  const token = await authApi.getToken()
   const id = await axios.post(`${CLOTHES_PREFIX}.json?auth=${token}`, clothing);
   return transformJsonToObject(clothing, id.data.name);
 }
 
 async function updateClothing(clothing) {
-  const token = authApi.getToken()
+  const token = await authApi.getToken()
   const id = clothing.id;
   const jsonClothing = transformObjectToJson(clothing);
   const updatedClothing = await axios.put(
@@ -37,8 +37,8 @@ async function updateClothing(clothing) {
   return transformJsonToObject(updatedClothing.data, id);
 }
 
-function deleteClothing(id) {
-  const token = authApi.getToken()
+async function deleteClothing(id) {
+  const token = await authApi.getToken()
   axios.delete(`${CLOTHES_PREFIX}/${id}.json?auth=${token}`);
 }
 

@@ -19,7 +19,7 @@ async function login(authDetails) {
 
 async function getToken() {
   const expirationDate = new Date(localStorage.getItem("expirationDate"));
-  if (expirationDate < new Date()) {
+  if (!localStorage.getItem("expirationDate") || expirationDate < new Date()) {
     debugger;
     const tokenPayload = {
       grant_type: "refresh_token",
