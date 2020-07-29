@@ -8,3 +8,4 @@ export const UPDATE_CLOTHING = "UPDATE_CLOTHING";
 export const SAVE_CLOTHING = "SAVE_CLOTHING";
 
 export const AUTHENTICATE = "AUTHENTICATE";
+export const LOGOUT = "LOGOUT";

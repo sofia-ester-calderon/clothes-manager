@@ -7,7 +7,7 @@ import { createMemoryHistory } from "history";
 import ApiErrorProvider from "../../hooks/ApiErrorProvider";
 import App from "../App";
 
-function renderHeader() {
+function renderHeader(loggedOut) {
   const history = createMemoryHistory();
   return renderWithStore(
     <ApiErrorProvider>
@@ -15,9 +15,37 @@ function renderHeader() {
         <App />
       </Router>
     </ApiErrorProvider>,
-    false
+    loggedOut
   );
 }
+
+describe("given the user is logged in", () => {
+  it("should not display the login button", () => {
+    renderHeader(false);
+
+    expect(screen.queryByText("Login")).not.toBeInTheDocument();
+  });
+
+  it("should display the logout button", () => {
+    renderHeader(false);
+
+    screen.getByText("Logout");
+  });
+});
+
+describe("given the user is not logged in", () => {
+  it("should display the login button", () => {
+    renderHeader(true);
+
+    screen.getByText("Login");
+  });
+
+  it("should not display the logout button", () => {
+    renderHeader(true);
+
+    expect(screen.queryByText("Logout")).not.toBeInTheDocument();
+  });
+});
 
 describe("given the Home button is clicked", () => {
   it("should route to Home component", () => {
@@ -61,7 +89,7 @@ describe("given the Colors button is clicked", () => {
 
 describe("given the Login button is clicked", () => {
   it("should route to Authentication component", () => {
-    renderHeader();
+    renderHeader(true);
 
     fireEvent.click(screen.getByText("Login"));
 

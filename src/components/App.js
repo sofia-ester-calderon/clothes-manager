@@ -6,13 +6,17 @@ import Header from "./header/Header";
 import authActions from "../store/actions/authActions";
 import { connect } from "react-redux";
 
-function App({ autoLogin, ...props }) {
+function App({ autoLogin, isLoggedIn, ...props }) {
+  useEffect(() => {
+    console.log(isLoggedIn);
+  }, [isLoggedIn]);
+
   useEffect(() => {
     autoLogin();
   }, [autoLogin]);
   return (
     <>
-      <Header />
+      <Header loggedIn={isLoggedIn} />
       <div className={styles.layout}>
         <RoutingComponent />
       </div>
@@ -21,10 +25,14 @@ function App({ autoLogin, ...props }) {
   );
 }
 
+const mapStateToProps = (state) => {
+  return { isLoggedIn: state.auth.userId ? true : false };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     autoLogin: () => dispatch(authActions.autoLogin()),
   };
 };
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

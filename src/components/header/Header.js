@@ -1,7 +1,9 @@
 import React from "react";
 import NavItem from "./NavItem";
+import { PropTypes } from "prop-types";
 
-const Header = () => {
+const Header = ({ loggedIn }) => {
+  console.log("header logged in", loggedIn);
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <ul className="navbar-nav mr-auto">
@@ -13,10 +15,18 @@ const Header = () => {
         </NavItem>
         <NavItem link="/clothes">All Clothes</NavItem>
         <NavItem link="/colors">Colors</NavItem>
-        <NavItem link="/login">Login</NavItem>
+        {loggedIn ? (
+          <NavItem link="/logout">Logout</NavItem>
+        ) : (
+          <NavItem link="/login">Login</NavItem>
+        )}
       </ul>
     </nav>
   );
+};
+
+Header.propTypes = {
+  loggedIn: PropTypes.bool.isRequired,
 };
 
 export default Header;

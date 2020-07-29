@@ -10,7 +10,7 @@ const AuthenticationForm = ({
   authType,
 }) => {
   return (
-    <div className="col-4 mt-4">
+    <div className="col-4 mt-4" style={{ marginLeft: "-15px" }}>
       <form>
         <TextInput
           label="E-Mail"

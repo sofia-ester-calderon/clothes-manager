@@ -59,6 +59,10 @@ const initialStateFilled = {
       seasons: ["Summer"],
     },
   ],
+  auth: {
+    userId: "userId",
+    username: "email",
+  },
 };
 
 const initialStateEmpty = {
@@ -70,6 +74,10 @@ const initialStateEmpty = {
     seasons: [],
   },
   clothes: [],
+  auth: {
+    userId: null,
+    username: null,
+  },
 };
 
 function renderWithStore(

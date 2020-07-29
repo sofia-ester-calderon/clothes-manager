@@ -55,6 +55,14 @@ describe("given a new url is passed", () => {
     await screen.findByText("Create an Account");
   });
 
+  it("should redirect directly to home page if path is /logout", async () => {
+    const history = createMemoryHistory();
+    const route = "/logout";
+    history.push(route);
+    renderRoutingComponent(history);
+    await screen.findByText("Get Your Closet Organised");
+  });
+
   it("should render NotFoundPage if path is wrong", () => {
     const history = createMemoryHistory();
     const route = "/bad-route";

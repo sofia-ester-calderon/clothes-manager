@@ -1,7 +1,7 @@
 import authReducer from "./authReducer";
-import { AUTHENTICATE } from "../actions/actionTypes";
+import { AUTHENTICATE, LOGOUT } from "../actions/actionTypes";
 
-describe("given a sign up action was dispatched", () => {
+describe("given an authenitcate action was dispatched", () => {
   it("should return the state with new user id", () => {
     const initialState = { userId: null, username: null };
 
@@ -15,6 +15,22 @@ describe("given a sign up action was dispatched", () => {
     expect(newState).toEqual({
       username: "email",
       userId: "userId",
+    });
+  });
+});
+
+describe("given a logout action was dispatched", () => {
+  it("should return the state empty", () => {
+    const initialState = { userId: "userid", username: "email" };
+
+    const action = {
+      type: LOGOUT,
+    };
+
+    const newState = authReducer(initialState, action);
+    expect(newState).toEqual({
+      username: null,
+      userId: null,
     });
   });
 });

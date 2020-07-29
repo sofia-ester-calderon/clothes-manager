@@ -1,5 +1,5 @@
 import authApi from "../../api/authApi";
-import { AUTHENTICATE } from "./actionTypes";
+import { AUTHENTICATE, LOGOUT } from "./actionTypes";
 
 const authenticateSuccess = (token, setCredentialsInStorage) => {
   if (setCredentialsInStorage) {
@@ -55,6 +55,13 @@ const autoLogin = () => {
   };
 };
 
-const authActions = { signUp, login, autoLogin };
+const logout = () => {
+  authApi.removeLocalStorageItems();
+  return {
+    type: LOGOUT,
+  };
+};
+
+const authActions = { signUp, login, autoLogin, logout };
 
 export default authActions;

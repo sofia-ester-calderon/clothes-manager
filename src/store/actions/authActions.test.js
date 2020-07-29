@@ -2,7 +2,7 @@ import thunk from "redux-thunk";
 import configureMockStore from "redux-mock-store";
 import authApi from "../../api/authApi";
 import authActions from "./authActions";
-import { AUTHENTICATE } from "./actionTypes";
+import { AUTHENTICATE, LOGOUT } from "./actionTypes";
 
 const middleware = [thunk];
 const mockStore = configureMockStore(middleware);
@@ -74,30 +74,30 @@ describe("given a new account is created", () => {
 
 describe("given a login is dispatched", () => {
   it("should dispatch loginSuccess action if api call was successful and store the results in the local storage", () => {
-    const signUpDetails = {
-      email: "email@email.com",
-      password: "password",
+    const loginDetails = {
+      email: "login@email.com",
+      password: "loginPassword",
     };
 
     const postRequestToApi = {
-      email: "email@email.com",
-      password: "password",
+      email: "login@email.com",
+      password: "loginPassword",
       returnSecureToken: true,
     };
 
     const responseFromApi = {
-      email: "email@email.com",
-      localId: "userId",
+      email: "login@email.com",
+      localId: "loginUserId",
       idToken: "current-token",
       refreshToken: "refresh-token",
       expiresIn: 3600,
     };
 
-    authApi.signUp = jest.fn().mockResolvedValue(responseFromApi);
+    authApi.login = jest.fn().mockResolvedValue(responseFromApi);
 
     const store = mockStore({});
-    return store.dispatch(authActions.signUp(signUpDetails)).then(() => {
-      expect(authApi.signUp).toHaveBeenCalledWith(postRequestToApi);
+    return store.dispatch(authActions.login(loginDetails)).then(() => {
+      expect(authApi.login).toHaveBeenCalledWith(postRequestToApi);
       expect(localStorage.setItem).toHaveBeenCalledWith(
         "token",
         "current-token"
@@ -113,8 +113,8 @@ describe("given a login is dispatched", () => {
       expect(store.getActions()).toEqual([
         {
           type: AUTHENTICATE,
-          email: "email@email.com",
-          userId: "userId",
+          email: "login@email.com",
+          userId: "loginUserId",
           loginSuccess: true,
         },
       ]);
@@ -173,5 +173,16 @@ describe("given auto login is started", () => {
       expect(authApi.getUserDetails).toHaveBeenCalled();
       expect(store.getActions()).toEqual([]);
     });
+  });
+});
+
+describe("given a logout is dispatched", () => {
+  it("should dispatch an action iof type LOGOUT and remove all items from local storage", () => {
+    const action = authActions.logout();
+
+    expect(action).toEqual({ type: LOGOUT });
+    expect(localStorage.setItem).toHaveBeenCalledWith("token", null);
+    expect(localStorage.setItem).toHaveBeenCalledWith("refreshToken", null);
+    expect(localStorage.setItem).toHaveBeenCalledWith("expirationDate", null);
   });
 });
