@@ -68,6 +68,7 @@ describe("given a response was received", () => {
           status: 401,
           statusText: errorMessage,
           data: {},
+          config: { url: "" },
         },
       });
     });
@@ -78,7 +79,7 @@ describe("given a response was received", () => {
     screen.getByText(errorMessage);
   });
 
-  it("should render modal with error message if response throws an authentication error and redirect to login page", () => {
+  it("should render modal with auth error if response throws an authentication error and redirect to login page", () => {
     const history = { push: jest.fn() };
     const errorMessage = "error message";
     axios.interceptors.response.use = jest.fn((successCb, failCb) => {
@@ -87,6 +88,7 @@ describe("given a response was received", () => {
           status: 401,
           statusText: "",
           data: { error: { message: errorMessage } },
+          config: { url: "authenticationurl" },
         },
       });
     });
@@ -99,6 +101,54 @@ describe("given a response was received", () => {
 
     fireEvent.click(screen.getByText("Login"));
     expect(history.push).toHaveBeenCalledWith("/login");
+  });
+
+  it("should render modal with sign up message if response throws an sign up error", () => {
+    const errorMessage = "error message";
+    axios.interceptors.response.use = jest.fn((successCb, failCb) => {
+      failCb({
+        response: {
+          status: 401,
+          statusText: "",
+          data: { error: { message: errorMessage } },
+          config: {
+            url:
+              "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=12345",
+          },
+        },
+      });
+    });
+
+    renderWithApiErrorHandler();
+
+    screen.getByText("Could Not Create Account");
+    screen.getByText("Please try with different credentials");
+    screen.getByText(errorMessage);
+    screen.getByText("OK");
+  });
+
+  it("should render modal with login up message if response throws an login error", () => {
+    const errorMessage = "error message";
+    axios.interceptors.response.use = jest.fn((successCb, failCb) => {
+      failCb({
+        response: {
+          status: 401,
+          statusText: "",
+          data: { error: { message: errorMessage } },
+          config: {
+            url:
+              "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=12345",
+          },
+        },
+      });
+    });
+
+    renderWithApiErrorHandler();
+
+    screen.getByText("Could Not Login");
+    screen.getByText("Please try with different credentials");
+    screen.getByText(errorMessage);
+    screen.getByText("OK");
   });
 
   it("should not render any modal if response was no errors", () => {

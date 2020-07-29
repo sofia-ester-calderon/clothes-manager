@@ -11,7 +11,7 @@ function ApiErrorProvider({ children }) {
     errorMessage: null,
     loading: false,
     apiCallMethod: null,
-    authError: false,
+    errorType: null,
   });
 
   if (reqInterceptor < 0) {
@@ -40,12 +40,19 @@ function ApiErrorProvider({ children }) {
       },
       (error) => {
         let errorMessage = error.response.statusText;
-        let authError = false;
+        let errorType = ERROR_TYPE_GENERIC;
+
         if (error.response.data.error) {
           errorMessage = error.response.data.error.message;
-          authError = true;
+          errorType = ERROR_TYPE_SESSION;
+          if (error.response.config.url.includes("accounts:signUp")) {
+            errorType = ERROR_TYPE_SIGN_UP;
+          }
+          if (error.response.config.url.includes("accounts:signIn")) {
+            errorType = ERROR_TYPE_LOGIN;
+          }
         }
-        setApiStatus({ loading: false, errorMessage, authError });
+        setApiStatus({ loading: false, errorMessage, errorType });
       }
     );
     setRespInterceptor(interceptor);
@@ -67,3 +74,8 @@ function ApiErrorProvider({ children }) {
 }
 
 export default ApiErrorProvider;
+
+export const ERROR_TYPE_GENERIC = "GENERIC";
+export const ERROR_TYPE_SESSION = "SESSION";
+export const ERROR_TYPE_SIGN_UP = "SIGN_UP";
+export const ERROR_TYPE_LOGIN = "LOGIN";

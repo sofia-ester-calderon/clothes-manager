@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import Modal from "react-modal";
-import { ApiErrorContext } from "../../hooks/ApiErrorProvider";
+import {
+  ApiErrorContext,
+  ERROR_TYPE_GENERIC,
+  ERROR_TYPE_SESSION,
+  ERROR_TYPE_SIGN_UP,
+  ERROR_TYPE_LOGIN,
+} from "../../hooks/ApiErrorProvider";
 import Spinner from "../common/spinner/Spinner";
 
 const withApiErrorHandler = (WrappedComponent) => {
@@ -36,7 +42,7 @@ const withApiErrorHandler = (WrappedComponent) => {
     };
 
     function btnClickHandler() {
-      if (apiStatus.authError) {
+      if (btnText === "Login") {
         props.history.push("/login");
       }
       closeModal();
@@ -45,8 +51,41 @@ const withApiErrorHandler = (WrappedComponent) => {
     function closeModal() {
       if (!apiStatus.loading) {
         setOpen(false);
-        setApiStatus({ loading: false, errorMessage: null });
+        setApiStatus({
+          loading: false,
+          errorMessage: null,
+          apiCallMethod: null,
+          errorType: null,
+        });
       }
+    }
+
+    let title = "";
+    let subtitle = "";
+    let btnText = "";
+    switch (apiStatus.errorType) {
+      case ERROR_TYPE_GENERIC:
+        title = "Sorry";
+        subtitle = "Ooooops, there was an error! Please try again later";
+        btnText = "OK";
+        break;
+      case ERROR_TYPE_SESSION:
+        title = "Your session has expired!";
+        subtitle = "Please login again";
+        btnText = "Login";
+        break;
+      case ERROR_TYPE_SIGN_UP:
+        title = "Could Not Create Account";
+        subtitle = "Please try with different credentials";
+        btnText = "OK";
+        break;
+      case ERROR_TYPE_LOGIN:
+        title = "Could Not Login";
+        subtitle = "Please try with different credentials";
+        btnText = "OK";
+        break;
+      default:
+        title = "Sorry";
     }
 
     Modal.setAppElement("body");
@@ -62,24 +101,16 @@ const withApiErrorHandler = (WrappedComponent) => {
               contentLabel="Error Modal"
             >
               {apiStatus.errorMessage && (
-                <div role="alert" className="text-danger">
-                  <h4>
-                    {apiStatus.authError
-                      ? "Your session has expired!"
-                      : "Sorry"}
-                  </h4>
-                  <p>
-                    {apiStatus.authError
-                      ? "Please login again"
-                      : `Ooooops, there was an error! Please try again later`}
-                  </p>
+                <div role="alert">
+                  <h4 className="mb-3">{title}</h4>
+                  <p>{subtitle}</p>
                   <p>{apiStatus.errorMessage}</p>
                   <button
                     style={btnStyle}
-                    className="btn btn-secondary"
+                    className="btn btn btn-dark"
                     onClick={btnClickHandler}
                   >
-                    {apiStatus.authError ? "Login" : "OK"}
+                    {btnText}
                   </button>
                 </div>
               )}
