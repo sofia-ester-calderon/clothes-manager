@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import ColorDetailContainer from "../colorForm/ColorDetailContainer";
 import ColorList from "./ColorList";
 import optionsActions from "../../../store/actions/optionsActions";
+import withApiErrorHandler from "../../hoc/withApiErrorHandler";
 
 const ColorsContainer = ({ colors, loadColors, ...props }) => {
   useEffect(() => {
@@ -52,4 +53,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ColorsContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withApiErrorHandler(ColorsContainer));

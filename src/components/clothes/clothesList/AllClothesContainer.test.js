@@ -9,6 +9,9 @@ import optionsActions from "../../../store/actions/optionsActions";
 import clothesActions from "../../../store/actions/clothesActions";
 
 import AllClothesContainer from "./AllClothesContainer";
+import ApiErrorProvider, {
+  ApiErrorContext,
+} from "../../../hooks/ApiErrorProvider";
 
 clothesApi.getClothing = jest.fn().mockResolvedValue({
   id: 1,
@@ -33,7 +36,9 @@ async function renderAllClothesContainer(history, emptyState) {
   };
   renderWithStore(
     <Router history={createMemoryHistory()}>
-      <AllClothesContainer {...props} />
+      <ApiErrorProvider>
+        <AllClothesContainer {...props} />
+      </ApiErrorProvider>
     </Router>,
     emptyState
   );

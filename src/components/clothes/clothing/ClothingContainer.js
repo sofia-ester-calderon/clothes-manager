@@ -9,6 +9,7 @@ import clothesActions from "../../../store/actions/clothesActions";
 
 import ClothingForm from "./ClothingForm";
 import { ApiErrorContext } from "../../../hooks/ApiErrorProvider";
+import withApiErrorHandler from "../../hoc/withApiErrorHandler";
 
 const ClothingContainer = ({
   options,
@@ -39,12 +40,15 @@ const ClothingContainer = ({
   }, [apiStatus, saving, props.history]);
 
   useEffect(() => {
-    if (props.clothes.length === 0) {
-      loadClothes();
+    async function loadData() {
+      if (options.colors.length === 0) {
+        await loadColors();
+      }
+      if (props.clothes.length === 0) {
+        await loadClothes();
+      }
     }
-    if (options.colors.length === 0) {
-      loadColors();
-    }
+    loadData();
   }, [props.clothes, loadClothes, options.colors, loadColors]);
 
   useEffect(() => {
@@ -180,4 +184,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ClothingContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withApiErrorHandler(ClothingContainer));

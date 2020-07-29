@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import AuthenticationForm from "../AuthenticationForm";
 import authActions from "../../../store/actions/authActions";
 import { connect } from "react-redux";
+import withApiErrorHandler from "../../hoc/withApiErrorHandler";
 
 const LoginContainer = ({ login, ...props }) => {
   const [loginDetails, setLoginDetails] = useState({
@@ -49,4 +50,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(LoginContainer);
+export default connect(
+  null,
+  mapDispatchToProps
+)(withApiErrorHandler(LoginContainer));

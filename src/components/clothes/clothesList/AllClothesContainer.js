@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import ClothesList from "./ClothesList";
 import optionsActions from "../../../store/actions/optionsActions";
 import clothesActions from "../../../store/actions/clothesActions";
+import withApiErrorHandler from "../../hoc/withApiErrorHandler";
 
 const AllClothesContainer = ({
   options,
@@ -21,16 +22,16 @@ const AllClothesContainer = ({
   });
 
   useEffect(() => {
-    if (allClothes.length === 0) {
-      loadClothes();
+    async function loadData() {
+      if (options.colors.length === 0) {
+        await loadColors();
+      }
+      if (allClothes.length === 0) {
+        await loadClothes();
+      }
     }
-  }, [allClothes, loadClothes]);
-
-  useEffect(() => {
-    if (options.colors.length === 0) {
-      loadColors();
-    }
-  }, [options.colors, loadColors]);
+    loadData();
+  }, [allClothes, loadClothes, options.colors, loadColors]);
 
   useEffect(() => {
     let newFilteredClothes = allClothes;
@@ -118,4 +119,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AllClothesContainer);
+)(withApiErrorHandler(AllClothesContainer));

@@ -24,4 +24,4 @@ function RoutingComponent() {
   );
 }
 
-export default withApiErrorHandler(RoutingComponent);
+export default RoutingComponent;

@@ -15,12 +15,7 @@ jest.mock("../../api/clothesApi", () => ({
 function renderRoutingComponent(history) {
   renderWithStore(
     <Router history={history}>
-      <ApiErrorProvider
-        value={{
-          errorMessage: null,
-          loading: false,
-        }}
-      >
+      <ApiErrorProvider>
         <RoutingComponent />
       </ApiErrorProvider>
     </Router>

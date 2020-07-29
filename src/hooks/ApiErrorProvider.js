@@ -11,6 +11,7 @@ function ApiErrorProvider({ children }) {
     errorMessage: null,
     loading: false,
     apiCallMethod: null,
+    authError: false,
   });
 
   if (reqInterceptor < 0) {
@@ -38,8 +39,13 @@ function ApiErrorProvider({ children }) {
         return res;
       },
       (error) => {
-        setApiStatus({ loading: false, errorMessage: error.message });
-        throw error;
+        let errorMessage = error.response.statusText;
+        let authError = false;
+        if (error.response.data.error) {
+          errorMessage = error.response.data.error.message;
+          authError = true;
+        }
+        setApiStatus({ loading: false, errorMessage, authError });
       }
     );
     setRespInterceptor(interceptor);

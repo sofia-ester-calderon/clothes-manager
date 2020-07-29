@@ -5,6 +5,7 @@ import optionsActions from "../../../store/actions/optionsActions";
 import { emptyColor } from "../../../data/data";
 
 import ColorForm from "./ColorForm";
+import withApiErrorHandler from "../../hoc/withApiErrorHandler";
 
 const ColorDetailContainer = (props) => {
   const [color, setColor] = useState({ ...props.color });
@@ -82,4 +83,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ColorDetailContainer);
+)(withApiErrorHandler(ColorDetailContainer));

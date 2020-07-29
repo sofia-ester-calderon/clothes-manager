@@ -1,5 +1,5 @@
 import React from "react";
-import { screen, fireEvent } from "@testing-library/react";
+import { screen, fireEvent, wait } from "@testing-library/react";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 
@@ -31,18 +31,13 @@ function renderClothingContainer(args, emptyState) {
 }
 
 describe("given the page is initially loaded", () => {
-  it("should load colors if color list is empty", async () => {
-    optionsActions.loadColors = jest.fn();
-    renderClothingContainer(null, true);
-
-    expect(optionsActions.loadColors).toHaveBeenCalled();
-  });
-
   it("should load clothes if clothes list is empty", async () => {
+    optionsActions.loadColors = jest.fn().mockResolvedValue();
     clothesActions.loadClothes = jest.fn();
     renderClothingContainer(null, true);
 
-    expect(clothesActions.loadClothes).toHaveBeenCalled();
+    expect(optionsActions.loadColors).toHaveBeenCalled();
+    await wait(() => expect(clothesActions.loadClothes).toHaveBeenCalled());
   });
 });
 

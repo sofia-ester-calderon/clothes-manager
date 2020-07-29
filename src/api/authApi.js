@@ -20,7 +20,6 @@ async function login(authDetails) {
 async function getToken() {
   const expirationDate = new Date(localStorage.getItem("expirationDate"));
   if (!localStorage.getItem("expirationDate") || expirationDate < new Date()) {
-    debugger;
     const tokenPayload = {
       grant_type: "refresh_token",
       refresh_token: localStorage.getItem("refreshToken"),
@@ -29,14 +28,13 @@ async function getToken() {
       `https://securetoken.googleapis.com/v1/token?key=${apiKey.key}`,
       tokenPayload
     );
-    console.log(newToken.data);
     setLocalStorageItems(newToken.data);
   }
   return localStorage.getItem("token");
 }
 
 const setLocalStorageItems = (token) => {
-  const expiresIn = token.expiresIn || token.expiren_in;
+  const expiresIn = token.expiresIn || token.expires_in;
   const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
   localStorage.setItem("token", token.idToken || token.id_token);
   localStorage.setItem(

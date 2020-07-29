@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import AuthenticationForm from "../AuthenticationForm";
 import { connect } from "react-redux";
 import authActions from "../../../store/actions/authActions";
+import withApiErrorHandler from "../../hoc/withApiErrorHandler";
 
 const SignUpContainer = ({ createAccount }) => {
   const [signUpDetails, setSignUpDetails] = useState({
@@ -71,4 +72,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(SignUpContainer);
+export default connect(
+  null,
+  mapDispatchToProps
+)(withApiErrorHandler(SignUpContainer));

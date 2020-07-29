@@ -35,6 +35,13 @@ const withApiErrorHandler = (WrappedComponent) => {
       bottom: "15px",
     };
 
+    function btnClickHandler() {
+      if (apiStatus.authError) {
+        props.history.push("/login");
+      }
+      closeModal();
+    }
+
     function closeModal() {
       if (!apiStatus.loading) {
         setOpen(false);
@@ -56,18 +63,23 @@ const withApiErrorHandler = (WrappedComponent) => {
             >
               {apiStatus.errorMessage && (
                 <div role="alert" className="text-danger">
-                  <h4>Sorry</h4>
+                  <h4>
+                    {apiStatus.authError
+                      ? "Your session has expired!"
+                      : "Sorry"}
+                  </h4>
                   <p>
-                    Ooooops, there was an error:{" "}
-                    {apiStatus ? apiStatus.errorMessage : null}
+                    {apiStatus.authError
+                      ? "Please login again"
+                      : `Ooooops, there was an error! Please try again later`}
                   </p>
-                  <p>Please try again later!</p>
+                  <p>{apiStatus.errorMessage}</p>
                   <button
                     style={btnStyle}
                     className="btn btn-secondary"
-                    onClick={closeModal}
+                    onClick={btnClickHandler}
                   >
-                    OK
+                    {apiStatus.authError ? "Login" : "OK"}
                   </button>
                 </div>
               )}

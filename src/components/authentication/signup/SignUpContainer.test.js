@@ -5,11 +5,14 @@ import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 import SignUpContainer from "./SignUpContainer";
 import authActions from "../../../store/actions/authActions";
+import ApiErrorProvider from "../../../hooks/ApiErrorProvider";
 
 function renderSignUpContainer(history) {
   return renderWithStore(
     <Router history={createMemoryHistory()}>
-      <SignUpContainer history={history} />
+      <ApiErrorProvider>
+        <SignUpContainer history={history} />
+      </ApiErrorProvider>
     </Router>,
     false
   );

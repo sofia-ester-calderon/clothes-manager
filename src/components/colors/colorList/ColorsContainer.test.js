@@ -7,6 +7,7 @@ import { renderWithStore } from "../../../test-utils/test-utils";
 import optionsActions from "../../../store/actions/optionsActions";
 
 import ColorsContainer from "./ColorsContainer";
+import ApiErrorProvider from "../../../hooks/ApiErrorProvider";
 
 HTMLCanvasElement.prototype.getContext = jest.fn();
 
@@ -16,7 +17,9 @@ async function renderColorsContainer(emptyState, history) {
   const defaultProps = { match: { url }, history };
   renderWithStore(
     <Router history={createMemoryHistory()}>
-      <ColorsContainer {...defaultProps} />
+      <ApiErrorProvider>
+        <ColorsContainer {...defaultProps} />
+      </ApiErrorProvider>
     </Router>,
     emptyState
   );

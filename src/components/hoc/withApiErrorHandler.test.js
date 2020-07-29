@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import ApiErrorProvider from "../../hooks/ApiErrorProvider";
 import withApiErrorHandler from "./withApiErrorHandler";
 import axios from "../../api/axios-api";
@@ -13,10 +13,10 @@ const DummyComponent = () => {
 
 const WrappedDummyComponent = withApiErrorHandler(DummyComponent);
 
-function renderWithApiErrorHandler() {
+function renderWithApiErrorHandler(history) {
   return render(
     <ApiErrorProvider>
-      <WrappedDummyComponent />
+      <WrappedDummyComponent history={history} />
     </ApiErrorProvider>
   );
 }
@@ -60,22 +60,45 @@ describe("given a request was fired", () => {
 });
 
 describe("given a response was received", () => {
-  it("should render modal with error message if response throws an error", () => {
+  it("should render modal with error message if response throws a generic error", () => {
     const errorMessage = "error message";
     axios.interceptors.response.use = jest.fn((successCb, failCb) => {
       failCb({
         response: {
           status: 401,
+          statusText: errorMessage,
+          data: {},
         },
-        message: errorMessage,
       });
     });
 
-    expect(() => {
-      renderWithApiErrorHandler().toThrow();
-      screen.getByText("Please try again later!");
-      screen.getByText(`Ooooops, there was an error: ${errorMessage}`);
+    renderWithApiErrorHandler();
+
+    screen.getByText("Ooooops, there was an error! Please try again later");
+    screen.getByText(errorMessage);
+  });
+
+  it("should render modal with error message if response throws an authentication error and redirect to login page", () => {
+    const history = { push: jest.fn() };
+    const errorMessage = "error message";
+    axios.interceptors.response.use = jest.fn((successCb, failCb) => {
+      failCb({
+        response: {
+          status: 401,
+          statusText: "",
+          data: { error: { message: errorMessage } },
+        },
+      });
     });
+
+    renderWithApiErrorHandler(history);
+
+    screen.getByText("Your session has expired!");
+    screen.getByText(`Please login again`);
+    screen.getByText(errorMessage);
+
+    fireEvent.click(screen.getByText("Login"));
+    expect(history.push).toHaveBeenCalledWith("/login");
   });
 
   it("should not render any modal if response was no errors", () => {

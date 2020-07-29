@@ -17,7 +17,6 @@ const signUp = (authDetails) => {
         ...authDetails,
         returnSecureToken: true,
       });
-      console.log(token);
 
       dispatch(authenticateSuccess(token));
     } catch (error) {
@@ -33,7 +32,6 @@ const login = (authDetails) => {
         ...authDetails,
         returnSecureToken: true,
       });
-      console.log(token);
       dispatch(authenticateSuccess(token));
     } catch (error) {
       // Error is handled by ApiErrorHandler

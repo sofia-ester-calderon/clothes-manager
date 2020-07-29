@@ -6,6 +6,7 @@ import { renderWithStore } from "../../../test-utils/test-utils";
 import optionsActions from "../../../store/actions/optionsActions";
 
 import ColorDetailContainer from "./ColorDetailContainer";
+import ApiErrorProvider from "../../../hooks/ApiErrorProvider";
 
 HTMLCanvasElement.prototype.getContext = jest.fn();
 
@@ -14,7 +15,11 @@ async function renderDetailContainer(param, history) {
     match: { params: { id: param } },
     history,
   };
-  renderWithStore(<ColorDetailContainer {...props} />);
+  renderWithStore(
+    <ApiErrorProvider>
+      <ColorDetailContainer {...props} />
+    </ApiErrorProvider>
+  );
 
   if (param !== "new") {
     await screen.findByDisplayValue("Red");
