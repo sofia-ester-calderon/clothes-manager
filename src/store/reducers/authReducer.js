@@ -3,8 +3,6 @@ import * as actionTypes from "../actions/actionTypes";
 const initialState = {
   userId: null,
   username: null,
-  token: null,
-  refreshToken: null,
 };
 
 const authReducer = (state = initialState, action) => {

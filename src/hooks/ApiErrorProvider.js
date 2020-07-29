@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import axiosInstance from "../api/axios-api";
+import authApi from "../api/authApi";
 
 export const ApiErrorContext = React.createContext();
 
@@ -43,13 +44,19 @@ function ApiErrorProvider({ children }) {
         let errorType = ERROR_TYPE_GENERIC;
 
         if (error.response.data.error) {
-          errorMessage = error.response.data.error.message;
+          authApi.removeLocalStorageItems();
+          errorMessage =
+            error.response.data.error.message || error.response.data.error;
           errorType = ERROR_TYPE_SESSION;
           if (error.response.config.url.includes("accounts:signUp")) {
             errorType = ERROR_TYPE_SIGN_UP;
           }
           if (error.response.config.url.includes("accounts:signIn")) {
             errorType = ERROR_TYPE_LOGIN;
+          }
+          if (error.response.config.url.includes("accounts:lookup")) {
+            errorType = null;
+            errorMessage = null;
           }
         }
         setApiStatus({ loading: false, errorMessage, errorType });

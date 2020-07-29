@@ -151,6 +151,27 @@ describe("given a response was received", () => {
     screen.getByText("OK");
   });
 
+  it("should not render any modal if response throws an loohup account", () => {
+    const errorMessage = "error message";
+    axios.interceptors.response.use = jest.fn((successCb, failCb) => {
+      failCb({
+        response: {
+          status: 401,
+          statusText: "",
+          data: { error: { message: errorMessage } },
+          config: {
+            url:
+              "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=12345",
+          },
+        },
+      });
+    });
+
+    renderWithApiErrorHandler();
+
+    expect(screen.queryByText(errorMessage)).not.toBeInTheDocument();
+  });
+
   it("should not render any modal if response was no errors", () => {
     axios.interceptors.response.use = jest.fn((successCb, failCb) => {
       successCb({

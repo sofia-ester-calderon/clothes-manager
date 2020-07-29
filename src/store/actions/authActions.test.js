@@ -51,7 +51,12 @@ describe("given a new account is created", () => {
         expect.any(Date)
       );
       expect(store.getActions()).toEqual([
-        { type: AUTHENTICATE, email: "email@email.com", userId: "userId" },
+        {
+          type: AUTHENTICATE,
+          email: "email@email.com",
+          userId: "userId",
+          loginSuccess: true,
+        },
       ]);
     });
   });
@@ -69,41 +74,49 @@ describe("given a new account is created", () => {
 
 describe("given a login is dispatched", () => {
   it("should dispatch loginSuccess action if api call was successful and store the results in the local storage", () => {
-    const loginDetails = {
-      email: "login@email.com",
-      password: "loginPassword",
+    const signUpDetails = {
+      email: "email@email.com",
+      password: "password",
     };
 
     const postRequestToApi = {
-      email: "login@email.com",
-      password: "loginPassword",
+      email: "email@email.com",
+      password: "password",
       returnSecureToken: true,
     };
 
     const responseFromApi = {
-      email: "login@email.com",
-      localId: "loginUserId",
-      idToken: "login-token",
-      refreshToken: "login-refresh-token",
+      email: "email@email.com",
+      localId: "userId",
+      idToken: "current-token",
+      refreshToken: "refresh-token",
       expiresIn: 3600,
     };
 
-    authApi.login = jest.fn().mockResolvedValue(responseFromApi);
+    authApi.signUp = jest.fn().mockResolvedValue(responseFromApi);
 
     const store = mockStore({});
-    return store.dispatch(authActions.login(loginDetails)).then(() => {
-      expect(authApi.login).toHaveBeenCalledWith(postRequestToApi);
-      expect(localStorage.setItem).toHaveBeenCalledWith("token", "login-token");
+    return store.dispatch(authActions.signUp(signUpDetails)).then(() => {
+      expect(authApi.signUp).toHaveBeenCalledWith(postRequestToApi);
+      expect(localStorage.setItem).toHaveBeenCalledWith(
+        "token",
+        "current-token"
+      );
       expect(localStorage.setItem).toHaveBeenCalledWith(
         "refreshToken",
-        "login-refresh-token"
+        "refresh-token"
       );
       expect(localStorage.setItem).toHaveBeenCalledWith(
         "expirationDate",
         expect.any(Date)
       );
       expect(store.getActions()).toEqual([
-        { type: AUTHENTICATE, email: "login@email.com", userId: "loginUserId" },
+        {
+          type: AUTHENTICATE,
+          email: "email@email.com",
+          userId: "userId",
+          loginSuccess: true,
+        },
       ]);
     });
   });
@@ -114,6 +127,50 @@ describe("given a login is dispatched", () => {
     const store = mockStore({});
     return store.dispatch(authActions.login()).then(() => {
       expect(authApi.login).toHaveBeenCalled();
+      expect(store.getActions()).toEqual([]);
+    });
+  });
+});
+
+describe("given auto login is started", () => {
+  it("should dispatch autoLoginSuccess action if api call was successful", () => {
+    const responseFromApi = {
+      email: "autoLogin@email.com",
+      localId: "autoLoginUserId",
+    };
+
+    authApi.getUserDetails = jest.fn().mockResolvedValue(responseFromApi);
+
+    const store = mockStore({});
+    return store.dispatch(authActions.autoLogin()).then(() => {
+      expect(authApi.getUserDetails).toHaveBeenCalled();
+      expect(store.getActions()).toEqual([
+        {
+          type: AUTHENTICATE,
+          email: "autoLogin@email.com",
+          userId: "autoLoginUserId",
+          loginSuccess: true,
+        },
+      ]);
+    });
+  });
+
+  it("should dispatch autoLoginSuccess action if api call returned null", () => {
+    authApi.getUserDetails = jest.fn().mockResolvedValue(null);
+
+    const store = mockStore({});
+    return store.dispatch(authActions.autoLogin()).then(() => {
+      expect(authApi.getUserDetails).toHaveBeenCalled();
+      expect(store.getActions()).toEqual([]);
+    });
+  });
+
+  it("should not dispatch any action if api call was unsuccessful", () => {
+    authApi.getUserDetails = jest.fn().mockRejectedValue();
+
+    const store = mockStore({});
+    return store.dispatch(authActions.autoLogin()).then(() => {
+      expect(authApi.getUserDetails).toHaveBeenCalled();
       expect(store.getActions()).toEqual([]);
     });
   });

@@ -1,12 +1,15 @@
 import authApi from "../../api/authApi";
 import { AUTHENTICATE } from "./actionTypes";
 
-const authenticateSuccess = (token) => {
-  authApi.setLocalStorageItems(token);
+const authenticateSuccess = (token, setCredentialsInStorage) => {
+  if (setCredentialsInStorage) {
+    authApi.setLocalStorageItems(token);
+  }
   return {
     type: AUTHENTICATE,
     email: token.email,
     userId: token.localId,
+    loginSuccess: true,
   };
 };
 
@@ -18,7 +21,7 @@ const signUp = (authDetails) => {
         returnSecureToken: true,
       });
 
-      dispatch(authenticateSuccess(token));
+      dispatch(authenticateSuccess(token, true));
     } catch (error) {
       // Error is handled by ApiErrorHandler
     }
@@ -32,13 +35,26 @@ const login = (authDetails) => {
         ...authDetails,
         returnSecureToken: true,
       });
-      dispatch(authenticateSuccess(token));
+      dispatch(authenticateSuccess(token, true));
     } catch (error) {
       // Error is handled by ApiErrorHandler
     }
   };
 };
 
-const authActions = { signUp, login };
+const autoLogin = () => {
+  return async (dispatch) => {
+    try {
+      const userDetails = await authApi.getUserDetails();
+      if (userDetails) {
+        dispatch(authenticateSuccess(userDetails, false));
+      }
+    } catch (error) {
+      // Error is handled by ApiErrorHandler
+    }
+  };
+};
+
+const authActions = { signUp, login, autoLogin };
 
 export default authActions;

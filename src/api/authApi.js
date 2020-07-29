@@ -18,8 +18,7 @@ async function login(authDetails) {
 }
 
 async function getToken() {
-  const expirationDate = new Date(localStorage.getItem("expirationDate"));
-  if (!localStorage.getItem("expirationDate") || expirationDate < new Date()) {
+  if (isTokenExpired()) {
     const tokenPayload = {
       grant_type: "refresh_token",
       refresh_token: localStorage.getItem("refreshToken"),
@@ -32,6 +31,29 @@ async function getToken() {
   }
   return localStorage.getItem("token");
 }
+
+function isTokenExpired() {
+  const expirationDate = new Date(localStorage.getItem("expirationDate"));
+  return !localStorage.getItem("expirationDate") || expirationDate < new Date();
+}
+
+async function getUserDetails() {
+  const idToken = localStorage.getItem("token");
+  if (!idToken || isTokenExpired()) {
+    return null;
+  }
+  const userData = await axios.post(
+    `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${apiKey.key}`,
+    { idToken }
+  );
+  return userData.data.users[0];
+}
+
+const removeLocalStorageItems = () => {
+  localStorage.setItem("token", null);
+  localStorage.setItem("refreshToken", null);
+  localStorage.setItem("expirationDate", null);
+};
 
 const setLocalStorageItems = (token) => {
   const expiresIn = token.expiresIn || token.expires_in;
@@ -49,6 +71,8 @@ const authApi = {
   login,
   getToken,
   setLocalStorageItems,
+  getUserDetails,
+  removeLocalStorageItems,
 };
 
 export default authApi;
