@@ -3,7 +3,6 @@ import NavItem from "./NavItem";
 import { PropTypes } from "prop-types";
 
 const Header = ({ loggedIn }) => {
-  console.log("header logged in", loggedIn);
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <ul className="navbar-nav mr-auto">

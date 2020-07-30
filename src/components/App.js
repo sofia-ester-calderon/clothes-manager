@@ -7,9 +7,7 @@ import authActions from "../store/actions/authActions";
 import { connect } from "react-redux";
 
 function App({ autoLogin, isLoggedIn, ...props }) {
-  useEffect(() => {
-    console.log(isLoggedIn);
-  }, [isLoggedIn]);
+  useEffect(() => {}, [isLoggedIn]);
 
   useEffect(() => {
     autoLogin();
