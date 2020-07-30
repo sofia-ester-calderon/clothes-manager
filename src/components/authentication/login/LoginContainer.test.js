@@ -6,6 +6,7 @@ import { createMemoryHistory } from "history";
 import LoginContainer from "./LoginContainer";
 import authActions from "../../../store/actions/authActions";
 import ApiErrorProvider from "../../../hooks/ApiErrorProvider";
+import axios from "../../../api/axios-api";
 
 function renderLoginContainer(history) {
   return renderWithStore(

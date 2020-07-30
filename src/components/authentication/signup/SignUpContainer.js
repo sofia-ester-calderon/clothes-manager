@@ -1,16 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import AuthenticationForm from "../AuthenticationForm";
 import { connect } from "react-redux";
 import authActions from "../../../store/actions/authActions";
 import withApiErrorHandler from "../../hoc/withApiErrorHandler";
+import { ApiErrorContext } from "../../../hooks/ApiErrorProvider";
+import { toast } from "react-toastify";
 
-const SignUpContainer = ({ createAccount }) => {
+const SignUpContainer = ({ createAccount, ...props }) => {
   const [signUpDetails, setSignUpDetails] = useState({
     email: "",
     password: "",
     repeatPassword: "",
   });
   const [errors, setErrors] = useState();
+  const [signUpStarted, setSignUpStarted] = useState(false);
+  const { apiStatus } = useContext(ApiErrorContext);
+
+  useEffect(() => {
+    if (signUpStarted && apiStatus.apiCallMethod === "post") {
+      props.history.push("/");
+      toast.success("Account successfully created");
+    }
+    // eslint-disable-next-line
+  }, [apiStatus, props.history]);
 
   function changeDetailsHandler(event) {
     const { name, value } = event.target;
@@ -23,6 +35,7 @@ const SignUpContainer = ({ createAccount }) => {
   function signUpHandler(event) {
     event.preventDefault();
     if (isFormValid()) {
+      setSignUpStarted(true);
       createAccount({
         email: signUpDetails.email,
         password: signUpDetails.password,

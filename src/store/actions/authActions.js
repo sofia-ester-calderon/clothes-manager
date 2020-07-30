@@ -48,6 +48,8 @@ const autoLogin = () => {
       const userDetails = await authApi.getUserDetails();
       if (userDetails) {
         dispatch(authenticateSuccess(userDetails, false));
+      } else {
+        authApi.removeLocalStorageItems();
       }
     } catch (error) {
       // Error is handled by ApiErrorHandler

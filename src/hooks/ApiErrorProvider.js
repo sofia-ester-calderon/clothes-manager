@@ -15,6 +15,8 @@ function ApiErrorProvider({ children }) {
     errorType: null,
   });
 
+  useEffect(() => {}, [apiStatus]);
+
   if (reqInterceptor < 0) {
     const interceptor = axiosInstance.interceptors.request.use((req) => {
       if (
@@ -22,7 +24,11 @@ function ApiErrorProvider({ children }) {
         req.method === "put" ||
         req.method === "post"
       ) {
-        setApiStatus({ loading: true, errorMessage: null });
+        setApiStatus({
+          loading: true,
+          errorMessage: null,
+          apiCallMethod: null,
+        });
       }
       return req;
     });
