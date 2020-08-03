@@ -1,33 +1,3 @@
-data "aws_acm_certificate" "ssl_cert" {
-  domain   = "${var.root_domain_name}"
-  statuses = ["ISSUED"]
-}
-
-resource "aws_s3_bucket" "s3_bucket" {
-  bucket        = var.application_subdomain
-  force_destroy = true
-  acl           = "public-read"
-  policy        = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Id": "REACTCLOTHESMANAGERBUCKETPOLICY",
-  "Statement": [
-    {
-      "Sid": "AddPerm",
-      "Effect": "Allow",
-      "Principal": "*",
-      "Action": ["s3:GetObject"],
-      "Resource": ["arn:aws:s3:::${var.application_subdomain}/*"]
-    }
-  ]
-}
-POLICY
-  website {
-    index_document = "index.html"
-    error_document = "index.html"
-  }
-}
-
 resource "aws_cloudfront_distribution" "frontend_cloudfront_distribution" {
   origin {
     custom_origin_config {
@@ -80,19 +50,4 @@ resource "aws_cloudfront_distribution" "frontend_cloudfront_distribution" {
     ssl_support_method  = "sni-only"
   }
 
-}
-
-resource "aws_route53_zone" "zone" {
-  name = var.root_domain_name
-}
-
-resource "aws_route53_record" "frontend_record" {
-  zone_id = aws_route53_zone.zone.zone_id
-  name    = var.application_subdomain
-  type    = "A"
-  alias {
-    name                   = aws_cloudfront_distribution.frontend_cloudfront_distribution.domain_name
-    zone_id                = aws_cloudfront_distribution.frontend_cloudfront_distribution.hosted_zone_id
-    evaluate_target_health = false
-  }
 }
