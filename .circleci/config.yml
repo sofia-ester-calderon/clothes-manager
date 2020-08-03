@@ -171,36 +171,36 @@ workflows:
               only: master
           requires:
             - node-install
-      - terraform-plan-and-apply:
-          filters:
-            branches:
-              only: master
-          requires:
-            - build-frontend
-            - build-backend
-            - terraform-check
-      - deploy-frontend:
-          filters:
-            branches:
-              only: master
-          requires:
-            - terraform-plan-and-apply
-      - deploy-backend:
-          filters:
-            branches:
-              only: master
-          requires:
-            - terraform-plan-and-apply
-      - click_here_to_delete:
-          type: approval
-          requires:
-            - terraform-plan-and-apply
-          filters:
-            branches:
-              only: master
-      - terraform-destroy:
-          requires:
-            - click_here_to_delete
-          filters:
-            branches:
-              only: master
+      # - terraform-plan-and-apply:
+      #     filters:
+      #       branches:
+      #         only: master
+      #     requires:
+      #       - build-frontend
+      #       - build-backend
+      #       - terraform-check
+      # - deploy-frontend:
+      #     filters:
+      #       branches:
+      #         only: master
+      #     requires:
+      #       - terraform-plan-and-apply
+      # - deploy-backend:
+      #     filters:
+      #       branches:
+      #         only: master
+      #     requires:
+      #       - terraform-plan-and-apply
+      # - click_here_to_delete:
+      #     type: approval
+      #     requires:
+      #       - terraform-plan-and-apply
+      #     filters:
+      #       branches:
+      #         only: master
+      # - terraform-destroy:
+      #     requires:
+      #       - click_here_to_delete
+      #     filters:
+      #       branches:
+      #         only: master
