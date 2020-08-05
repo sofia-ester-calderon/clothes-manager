@@ -13,10 +13,10 @@ const setClothes = (clothes) => {
   };
 };
 
-const loadClothes = () => {
+const loadClothes = (userId) => {
   return async (dispatch) => {
     try {
-      const clothes = await clothesApi.getClothes();
+      const clothes = await clothesApi.getClothes(userId);
       dispatch(setClothes(clothes));
     } catch (error) {
       // Error is handled by ApiErrorHandler

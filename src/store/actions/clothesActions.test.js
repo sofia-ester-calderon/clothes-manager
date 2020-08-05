@@ -24,12 +24,13 @@ const clothing = {
 describe("given clothes are loaded", () => {
   it("should dispatch setClothes action if api call was successful", () => {
     const clothes = [clothing];
+    const userId = "1234";
 
     clothesApi.getClothes = jest.fn().mockResolvedValue(clothes);
 
     const store = mockStore({});
-    return store.dispatch(clothesActions.loadClothes()).then(() => {
-      expect(clothesApi.getClothes).toHaveBeenCalled();
+    return store.dispatch(clothesActions.loadClothes(userId)).then(() => {
+      expect(clothesApi.getClothes).toHaveBeenCalledWith(userId);
       expect(store.getActions()).toEqual([{ type: LOAD_CLOTHES, clothes }]);
     });
   });

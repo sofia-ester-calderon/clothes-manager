@@ -17,6 +17,7 @@ const ClothingContainer = ({
   loadClothes,
   updateClothing,
   saveClothing,
+  userId,
   ...props
 }) => {
   const [clothing, setClothing] = useState(props.clothing);
@@ -45,11 +46,11 @@ const ClothingContainer = ({
         await loadColors();
       }
       if (props.clothes.length === 0) {
-        await loadClothes();
+        await loadClothes(userId);
       }
     }
     loadData();
-  }, [props.clothes, loadClothes, options.colors, loadColors]);
+  }, [props.clothes, loadClothes, options.colors, loadColors, userId]);
 
   useEffect(() => {
     setClothing(props.clothing);
@@ -67,6 +68,7 @@ const ClothingContainer = ({
 
     if (isFormValid()) {
       setSaving(true);
+      clothing.userId = userId;
       if (clothing.id) {
         updateClothing(clothing);
       } else {
@@ -171,13 +173,14 @@ function mapStateToProps(state, ownProps) {
     },
     clothing,
     clothes: state.clothes,
+    userId: state.auth.userId,
   };
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     loadColors: () => dispatch(optionsActions.loadColors()),
-    loadClothes: () => dispatch(clothesActions.loadClothes()),
+    loadClothes: (userId) => dispatch(clothesActions.loadClothes(userId)),
     updateClothing: (clothing) =>
       dispatch(clothesActions.updateClothing(clothing)),
     saveClothing: (clothing) => dispatch(clothesActions.saveClothing(clothing)),

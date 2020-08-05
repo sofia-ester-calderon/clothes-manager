@@ -8,9 +8,10 @@ import {
 
 const CLOTHES_PREFIX = "/clothes";
 
-async function getClothes() {
+async function getClothes(userId) {
   const token = await authApi.getToken();
-  const clothesData = await axios.get(`${CLOTHES_PREFIX}.json?auth=${token}`);
+  const queryParams = `?auth=${token}&orderBy="userId"&equalTo="${userId}"`;
+  const clothesData = await axios.get(`${CLOTHES_PREFIX}.json${queryParams}`);
   return transformJsonToArray(clothesData.data);
 }
 

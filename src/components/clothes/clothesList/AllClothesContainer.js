@@ -12,6 +12,7 @@ const AllClothesContainer = ({
   loadColors,
   loadClothes,
   deleteClothing,
+  userId,
 }) => {
   const [filteredClothes, setFilteredClothes] = useState(allClothes);
   const [typesToDisplay, settypesToDisplay] = useState([options.categories[0]]);
@@ -27,11 +28,11 @@ const AllClothesContainer = ({
         await loadColors();
       }
       if (allClothes.length === 0) {
-        await loadClothes();
+        await loadClothes(userId);
       }
     }
     loadData();
-  }, [allClothes, loadClothes, options.colors, loadColors]);
+  }, [allClothes, loadClothes, options.colors, loadColors, userId]);
 
   useEffect(() => {
     let newFilteredClothes = allClothes;
@@ -105,13 +106,14 @@ const mapStateToProps = (state) => {
       seasons: state.options.seasons,
     },
     allClothes: state.clothes,
+    userId: state.auth.userId,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     loadColors: () => dispatch(optionsActions.loadColors()),
-    loadClothes: () => dispatch(clothesActions.loadClothes()),
+    loadClothes: (userId) => dispatch(clothesActions.loadClothes(userId)),
     deleteClothing: (id) => dispatch(clothesActions.deleteClothing(id)),
   };
 };

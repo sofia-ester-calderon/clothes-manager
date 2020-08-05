@@ -60,7 +60,7 @@ describe("given the page is opened", () => {
   it("should load clothes if clothes list is empty", async () => {
     clothesActions.loadClothes = jest.fn();
     await renderAllClothesContainer(null, true);
-    expect(clothesActions.loadClothes).toHaveBeenCalled();
+    expect(clothesActions.loadClothes).toHaveBeenCalledWith(null);
   });
 
   it("should only display clothes of type 'Tops' - all others are hidden", async () => {

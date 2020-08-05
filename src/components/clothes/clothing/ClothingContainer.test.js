@@ -37,7 +37,9 @@ describe("given the page is initially loaded", () => {
     renderClothingContainer(null, true);
 
     expect(optionsActions.loadColors).toHaveBeenCalled();
-    await wait(() => expect(clothesActions.loadClothes).toHaveBeenCalled());
+    await wait(() =>
+      expect(clothesActions.loadClothes).toHaveBeenCalledWith(null)
+    );
   });
 });
 
@@ -410,6 +412,7 @@ describe("given the save button is clicked", () => {
       rating: 5,
       occasion: "Formal",
       seasons: ["Winter"],
+      userId: "userId",
     });
   });
 
@@ -440,6 +443,7 @@ describe("given the save button is clicked", () => {
       rating: 1,
       occasion: "Sport",
       seasons: [],
+      userId: "userId",
     });
   });
 });
