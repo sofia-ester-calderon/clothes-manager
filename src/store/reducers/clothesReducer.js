@@ -14,6 +14,8 @@ const clothesReducer = (state = initialState, action) => {
       );
     case actionTypes.SAVE_CLOTHING:
       return [...state, { ...action.clothing }];
+    case actionTypes.LOGOUT:
+      return [];
     default:
       return state;
   }

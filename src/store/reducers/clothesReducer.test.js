@@ -3,6 +3,7 @@ import {
   DELETE_CLOTHING,
   UPDATE_CLOTHING,
   SAVE_CLOTHING,
+  LOGOUT,
 } from "../actions/actionTypes";
 import clothesReducer from "./clothesReducer";
 
@@ -107,5 +108,16 @@ describe("given a save clothing action was dispatched", () => {
 
     expect(newState).toHaveLength(4);
     expect(newState).toEqual(expect.arrayContaining([clothing]));
+  });
+});
+
+describe("given the user logged out", () => {
+  it("should return an empty state", () => {
+    const initialState = clothes;
+    const action = { type: LOGOUT };
+
+    const newState = clothesReducer(initialState, action);
+
+    expect(newState).toHaveLength(0);
   });
 });
