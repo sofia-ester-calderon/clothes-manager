@@ -3,7 +3,7 @@ import { screen, fireEvent, wait } from "@testing-library/react";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 
-import { renderWithStore } from "../../../test-utils/test-utils";
+import { renderWithStore, initStates } from "../../../test-utils/test-utils";
 import clothesApi from "../../../api/clothesApi";
 import optionsActions from "../../../store/actions/optionsActions";
 
@@ -14,7 +14,7 @@ import ApiErrorProvider from "../../../hooks/ApiErrorProvider";
 
 clothesApi.saveClothing = jest.fn().mockResolvedValue({ data: "data" });
 
-function renderClothingContainer(args, emptyState) {
+function renderClothingContainer(args, stateType) {
   const defaultProps = {
     match: { params: { id: null } },
   };
@@ -26,7 +26,7 @@ function renderClothingContainer(args, emptyState) {
         <ClothingContainer {...props} />
       </Router>
     </ApiErrorProvider>,
-    emptyState
+    stateType
   );
 }
 
@@ -34,11 +34,11 @@ describe("given the page is initially loaded", () => {
   it("should load clothes if clothes list is empty", async () => {
     optionsActions.loadColors = jest.fn().mockResolvedValue();
     clothesActions.loadClothes = jest.fn();
-    renderClothingContainer(null, true);
+    renderClothingContainer(null, initStates.EMPTY_STATE_LOGGED_IN);
 
     expect(optionsActions.loadColors).toHaveBeenCalled();
     await wait(() =>
-      expect(clothesActions.loadClothes).toHaveBeenCalledWith(null)
+      expect(clothesActions.loadClothes).toHaveBeenCalledWith("userId")
     );
   });
 });

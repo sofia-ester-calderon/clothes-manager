@@ -13,7 +13,7 @@ function renderLogoutContainer(history) {
         <LogutComponent history={history} />
       </ApiErrorProvider>
     </Router>,
-    false
+    null
   );
 }
 

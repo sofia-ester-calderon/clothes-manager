@@ -4,14 +4,12 @@ import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 
 import clothesApi from "../../../api/clothesApi";
-import { renderWithStore } from "../../../test-utils/test-utils";
+import { renderWithStore, initStates } from "../../../test-utils/test-utils";
 import optionsActions from "../../../store/actions/optionsActions";
 import clothesActions from "../../../store/actions/clothesActions";
 
 import AllClothesContainer from "./AllClothesContainer";
-import ApiErrorProvider, {
-  ApiErrorContext,
-} from "../../../hooks/ApiErrorProvider";
+import ApiErrorProvider from "../../../hooks/ApiErrorProvider";
 
 clothesApi.getClothing = jest.fn().mockResolvedValue({
   id: 1,
@@ -30,7 +28,7 @@ jest.mock("../../../api/colorsApi", () => ({
   ]),
 }));
 
-async function renderAllClothesContainer(history, emptyState) {
+async function renderAllClothesContainer(history, stateType) {
   const props = {
     history,
   };
@@ -40,9 +38,9 @@ async function renderAllClothesContainer(history, emptyState) {
         <AllClothesContainer {...props} />
       </ApiErrorProvider>
     </Router>,
-    emptyState
+    stateType
   );
-  if (!emptyState) {
+  if (!stateType) {
     // Await for everything to be rendered accordingly
     await screen.findByText("Total: 3");
   } else {
@@ -53,14 +51,14 @@ async function renderAllClothesContainer(history, emptyState) {
 describe("given the page is opened", () => {
   it("should load colors if color list is empty", async () => {
     optionsActions.loadColors = jest.fn();
-    await renderAllClothesContainer(null, true);
+    await renderAllClothesContainer(null, initStates.EMPTY_STATE_LOGGED_OUT);
     expect(optionsActions.loadColors).toHaveBeenCalled();
   });
 
   it("should load clothes if clothes list is empty", async () => {
     clothesActions.loadClothes = jest.fn();
-    await renderAllClothesContainer(null, true);
-    expect(clothesActions.loadClothes).toHaveBeenCalledWith(null);
+    await renderAllClothesContainer(null, initStates.EMPTY_STATE_LOGGED_IN);
+    expect(clothesActions.loadClothes).toHaveBeenCalledWith("userId");
   });
 
   it("should only display clothes of type 'Tops' - all others are hidden", async () => {

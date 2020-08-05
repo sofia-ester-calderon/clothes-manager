@@ -4,6 +4,16 @@ import { createStore } from "redux";
 import { Provider } from "react-redux";
 import optionsReducer from "../store/reducers/optionsReducer";
 
+const FILLED_STATE = "FILLED_STATE";
+const EMPTY_STATE_LOGGED_OUT = "EMPTY_STATE_LOGGED_OUT";
+const EMPTY_STATE_LOGGED_IN = "EMPTY_STATE_LOGGED_IN";
+
+export const initStates = {
+  FILLED_STATE,
+  EMPTY_STATE_LOGGED_IN,
+  EMPTY_STATE_LOGGED_OUT,
+};
+
 const initialStateFilled = {
   options: {
     colors: [
@@ -80,14 +90,39 @@ const initialStateEmpty = {
   },
 };
 
+const initialStateEmptyLoggedIn = {
+  options: {
+    colors: [],
+    categories: [],
+    occasions: [],
+    types: [],
+    seasons: [],
+  },
+  clothes: [],
+  auth: {
+    userId: "userId",
+    username: "email",
+  },
+};
+
+function getInitState(initState) {
+  switch (initState) {
+    case FILLED_STATE:
+      return initialStateFilled;
+    case EMPTY_STATE_LOGGED_OUT:
+      return initialStateEmpty;
+    case EMPTY_STATE_LOGGED_IN:
+      return initialStateEmptyLoggedIn;
+    default:
+      return initialStateFilled;
+  }
+}
+
 function renderWithStore(
   ui,
-  emptyState,
+  stateType,
   {
-    store = createStore(
-      optionsReducer,
-      emptyState ? initialStateEmpty : initialStateFilled
-    ),
+    store = createStore(optionsReducer, getInitState(stateType)),
     ...renderOptions
   } = {}
 ) {

@@ -15,7 +15,7 @@ function renderSignUpContainer(history) {
         <SignUpContainer history={history} />
       </ApiErrorProvider>
     </Router>,
-    false
+    null
   );
 }
 

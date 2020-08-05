@@ -3,7 +3,7 @@ import { screen, fireEvent } from "@testing-library/react";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 
-import { renderWithStore } from "../../../test-utils/test-utils";
+import { renderWithStore, initStates } from "../../../test-utils/test-utils";
 import optionsActions from "../../../store/actions/optionsActions";
 
 import ColorsContainer from "./ColorsContainer";
@@ -13,7 +13,7 @@ HTMLCanvasElement.prototype.getContext = jest.fn();
 
 const url = "/url";
 
-async function renderColorsContainer(emptyState, history) {
+async function renderColorsContainer(history, stateType) {
   const defaultProps = { match: { url }, history };
   renderWithStore(
     <Router history={createMemoryHistory()}>
@@ -21,9 +21,9 @@ async function renderColorsContainer(emptyState, history) {
         <ColorsContainer {...defaultProps} />
       </ApiErrorProvider>
     </Router>,
-    emptyState
+    stateType
   );
-  if (!emptyState) {
+  if (!stateType) {
     await screen.findByText("Red");
   }
 }
@@ -31,7 +31,7 @@ async function renderColorsContainer(emptyState, history) {
 describe("given the page is loaded", () => {
   it("should load colors if color list is empty", async () => {
     optionsActions.loadColors = jest.fn();
-    await renderColorsContainer(true);
+    await renderColorsContainer(null, initStates.EMPTY_STATE_LOGGED_OUT);
 
     expect(optionsActions.loadColors).toHaveBeenCalled();
   });
@@ -47,7 +47,7 @@ describe("given the page is loaded", () => {
 describe("given a color is clicked", () => {
   it("should route to the color details form", async () => {
     const history = { push: jest.fn() };
-    await renderColorsContainer(false, history);
+    await renderColorsContainer(history);
 
     fireEvent.click(screen.getByText("Red"));
     expect(history.push).toHaveBeenCalledWith(url + "/def_col_1");
@@ -58,7 +58,7 @@ describe("given the Add New Color btn is clicked", () => {
   it("should route to the new color form", async () => {
     const history = { push: jest.fn() };
 
-    await renderColorsContainer(false, history);
+    await renderColorsContainer(history);
 
     fireEvent.click(screen.getByText("Add New Color"));
     expect(history.push).toHaveBeenCalledWith(url + "/new");

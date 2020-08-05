@@ -1,12 +1,11 @@
 import React from "react";
 import { screen, fireEvent } from "@testing-library/react";
-import { renderWithStore } from "../../../test-utils/test-utils";
+import { renderWithStore, initStates } from "../../../test-utils/test-utils";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 import LoginContainer from "./LoginContainer";
 import authActions from "../../../store/actions/authActions";
 import ApiErrorProvider from "../../../hooks/ApiErrorProvider";
-import axios from "../../../api/axios-api";
 
 function renderLoginContainer(history) {
   return renderWithStore(
@@ -15,7 +14,7 @@ function renderLoginContainer(history) {
         <LoginContainer history={history} />
       </ApiErrorProvider>
     </Router>,
-    false
+    initStates.EMPTY_STATE_LOGGED_OUT
   );
 }
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { screen, fireEvent } from "@testing-library/react";
-import { renderWithStore } from "../../test-utils/test-utils";
+import { renderWithStore, initStates } from "../../test-utils/test-utils";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 
@@ -8,6 +8,9 @@ import ApiErrorProvider from "../../hooks/ApiErrorProvider";
 import App from "../App";
 
 function renderHeader(loggedOut) {
+  const stateType = loggedOut
+    ? initStates.EMPTY_STATE_LOGGED_OUT
+    : initStates.FILLED_STATE;
   const history = createMemoryHistory();
   return renderWithStore(
     <ApiErrorProvider>
@@ -15,7 +18,7 @@ function renderHeader(loggedOut) {
         <App />
       </Router>
     </ApiErrorProvider>,
-    loggedOut
+    stateType
   );
 }
 
