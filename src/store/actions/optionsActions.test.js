@@ -38,12 +38,13 @@ describe("given a color is updated", () => {
 
 describe("given colors are loaded", () => {
   it("should dispatch setColors action if api call was successful", () => {
+    const userId = "userId";
     const colors = [{ id: "def_col_1", name: "Red", hash: "#ff1100" }];
     colorApi.getColors = jest.fn().mockResolvedValue(colors);
 
     const store = mockStore({});
-    return store.dispatch(optionsActions.loadColors()).then(() => {
-      expect(colorApi.getColors).toHaveBeenCalled();
+    return store.dispatch(optionsActions.loadColors(userId)).then(() => {
+      expect(colorApi.getColors).toHaveBeenCalledWith(userId);
       expect(store.getActions()).toEqual([{ type: LOAD_COLORS, colors }]);
     });
   });

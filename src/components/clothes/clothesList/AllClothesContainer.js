@@ -25,7 +25,7 @@ const AllClothesContainer = ({
   useEffect(() => {
     async function loadData() {
       if (options.colors.length === 0) {
-        await loadColors();
+        await loadColors(userId);
       }
       if (allClothes.length === 0) {
         await loadClothes(userId);
@@ -112,7 +112,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadColors: () => dispatch(optionsActions.loadColors()),
+    loadColors: (userId) => dispatch(optionsActions.loadColors(userId)),
     loadClothes: (userId) => dispatch(clothesActions.loadClothes(userId)),
     deleteClothing: (id) => dispatch(clothesActions.deleteClothing(id)),
   };

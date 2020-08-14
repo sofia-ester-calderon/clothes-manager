@@ -7,12 +7,12 @@ import ColorList from "./ColorList";
 import optionsActions from "../../../store/actions/optionsActions";
 import withApiErrorHandler from "../../hoc/withApiErrorHandler";
 
-const ColorsContainer = ({ colors, loadColors, ...props }) => {
+const ColorsContainer = ({ colors, loadColors, userId, ...props }) => {
   useEffect(() => {
     if (colors.length === 0) {
-      loadColors();
+      loadColors(userId);
     }
-  }, [colors, loadColors]);
+  }, [colors, loadColors, userId]);
 
   function showColorHandler(color) {
     props.history.push(props.match.url + "/" + color.id);
@@ -44,12 +44,13 @@ const ColorsContainer = ({ colors, loadColors, ...props }) => {
 const mapStateToProps = (state) => {
   return {
     colors: state.options.colors,
+    userId: state.auth.userId,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadColors: () => dispatch(optionsActions.loadColors()),
+    loadColors: (userId) => dispatch(optionsActions.loadColors(userId)),
   };
 };
 
