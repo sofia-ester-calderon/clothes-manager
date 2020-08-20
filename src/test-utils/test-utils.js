@@ -7,11 +7,13 @@ import optionsReducer from "../store/reducers/optionsReducer";
 const FILLED_STATE = "FILLED_STATE";
 const EMPTY_STATE_LOGGED_OUT = "EMPTY_STATE_LOGGED_OUT";
 const EMPTY_STATE_LOGGED_IN = "EMPTY_STATE_LOGGED_IN";
+const PUBLIC_STATE_LOGGED_IN = "PUBLIC_STATE_LOGGED_IN";
 
 export const initStates = {
   FILLED_STATE,
   EMPTY_STATE_LOGGED_IN,
   EMPTY_STATE_LOGGED_OUT,
+  PUBLIC_STATE_LOGGED_IN,
 };
 
 const initialStateFilled = {
@@ -39,6 +41,7 @@ const initialStateFilled = {
       { id: 10, name: "Scarf", category: "Accessories" },
     ],
     seasons: ["Spring", "Summer", "Autumn", "Winter"],
+    onlyPublicOptions: false,
   },
   clothes: [
     {
@@ -88,6 +91,7 @@ const initialStateEmpty = {
     userId: null,
     username: null,
   },
+  onlyPublicOptions: true,
 };
 
 const initialStateEmptyLoggedIn = {
@@ -97,6 +101,26 @@ const initialStateEmptyLoggedIn = {
     occasions: [],
     types: [],
     seasons: [],
+  },
+  clothes: [],
+  auth: {
+    userId: "userId",
+    username: "email",
+  },
+  onlyPublicOptions: true,
+};
+
+const initialStateOnlyPublicAndLoggedIn = {
+  options: {
+    colors: [
+      { id: "def_col_1", name: "Red", hash: "#ff1100" },
+      { id: "def_col_2", name: "Green", hash: "#00a80b" },
+    ],
+    categories: [],
+    occasions: [],
+    types: [],
+    seasons: [],
+    onlyPublicOptions: true,
   },
   clothes: [],
   auth: {
@@ -113,6 +137,8 @@ function getInitState(initState) {
       return initialStateEmpty;
     case EMPTY_STATE_LOGGED_IN:
       return initialStateEmptyLoggedIn;
+    case PUBLIC_STATE_LOGGED_IN:
+      return initialStateOnlyPublicAndLoggedIn;
     default:
       return initialStateFilled;
   }

@@ -18,6 +18,7 @@ const ClothingContainer = ({
   updateClothing,
   saveClothing,
   userId,
+  onlyPublicColors,
   ...props
 }) => {
   const [clothing, setClothing] = useState(props.clothing);
@@ -41,16 +42,16 @@ const ClothingContainer = ({
   }, [apiStatus, saving, props.history]);
 
   useEffect(() => {
-    async function loadData() {
-      if (options.colors.length === 0) {
-        await loadColors(userId);
-      }
-      if (props.clothes.length === 0) {
-        await loadClothes(userId);
-      }
+    if (options.colors.length === 0 || (onlyPublicColors && userId)) {
+      loadColors(userId);
     }
-    loadData();
-  }, [props.clothes, loadClothes, options.colors, loadColors, userId]);
+  }, [loadColors, userId, onlyPublicColors, options.colors]);
+
+  useEffect(() => {
+    if (props.clothes.length === 0) {
+      loadClothes(userId);
+    }
+  }, [loadClothes, props.clothes, userId]);
 
   useEffect(() => {
     setClothing(props.clothing);
@@ -174,6 +175,7 @@ function mapStateToProps(state, ownProps) {
     clothing,
     clothes: state.clothes,
     userId: state.auth.userId,
+    onlyPublicColors: state.options.onlyPublicOptions,
   };
 }
 

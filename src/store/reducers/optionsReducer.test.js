@@ -34,20 +34,46 @@ describe("given an update color action was dispatched", () => {
   });
 });
 
-describe("given an init color action was dispatched", () => {
-  it("should return the state with the new colors and all the original values of the other options", () => {
-    const colors = [
-      { id: "a", name: "colorA", hash: "hashA" },
-      { id: "b", name: "colorB", hash: "hashB" },
+describe("given an load color action was dispatched", () => {
+  describe("given the user is not logged in", () => {
+    const publicColors = [
+      { id: "a", name: "colorA", hash: "hashA", userId: "all" },
+      { id: "c", name: "colorC", hash: "hashC", userId: "all" },
     ];
-    const action = {
-      type: LOAD_COLORS,
-      colors,
-    };
-    const newState = optionsReducer(initialState, action);
-    expect(newState.colors).toHaveLength(2);
-    expect(newState.colors).toEqual(colors);
-    expect(newState.categories).toEqual(initialState.categories);
+    const userColor1 = [
+      { id: "b", name: "colorB", hash: "hashB", userId: "id1" },
+    ];
+    const userColor2 = [
+      { id: "d", name: "colorD", hash: "hashD", userId: "id2" },
+    ];
+
+    const colors = publicColors.concat(userColor1, userColor2);
+
+    it("should return the state with the only public colors and all the original values of the other options", () => {
+      const action = {
+        type: LOAD_COLORS,
+        colors,
+      };
+      const newState = optionsReducer(initialState, action);
+      expect(newState.colors).toHaveLength(2);
+      expect(newState.colors).toEqual(publicColors);
+      expect(newState.onlyPublicOptions).toEqual(true);
+      expect(newState.categories).toEqual(initialState.categories);
+    });
+
+    it("should return the state with the public and user colors and all the original values of the other options", () => {
+      const action = {
+        type: LOAD_COLORS,
+        colors,
+        userId: "id1",
+      };
+      const expectedColors = publicColors.concat(userColor1);
+      const newState = optionsReducer(initialState, action);
+      expect(newState.colors).toHaveLength(3);
+      expect(newState.colors).toEqual(expectedColors);
+      expect(newState.onlyPublicOptions).toEqual(false);
+      expect(newState.categories).toEqual(initialState.categories);
+    });
   });
 });
 

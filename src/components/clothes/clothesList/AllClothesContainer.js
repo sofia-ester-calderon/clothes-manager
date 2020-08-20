@@ -13,6 +13,7 @@ const AllClothesContainer = ({
   loadClothes,
   deleteClothing,
   userId,
+  onlyPublicColors,
 }) => {
   const [filteredClothes, setFilteredClothes] = useState(allClothes);
   const [typesToDisplay, settypesToDisplay] = useState([options.categories[0]]);
@@ -23,16 +24,19 @@ const AllClothesContainer = ({
   });
 
   useEffect(() => {
+    if (options.colors.length === 0 || (onlyPublicColors && userId)) {
+      loadColors(userId);
+    }
+  }, [loadColors, userId, onlyPublicColors, options.colors]);
+
+  useEffect(() => {
     async function loadData() {
-      if (options.colors.length === 0) {
-        await loadColors(userId);
-      }
       if (allClothes.length === 0) {
         await loadClothes(userId);
       }
     }
     loadData();
-  }, [allClothes, loadClothes, options.colors, loadColors, userId]);
+  }, [loadClothes, userId, allClothes]);
 
   useEffect(() => {
     let newFilteredClothes = allClothes;
@@ -107,6 +111,7 @@ const mapStateToProps = (state) => {
     },
     allClothes: state.clothes,
     userId: state.auth.userId,
+    onlyPublicColors: state.options.onlyPublicOptions,
   };
 };
 

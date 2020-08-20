@@ -19,18 +19,19 @@ const updateColor = (color) => {
   };
 };
 
-const setColors = (colors) => {
+const setColors = (colors, userId) => {
   return {
     type: LOAD_COLORS,
     colors,
+    userId,
   };
 };
 
 const loadColors = (userId) => {
   return async (dispatch) => {
     try {
-      const colors = await colorApi.getColors(userId);
-      dispatch(setColors(colors));
+      const colors = await colorApi.getColors();
+      dispatch(setColors(colors, userId));
     } catch (error) {
       // Error is handled by ApiErrorHandler
     }

@@ -17,6 +17,13 @@ const initialState = {
     { id: 10, name: "Scarf", category: "Accessories" },
   ],
   seasons: ["Spring", "Summer", "Autumn", "Winter"],
+  onlyPublicOptions: true,
+};
+
+const filterColors = (userId, colors) => {
+  return colors.filter(
+    (color) => color.userId === "all" || color.userId === userId
+  );
 };
 
 const optionsReducer = (state = initialState, action) => {
@@ -29,7 +36,8 @@ const optionsReducer = (state = initialState, action) => {
     case actionTypes.LOAD_COLORS:
       return {
         ...state,
-        colors: action.colors,
+        colors: filterColors(action.userId, action.colors),
+        onlyPublicOptions: action.userId ? false : true,
       };
     case actionTypes.SAVE_COLOR:
       const newColors = [...state.colors, { ...action.color }];

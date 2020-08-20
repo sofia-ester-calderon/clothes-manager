@@ -7,21 +7,9 @@ import {
 
 const COLORS_PREFIX = "/colors";
 
-async function getColors(userId) {
-  const baseUrl = `${COLORS_PREFIX}.json`;
-  debugger;
-  const publicColorsqueryParams = `?&orderBy="userId"&equalTo="all"`;
-  const publicColorData = await axios.get(baseUrl + publicColorsqueryParams);
-  let allColors = transformJsonToArray(publicColorData.data);
-
-  if (userId) {
-    const userColorsqueryParams = `?&orderBy="userId"&equalTo="${userId}"`;
-    const userColorData = await axios.get(baseUrl + userColorsqueryParams);
-    allColors = allColors.concat(transformJsonToArray(userColorData.data));
-  }
-
-  console.log(allColors);
-  return allColors;
+async function getColors() {
+  const colorData = await axios.get(`${COLORS_PREFIX}.json`);
+  return transformJsonToArray(colorData.data);
 }
 
 async function getColor(id) {

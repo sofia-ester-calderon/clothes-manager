@@ -31,15 +31,36 @@ function renderClothingContainer(args, stateType) {
 }
 
 describe("given the page is initially loaded", () => {
-  it("should load clothes if clothes list is empty", async () => {
-    optionsActions.loadColors = jest.fn().mockResolvedValue();
-    clothesActions.loadClothes = jest.fn();
-    renderClothingContainer(null, initStates.EMPTY_STATE_LOGGED_IN);
-
+  it("should load colors if color list is empty", async () => {
+    optionsActions.loadColors = jest.fn();
+    await renderClothingContainer(null, initStates.EMPTY_STATE_LOGGED_OUT);
     expect(optionsActions.loadColors).toHaveBeenCalled();
-    await wait(() =>
-      expect(clothesActions.loadClothes).toHaveBeenCalledWith("userId")
-    );
+  });
+
+  it("should load colors if user logged in and only public colors present", async () => {
+    optionsActions.loadColors = jest.fn();
+    await renderClothingContainer(null, initStates.PUBLIC_STATE_LOGGED_IN);
+
+    expect(optionsActions.loadColors).toHaveBeenCalledWith("userId");
+  });
+
+  it("should not load colors if user logged in and user colors present", async () => {
+    optionsActions.loadColors = jest.fn();
+    await renderClothingContainer(null, initStates.FILLED_STATE);
+
+    expect(optionsActions.loadColors).not.toHaveBeenCalled();
+  });
+
+  it("should load clothes if clothes list is empty", async () => {
+    clothesActions.loadClothes = jest.fn();
+    await renderClothingContainer(null, initStates.EMPTY_STATE_LOGGED_IN);
+    expect(clothesActions.loadClothes).toHaveBeenCalledWith("userId");
+  });
+
+  it("should not load clothes if clothes list is not empty", async () => {
+    clothesActions.loadClothes = jest.fn();
+    await renderClothingContainer(null, initStates.FILLED_STATE);
+    expect(clothesActions.loadClothes).not.toHaveBeenCalled();
   });
 });
 

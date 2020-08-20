@@ -40,7 +40,7 @@ async function renderAllClothesContainer(history, stateType) {
     </Router>,
     stateType
   );
-  if (!stateType) {
+  if (!stateType || stateType === initStates.FILLED_STATE) {
     // Await for everything to be rendered accordingly
     await screen.findByText("Total: 3");
   } else {
@@ -51,14 +51,34 @@ async function renderAllClothesContainer(history, stateType) {
 describe("given the page is opened", () => {
   it("should load colors if color list is empty", async () => {
     optionsActions.loadColors = jest.fn();
-    await renderAllClothesContainer(null, initStates.EMPTY_STATE_LOGGED_IN);
+    await renderAllClothesContainer(null, initStates.EMPTY_STATE_LOGGED_OUT);
+    expect(optionsActions.loadColors).toHaveBeenCalled();
+  });
+
+  it("should load colors if user logged in and only public colors present", async () => {
+    optionsActions.loadColors = jest.fn();
+    await renderAllClothesContainer(null, initStates.PUBLIC_STATE_LOGGED_IN);
+
     expect(optionsActions.loadColors).toHaveBeenCalledWith("userId");
+  });
+
+  it("should not load colors if user logged in and user colors present", async () => {
+    optionsActions.loadColors = jest.fn();
+    await renderAllClothesContainer(null, initStates.FILLED_STATE);
+
+    expect(optionsActions.loadColors).not.toHaveBeenCalled();
   });
 
   it("should load clothes if clothes list is empty", async () => {
     clothesActions.loadClothes = jest.fn();
     await renderAllClothesContainer(null, initStates.EMPTY_STATE_LOGGED_IN);
     expect(clothesActions.loadClothes).toHaveBeenCalledWith("userId");
+  });
+
+  it("should not load clothes if clothes list is not empty", async () => {
+    clothesActions.loadClothes = jest.fn();
+    await renderAllClothesContainer(null, initStates.FILLED_STATE);
+    expect(clothesActions.loadClothes).not.toHaveBeenCalled();
   });
 
   it("should only display clothes of type 'Tops' - all others are hidden", async () => {

@@ -31,9 +31,23 @@ async function renderColorsContainer(history, stateType) {
 describe("given the page is loaded", () => {
   it("should load colors if color list is empty", async () => {
     optionsActions.loadColors = jest.fn();
-    await renderColorsContainer(null, initStates.EMPTY_STATE_LOGGED_IN);
+    await renderColorsContainer(null, initStates.EMPTY_STATE_LOGGED_OUT);
+
+    expect(optionsActions.loadColors).toHaveBeenCalledWith(null);
+  });
+
+  it("should load colors if user logged in and only public colors present", async () => {
+    optionsActions.loadColors = jest.fn();
+    await renderColorsContainer(null, initStates.PUBLIC_STATE_LOGGED_IN);
 
     expect(optionsActions.loadColors).toHaveBeenCalledWith("userId");
+  });
+
+  it("should not load colors if user logged in and user colors present", async () => {
+    optionsActions.loadColors = jest.fn();
+    await renderColorsContainer(null, initStates.FILLED_STATE);
+
+    expect(optionsActions.loadColors).not.toHaveBeenCalled();
   });
 
   it("should display the colors list", async () => {

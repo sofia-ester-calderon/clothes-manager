@@ -44,8 +44,10 @@ describe("given colors are loaded", () => {
 
     const store = mockStore({});
     return store.dispatch(optionsActions.loadColors(userId)).then(() => {
-      expect(colorApi.getColors).toHaveBeenCalledWith(userId);
-      expect(store.getActions()).toEqual([{ type: LOAD_COLORS, colors }]);
+      expect(colorApi.getColors).toHaveBeenCalled();
+      expect(store.getActions()).toEqual([
+        { type: LOAD_COLORS, colors, userId },
+      ]);
     });
   });
 
