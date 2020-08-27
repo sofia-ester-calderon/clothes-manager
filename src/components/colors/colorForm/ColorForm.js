@@ -6,7 +6,7 @@ import { ChromePicker } from "react-color";
 const ColorForm = ({ color, onChangeColor, onSave, onCancel, errors = {} }) => {
   return (
     <>
-      <h2>{color.id ? "Edit" : "New Color"}</h2>
+      <h2>{color.id ? "Color Details" : "New Color"}</h2>
       <form onSubmit={onSave}>
         <TextInput
           label="Name"

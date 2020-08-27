@@ -2,7 +2,7 @@ import React from "react";
 import { screen, fireEvent } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 
-import { renderWithStore } from "../../../test-utils/test-utils";
+import { renderWithStore, initStates } from "../../../test-utils/test-utils";
 import optionsActions from "../../../store/actions/optionsActions";
 
 import ColorDetailContainer from "./ColorDetailContainer";
@@ -10,7 +10,7 @@ import ApiErrorProvider from "../../../hooks/ApiErrorProvider";
 
 HTMLCanvasElement.prototype.getContext = jest.fn();
 
-async function renderDetailContainer(param, history) {
+async function renderDetailContainer(param, history, stateType) {
   const props = {
     match: { params: { id: param } },
     history,
@@ -18,7 +18,8 @@ async function renderDetailContainer(param, history) {
   renderWithStore(
     <ApiErrorProvider>
       <ColorDetailContainer {...props} />
-    </ApiErrorProvider>
+    </ApiErrorProvider>,
+    stateType
   );
 
   if (param !== "new") {
@@ -42,7 +43,7 @@ describe("given the page is initially loaded", () => {
 
   it("should display title Edit if colorId is passed as param", async () => {
     await renderDetailContainer("def_col_1");
-    screen.getByText("Edit");
+    screen.getByText("Color Details");
   });
 
   it("should display title New Color if 'new' is passed as param", async () => {
@@ -78,6 +79,17 @@ describe("given the save button was clicked", () => {
     });
     fireEvent.click(screen.getByText("Save"));
     screen.getByText("Name is required");
+  });
+
+  it("should display error message if user is not logged in and not call api", async () => {
+    await renderDetailContainer("new", null, initStates.EMPTY_STATE_LOGGED_OUT);
+
+    fireEvent.change(screen.getByLabelText("Name"), {
+      target: { value: "Blue" },
+    });
+
+    fireEvent.click(screen.getByText("Save"));
+    screen.getByText("You must be logged in for this function");
   });
 
   it("should dispatch an updateColor action if color was edited", async () => {

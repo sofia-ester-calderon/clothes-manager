@@ -21,7 +21,7 @@ function renderColorForm(args) {
 it("should render Edit as title if color has an id", () => {
   renderColorForm();
 
-  screen.getByText("Edit");
+  screen.getByText("Color Details");
 });
 
 it("should render New Color as title if color has an id", () => {

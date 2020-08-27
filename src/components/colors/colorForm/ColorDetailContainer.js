@@ -32,6 +32,9 @@ const ColorDetailContainer = (props) => {
     if (!color.name || color.name === "") {
       errors.name = "Name is required";
     }
+    if (!props.userId) {
+      errors.name = "You must be logged in for this function";
+    }
     setErrors(errors);
     return Object.keys(errors).length === 0;
   }
