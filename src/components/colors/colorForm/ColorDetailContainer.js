@@ -21,7 +21,7 @@ const ColorDetailContainer = (props) => {
       if (color.id) {
         props.onUpdateColor(color);
       } else {
-        props.onSaveColor(color);
+        props.onSaveColor(color, props.userId);
       }
       props.history.push("/colors");
     }
@@ -70,13 +70,14 @@ function mapStateToProps(state, ownProps) {
   } else {
     color = state.options.colors.find((color) => color.id === colorId);
   }
-  return { color };
+  return { color, userId: state.auth.userId };
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onUpdateColor: (color) => dispatch(optionsActions.updateColor(color)),
-    onSaveColor: (color) => dispatch(optionsActions.saveColor(color)),
+    onSaveColor: (color, userId) =>
+      dispatch(optionsActions.saveColor(color, userId)),
   };
 };
 

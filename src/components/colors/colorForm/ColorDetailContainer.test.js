@@ -107,10 +107,13 @@ describe("given the save button was clicked", () => {
     });
     fireEvent.click(screen.getByText("Save"));
 
-    expect(optionsActions.saveColor).toHaveBeenCalledWith({
-      name: "Blue",
-      hash: "#000000",
-    });
+    expect(optionsActions.saveColor).toHaveBeenCalledWith(
+      {
+        name: "Blue",
+        hash: "#000000",
+      },
+      "userId"
+    );
   });
 
   it("should route to color list if save was successful", async () => {

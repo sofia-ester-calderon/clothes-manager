@@ -15,7 +15,11 @@ const ColorsContainer = ({
   ...props
 }) => {
   useEffect(() => {
-    if (colors.length === 0 || (onlyPublicColors && userId)) {
+    if (
+      colors.length === 0 ||
+      (onlyPublicColors && userId) ||
+      (!onlyPublicColors && !userId)
+    ) {
       loadColors(userId);
     }
   }, [userId, loadColors, onlyPublicColors, colors]);

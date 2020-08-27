@@ -65,12 +65,13 @@ describe("given colors are loaded", () => {
 describe("given a color is saved", () => {
   it("should dispatch saveColor action if api call was successful", () => {
     const color = { name: "Red", hash: "#ff1100" };
+    const userId = "userId";
     const colorFromApi = { id: "def_col_1", name: "Red", hash: "#ff1100" };
     colorApi.saveColor = jest.fn().mockResolvedValue(colorFromApi);
 
     const store = mockStore({});
-    return store.dispatch(optionsActions.saveColor(color)).then(() => {
-      expect(colorApi.saveColor).toHaveBeenCalledWith(color);
+    return store.dispatch(optionsActions.saveColor(color, userId)).then(() => {
+      expect(colorApi.saveColor).toHaveBeenCalledWith(color, userId);
       expect(store.getActions()).toEqual([
         { type: SAVE_COLOR, color: colorFromApi },
       ]);

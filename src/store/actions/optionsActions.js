@@ -45,10 +45,10 @@ const saveColorSuccess = (color) => {
   };
 };
 
-const saveColor = (color) => {
+const saveColor = (color, userId) => {
   return async (dispatch) => {
     try {
-      const savedColor = await colorApi.saveColor(color);
+      const savedColor = await colorApi.saveColor(color, userId);
       dispatch(saveColorSuccess(savedColor));
     } catch (error) {
       // Error is handled by ApiErrorHandler

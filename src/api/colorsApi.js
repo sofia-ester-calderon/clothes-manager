@@ -27,7 +27,8 @@ async function updateColor(color) {
   return transformJsonToObject(updatedColor.data, id);
 }
 
-async function saveColor(color) {
+async function saveColor(color, userId) {
+  color.userId = userId;
   const id = await axios.post(`${COLORS_PREFIX}.json`, color);
   return transformJsonToObject(color, id.data.name);
 }
