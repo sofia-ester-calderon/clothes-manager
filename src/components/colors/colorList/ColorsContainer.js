@@ -35,6 +35,7 @@ const ColorsContainer = ({
           onClick={showColorHandler}
           colors={colors}
           onAddColor={addNewColorHandler}
+          showButton={userId ? true : false}
         />
       </div>
       <div className="col ml-4">

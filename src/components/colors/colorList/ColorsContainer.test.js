@@ -56,6 +56,18 @@ describe("given the page is loaded", () => {
     screen.getByText("Red");
     screen.getByText("Green");
   });
+
+  it("should not display Add New Color button if user is not logged in", async () => {
+    await renderColorsContainer(null, initStates.EMPTY_STATE_LOGGED_OUT);
+
+    expect(screen.queryByText("Add New Color")).not.toBeInTheDocument();
+  });
+
+  it("should display Add New Color button if user is logged in", async () => {
+    await renderColorsContainer(null, initStates.FILLED_STATE);
+
+    screen.getByText("Add New Color");
+  });
 });
 
 describe("given a color is clicked", () => {

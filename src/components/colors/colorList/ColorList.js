@@ -3,7 +3,7 @@ import { PropTypes } from "prop-types";
 
 import ColorCircle from "../../common/specialForms/ColorCircle";
 
-const ColorList = ({ onClick, colors, onAddColor }) => {
+const ColorList = ({ onClick, colors, onAddColor, showButton = false }) => {
   return (
     <>
       <h2 className="mb-4">Manage Colors</h2>
@@ -31,9 +31,11 @@ const ColorList = ({ onClick, colors, onAddColor }) => {
           </tbody>
         </table>
       )}
-      <button className="btn btn btn-dark mt-3" onClick={onAddColor}>
-        Add New Color
-      </button>
+      {showButton && (
+        <button className="btn btn btn-dark mt-3" onClick={onAddColor}>
+          Add New Color
+        </button>
+      )}
     </>
   );
 };
@@ -42,6 +44,7 @@ ColorList.propTypes = {
   onClick: PropTypes.func.isRequired,
   colors: PropTypes.array.isRequired,
   onAddColor: PropTypes.func.isRequired,
+  showButton: PropTypes.bool,
 };
 
 export default ColorList;
