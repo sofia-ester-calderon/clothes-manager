@@ -60,3 +60,5 @@ override.tf.json
 
 api_key.json
 .talismanrc
+
+nextSteps.txt
