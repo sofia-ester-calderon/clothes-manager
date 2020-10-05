@@ -19,12 +19,12 @@ export const initStates = {
 const initialStateFilled = {
   options: {
     colors: [
-      { id: "def_col_1", name: "Red", hash: "#ff1100" },
-      { id: "def_col_2", name: "Green", hash: "#00a80b" },
-      { id: "def_col_3", name: "Blue", hash: "#0019bf" },
-      { id: "def_col_4", name: "Yellow", hash: "#edea13" },
-      { id: "def_col_5", name: "White", hash: "#ffffff" },
-      { id: "def_col_6", name: "Black", hash: "#000000" },
+      { id: "def_col_1", name: "Red", hash: "#ff1100", userId: "userId" },
+      { id: "def_col_2", name: "Green", hash: "#00a80b", userId: "all" },
+      { id: "def_col_3", name: "Blue", hash: "#0019bf", userId: "all" },
+      { id: "def_col_4", name: "Yellow", hash: "#edea13", userId: "all" },
+      { id: "def_col_5", name: "White", hash: "#ffffff", userId: "all" },
+      { id: "def_col_6", name: "Black", hash: "#000000", userId: "userId" },
     ],
     categories: ["Tops", "Bottoms", "Underwear", "Shoes", "Accessories"],
     occasions: ["Sport", "Formal", "Everyday"],
@@ -113,8 +113,8 @@ const initialStateEmptyLoggedIn = {
 const initialStateOnlyPublicAndLoggedIn = {
   options: {
     colors: [
-      { id: "def_col_1", name: "Red", hash: "#ff1100" },
-      { id: "def_col_2", name: "Green", hash: "#00a80b" },
+      { id: "def_col_1", name: "Red", hash: "#ff1100", userId: "all" },
+      { id: "def_col_2", name: "Green", hash: "#00a80b", userId: "all" },
     ],
     categories: [],
     occasions: [],

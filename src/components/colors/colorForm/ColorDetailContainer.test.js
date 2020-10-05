@@ -106,6 +106,7 @@ describe("given the save button was clicked", () => {
       id: "def_col_1",
       name: "Blue",
       hash: "#ff1100",
+      userId: "userId",
     });
   });
 
