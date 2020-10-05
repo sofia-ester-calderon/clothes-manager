@@ -22,7 +22,9 @@ async function renderDetailContainer(param, history, stateType) {
     stateType
   );
 
-  if (param !== "new") {
+  if (param === "def_col_2") {
+    await screen.findByDisplayValue("Green");
+  } else if (param !== "new") {
     await screen.findByDisplayValue("Red");
   }
 }

@@ -9,7 +9,9 @@ const COLORS_PREFIX = "/colors";
 
 async function getColors() {
   const colorData = await axios.get(`${COLORS_PREFIX}.json`);
-  return transformJsonToArray(colorData.data);
+  let colors = transformJsonToArray(colorData.data);
+  colors = colors.sort(compareColors);
+  return colors;
 }
 
 async function getColor(id) {
@@ -31,6 +33,13 @@ async function saveColor(color, userId) {
   color.userId = userId;
   const id = await axios.post(`${COLORS_PREFIX}.json`, color);
   return transformJsonToObject(color, id.data.name);
+}
+
+function compareColors(a, b) {
+  if (a.userId === "all" && b.userId !== "all") return -1;
+  if (a.userId !== "all" && b.userId === "all") return 1;
+
+  return 0;
 }
 
 const colorApi = {

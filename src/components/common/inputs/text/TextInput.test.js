@@ -54,3 +54,17 @@ describe("given no type is passed", () => {
     expect(inputField.getAttribute("type")).toBe("text");
   });
 });
+
+describe("given disabled true is passed", () => {
+  it("should render the input as disabled", () => {
+    renderTextInput({ disabled: true });
+    expect(screen.getByDisplayValue(value)).toBeDisabled();
+  });
+});
+
+describe("given no disabled value is passed", () => {
+  it("should render the input as enabled", () => {
+    renderTextInput();
+    expect(screen.getByDisplayValue(value)).not.toBeDisabled();
+  });
+});

@@ -1,7 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const TextInput = ({ label, name, value, onChange, error, type = "text" }) => {
+const TextInput = ({
+  label,
+  name,
+  value,
+  onChange,
+  error,
+  type = "text",
+  disabled = false,
+}) => {
   return (
     <div className="form-group">
       <label className="font-weight-bold" htmlFor={name}>
@@ -16,6 +24,7 @@ const TextInput = ({ label, name, value, onChange, error, type = "text" }) => {
           onChange={onChange}
           className="form-control"
           type={type}
+          disabled={disabled}
         />
         {error && (
           <div role="alert" className="text-danger">
@@ -34,6 +43,7 @@ TextInput.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   error: PropTypes.string,
   type: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 export default TextInput;
