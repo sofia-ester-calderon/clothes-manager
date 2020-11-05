@@ -13,8 +13,8 @@ const ColorForm = ({
 }) => {
   const editable = color.userId !== "all";
   const cancelClassName = editable
-    ? "btn btn btn-secondary mt-3 ml-3"
-    : "btn btn btn-secondary mt-3";
+    ? "btn btn-dark mt-3 ml-3"
+    : "btn btn-dark  mt-3";
 
   return (
     <>
@@ -38,10 +38,7 @@ const ColorForm = ({
           </button>
         )}
         {color.id && editable && (
-          <button
-            className="btn btn btn-secondary mt-3 ml-3"
-            onClick={onDelete}
-          >
+          <button className="btn btn-dark  mt-3 ml-3" onClick={onDelete}>
             Delete
           </button>
         )}

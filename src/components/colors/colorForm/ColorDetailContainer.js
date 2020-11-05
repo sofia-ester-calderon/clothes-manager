@@ -68,7 +68,6 @@ const ColorDetailContainer = (props) => {
         },
         {
           label: "No",
-          onClick: () => alert("Click No"),
         },
       ],
     });
