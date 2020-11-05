@@ -19,7 +19,6 @@ const ColorForm = ({
   return (
     <>
       <h2>{color.id ? "Color Details" : "New Color"}</h2>
-
       <form onSubmit={onSave}>
         <TextInput
           label="Name"

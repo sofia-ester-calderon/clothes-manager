@@ -92,6 +92,9 @@ function mapStateToProps(state, ownProps) {
     color = emptyColor;
   } else {
     color = state.options.colors.find((color) => color.id === colorId);
+    if (!color) {
+      color = emptyColor;
+    }
   }
   return { color, userId: state.auth.userId };
 }
