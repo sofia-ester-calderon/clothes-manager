@@ -12,6 +12,7 @@ function renderColorForm(args) {
     onChangeColor: jest.fn(),
     onSave: jest.fn(),
     onCancel: jest.fn(),
+    onDelete: jest.fn(),
     errors: {},
   };
   const props = { ...defaultProps, ...args };
@@ -41,6 +42,14 @@ describe("given the color doesnt have an id", () => {
     renderColorForm({ color });
 
     expect(screen.getByDisplayValue("Red")).not.toBeDisabled();
+  });
+
+  it("should not render delete button", () => {
+    const color = { name: "Red", hash: "#FF1100" };
+
+    renderColorForm({ color });
+
+    expect(screen.queryByText("Delete")).not.toBeInTheDocument();
   });
 });
 
@@ -81,6 +90,12 @@ describe("given the color has an id", () => {
 
       expect(screen.getByDisplayValue("Red")).not.toBeDisabled();
     });
+
+    it("should render delete button", () => {
+      renderColorForm();
+
+      screen.getByText("Delete");
+    });
   });
 
   describe("given the color is not editable", () => {
@@ -106,6 +121,14 @@ describe("given the color has an id", () => {
       renderColorForm({ color });
 
       expect(screen.getByDisplayValue("Red")).toBeDisabled();
+    });
+
+    it("should not render delete button", () => {
+      const color = { name: "Red", hash: "#FF1100" };
+
+      renderColorForm({ color });
+
+      expect(screen.queryByText("Delete")).not.toBeInTheDocument();
     });
   });
 });

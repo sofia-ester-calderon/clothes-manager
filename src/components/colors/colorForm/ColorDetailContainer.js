@@ -7,6 +7,9 @@ import { emptyColor } from "../../../data/data";
 import ColorForm from "./ColorForm";
 import withApiErrorHandler from "../../hoc/withApiErrorHandler";
 
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
+
 const ColorDetailContainer = (props) => {
   const [color, setColor] = useState({ ...props.color });
   const [errors, setErrors] = useState({});
@@ -54,12 +57,30 @@ const ColorDetailContainer = (props) => {
     }
   }
 
+  function deleteColorHandler(event) {
+    event.preventDefault();
+    confirmAlert({
+      message: "Are you sure you want to proceed?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => alert("Click Yes"),
+        },
+        {
+          label: "No",
+          onClick: () => alert("Click No"),
+        },
+      ],
+    });
+  }
+
   return (
     <ColorForm
       color={color}
       onChangeColor={changeColorHandler}
       onSave={saveColorHandler}
       onCancel={cancelFormHandler}
+      onDelete={deleteColorHandler}
       errors={errors}
     />
   );

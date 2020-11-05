@@ -140,3 +140,16 @@ describe("given the save button was clicked", () => {
     expect(history.push).toHaveBeenCalledWith("/colors");
   });
 });
+
+describe("given the delete button was clicked", () => {
+  it("should prompt an are you sure message", async () => {
+    await renderDetailContainer("def_col_1");
+    fireEvent.click(screen.getByText("Delete"));
+
+    screen.getByText("Are you sure you want to proceed?");
+    screen.getByText("Yes");
+  });
+  it("should not do anything if no was pressed", () => {});
+  it("should show an alert if color cannot be deleted because it is in use", () => {});
+  it("should dispatch a deleteColor action if color not in use", () => {});
+});

@@ -3,7 +3,14 @@ import TextInput from "../../common/inputs/text/TextInput";
 import { PropTypes } from "prop-types";
 import { ChromePicker } from "react-color";
 
-const ColorForm = ({ color, onChangeColor, onSave, onCancel, errors = {} }) => {
+const ColorForm = ({
+  color,
+  onChangeColor,
+  onSave,
+  onCancel,
+  onDelete,
+  errors = {},
+}) => {
   const editable = color.userId !== "all";
   const cancelClassName = editable
     ? "btn btn btn-secondary mt-3 ml-3"
@@ -30,6 +37,14 @@ const ColorForm = ({ color, onChangeColor, onSave, onCancel, errors = {} }) => {
             Save
           </button>
         )}
+        {color.id && editable && (
+          <button
+            className="btn btn btn-secondary mt-3 ml-3"
+            onClick={onDelete}
+          >
+            Delete
+          </button>
+        )}
         <button className={cancelClassName} onClick={onCancel}>
           Cancel
         </button>
@@ -46,6 +61,7 @@ ColorForm.propTypes = {
   onChangeColor: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
 export default ColorForm;
