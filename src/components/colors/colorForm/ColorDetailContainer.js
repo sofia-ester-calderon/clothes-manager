@@ -9,22 +9,40 @@ import withApiErrorHandler from "../../hoc/withApiErrorHandler";
 
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
+import clothesActions from "../../../store/actions/clothesActions";
 
-const ColorDetailContainer = (props) => {
-  const [color, setColor] = useState({ ...props.color });
+const ColorDetailContainer = ({
+  color,
+  userId,
+  clothes,
+  loadClothes,
+  onSaveColor,
+  onUpdateColor,
+  ...props
+}) => {
+  const [chosenColor, setChosenColor] = useState({ ...color });
   const [errors, setErrors] = useState({});
+  const [loadingClothes, setLoadingClothes] = useState(false);
 
   useEffect(() => {
-    setColor(props.color);
-  }, [props.color]);
+    setChosenColor(color);
+  }, [color]);
+
+  useEffect(() => {
+    if (clothes.length === 0 && userId && !loadingClothes) {
+      console.log("loading clothes");
+      setLoadingClothes(true);
+      loadClothes(userId);
+    }
+  }, [clothes, userId, loadClothes, loadingClothes]);
 
   function saveColorHandler(event) {
     event.preventDefault();
     if (isFormValid()) {
-      if (color.id) {
-        props.onUpdateColor(color);
+      if (chosenColor.id) {
+        onUpdateColor(chosenColor);
       } else {
-        props.onSaveColor(color, props.userId);
+        onSaveColor(chosenColor, userId);
       }
       props.history.push("/colors");
     }
@@ -32,10 +50,10 @@ const ColorDetailContainer = (props) => {
 
   function isFormValid() {
     const errors = {};
-    if (!color.name || color.name === "") {
+    if (!chosenColor.name || chosenColor.name === "") {
       errors.name = "Name is required";
     }
-    if (!props.userId) {
+    if (!userId) {
       errors.name = "You must be logged in for this function";
     }
     setErrors(errors);
@@ -50,10 +68,10 @@ const ColorDetailContainer = (props) => {
   function changeColorHandler(event) {
     if (event.target) {
       const { name, value } = event.target;
-      setColor((prevColor) => ({ ...prevColor, [name]: value }));
+      setChosenColor((prevColor) => ({ ...prevColor, [name]: value }));
     }
     if (event.hex) {
-      setColor((prevColor) => ({ ...prevColor, hash: event.hex }));
+      setChosenColor((prevColor) => ({ ...prevColor, hash: event.hex }));
     }
   }
 
@@ -64,7 +82,7 @@ const ColorDetailContainer = (props) => {
       buttons: [
         {
           label: "Yes",
-          onClick: () => alert("Click Yes"),
+          onClick: () => checkColorInClothes(),
         },
         {
           label: "No",
@@ -73,9 +91,29 @@ const ColorDetailContainer = (props) => {
     });
   }
 
+  function checkColorInClothes() {
+    console.log("checking if color is used");
+    debugger;
+    const used = clothes.find((clothing) =>
+      clothing.colors.includes(chosenColor.id)
+    );
+    console.log("used", used);
+    if (used) {
+      confirmAlert({
+        message:
+          "This color is being used. It cannot be deleted until no clothes are using it.",
+        buttons: [
+          {
+            label: "OK",
+          },
+        ],
+      });
+    }
+  }
+
   return (
     <ColorForm
-      color={color}
+      color={chosenColor}
       onChangeColor={changeColorHandler}
       onSave={saveColorHandler}
       onCancel={cancelFormHandler}
@@ -96,7 +134,7 @@ function mapStateToProps(state, ownProps) {
       color = emptyColor;
     }
   }
-  return { color, userId: state.auth.userId };
+  return { color, userId: state.auth.userId, clothes: state.clothes };
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -104,6 +142,7 @@ const mapDispatchToProps = (dispatch) => {
     onUpdateColor: (color) => dispatch(optionsActions.updateColor(color)),
     onSaveColor: (color, userId) =>
       dispatch(optionsActions.saveColor(color, userId)),
+    loadClothes: (userId) => dispatch(clothesActions.loadClothes(userId)),
   };
 };
 

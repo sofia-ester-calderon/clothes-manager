@@ -150,6 +150,15 @@ describe("given the delete button was clicked", () => {
     screen.getByText("Yes");
   });
   it("should not do anything if no was pressed", () => {});
-  it("should show an alert if color cannot be deleted because it is in use", () => {});
+
+  it("should show an alert if color cannot be deleted because it is in use", async () => {
+    await renderDetailContainer("def_col_1");
+    fireEvent.click(screen.getByText("Delete"));
+    fireEvent.click(screen.getByText("Yes"));
+    screen.getByText(
+      "This color is being used. It cannot be deleted until no clothes are using it."
+    );
+  });
+
   it("should dispatch a deleteColor action if color not in use", () => {});
 });
