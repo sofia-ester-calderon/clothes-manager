@@ -15,6 +15,7 @@ const ColorsContainer = ({
   ...props
 }) => {
   useEffect(() => {
+    //TEST COMMENT
     if (
       colors.length === 0 ||
       (onlyPublicColors && userId) ||
